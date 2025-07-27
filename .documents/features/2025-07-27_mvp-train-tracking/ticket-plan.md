@@ -13,7 +13,7 @@
 
 #### Core Infrastructure Tickets
 - **[INFRA] Setup Local Development Environment** - 8 points
-- **[INFRA] Setup AWS Infrastructure with SAM Templates** - 5 points
+- **[INFRA] Setup Express API Server** - 3 points
 - **[INFRA] Configure GitHub Actions CI/CD Pipeline** - 3 points
 - **[INFRA] Setup Shared TypeScript Types Package** - 2 points
 
@@ -21,25 +21,25 @@
 **Dependencies**: Local Development Environment must be completed first (blocks all other development)
 **Parallel Work Streams**: 
 - Any developer: Setup Local Development Environment (must be done first)
-- DevOps engineer: AWS Infrastructure, CI/CD Pipeline (after local dev setup)
+- DevOps engineer: Express API Server, CI/CD Pipeline (after local dev setup)
 - Frontend/Backend developer: Shared TypeScript Types (after local dev setup)
 
 ---
 
 ### Milestone 2: Backend API Development (2 weeks)  
-**Goal**: Implement core Lambda function with MTA API integration
+**Goal**: Implement core Express API server with MTA API integration
 
 #### Backend Development Tickets
-- **[API-001] - Setup Lambda Function Project Structure** - 2 points
+- **[API-001] - Setup Express API Project Structure** - 2 points
 - **[API-002] - Implement MTA GTFS Static Data Parser** - 5 points
 - **[API-003] - Integrate MTA GTFS-RT API Client** - 5 points
 - **[API-004] - Develop Train Identification Algorithm** - 8 points
 - **[API-005] - Implement API Request/Response Handling** - 3 points
 - **[API-006] - Add Error Handling and Edge Cases** - 3 points
-- **[API-007] - Setup AWS Parameter Store for API Keys** - 2 points
+- **[API-007] - Setup Environment Variable Configuration** - 1 point
 
 **Milestone Total**: 28 points
-**Dependencies**: INFRA-003 (AWS infrastructure must be ready)
+**Dependencies**: Express API Server setup must be ready
 **Parallel Work Streams**:
 - Backend developer: API-001, API-002, API-003 (sequential)
 - Backend developer: API-004, API-005 (after API-003 complete)
@@ -73,11 +73,11 @@
 **Goal**: End-to-end integration, testing, and production deployment
 
 #### Integration & Testing Tickets
-- **[TEST-001] - Write Unit tests for Lambda Function** - 3 points
+- **[TEST-001] - Write Unit Tests for Express API** - 3 points
 - **[TEST-002] - Write Component Tests for Expo App** - 3 points  
 - **[TEST-003] - Implement End-to-End Integration Tests** - 5 points
 - **[TEST-004] - Performance Testing and Optimization** - 3 points
-- **[DEPLOY-001] - Deploy Lambda Function to AWS Production** - 2 points
+- **[DEPLOY-001] - Setup Basic Production Deployment** - 2 points
 - **[DEPLOY-002] - Deploy Expo Web App to S3/CloudFront** - 3 points
 - **[DEPLOY-003] - Configure Production Monitoring** - 2 points
 - **[QA-001] - User Acceptance Testing with Real MTA Data** - 3 points
@@ -347,7 +347,7 @@
 - Basic screens: Home, Train Results, Error
 - Expo configuration for web and mobile builds
 - Integration with shared TypeScript types package
-- Development server runs on port 19006 for web
+- Development server runs on port 8081 for web interface
 
 **Dependencies**: INFRA-001, INFRA-002  
 **Definition of Done**: Expo app loads successfully in browser and mobile simulator
@@ -706,8 +706,8 @@
 1. **MTA API Rate Limits**: Production usage may hit API throttling
    - *Mitigation*: Implement caching, request queuing, monitor usage
 
-2. **AWS Lambda Cold Starts**: Initial request latency may exceed targets
-   - *Mitigation*: Provisioned concurrency for production, performance monitoring
+2. **Express API Response Times**: Request latency may exceed targets under load
+   - *Mitigation*: Performance monitoring, caching, load testing
 
 ### External Dependencies
 1. **MTA Data Quality**: Accuracy depends on MTA's real-time feed quality
@@ -732,7 +732,7 @@
 - Implement comprehensive error handling and logging
 
 ### Performance Considerations
-- Monitor Lambda function memory usage and adjust as needed
+- Monitor Express API server memory usage and optimize as needed
 - Optimize Expo web bundle size for fast initial load
 - Implement request caching where appropriate
 - Consider pagination for large result sets (future feature)
