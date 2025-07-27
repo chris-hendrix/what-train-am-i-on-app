@@ -53,18 +53,18 @@ Launch the minimum viable product for "What Train Am I On?" - a web application 
 
 ### Technology Stack
 - **Frontend**: Expo with TypeScript (web + native mobile apps)
-- **Backend**: AWS Lambda with Node.js/TypeScript
-- **Deployment**: AWS (Lambda + API Gateway + S3 + CloudFront)
+- **Backend**: Express.js with Node.js/TypeScript
+- **Deployment**: Docker containers + static hosting (Netlify/Vercel for web)
 - **CI/CD**: GitHub Actions
 - **Shared Types**: TypeScript interfaces across frontend/backend
 
 ## API Requirements
-- **Single Lambda Function**: `POST /api/identify-train`
+- **Express API Endpoint**: `POST /api/identify-train`
   - Input: `{ "latitude": number, "longitude": number, "line_code": string }`
   - Output: `{ "train_id": string, "direction": string, "next_stops": [...] }`
 - No user authentication required
-- MTA API key stored in AWS Systems Manager Parameter Store
-- Stateless serverless architecture
+- MTA API key stored in environment variables
+- Stateless Express.js architecture
 
 ## Success Metrics
 - **Primary**: 80% accurate train identification within 30 seconds
@@ -86,11 +86,11 @@ Launch the minimum viable product for "What Train Am I On?" - a web application 
 - User between stations → Show nearest upcoming station
 
 ## Architecture Considerations
-- **Monorepo Structure**: Expo app + Lambda function + shared types
-- **AWS SAM**: Infrastructure as code for Lambda deployment
+- **Monorepo Structure**: Expo app + Express API + shared types
+- **Docker**: Containerized development and deployment
 - **GitHub Actions**: Automated testing and deployment pipeline
 - **Cross-platform**: Single Expo codebase for web/iOS/Android
-- **Serverless**: No server management, auto-scaling Lambda functions
+- **Express.js**: Simple HTTP server with standard Node.js patterns
 
 ## Out of Scope (Future Features)
 - Native iOS/Android applications (Phase 2)

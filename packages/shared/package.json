@@ -1,0 +1,20 @@
+{
+  "name": "@what-train/shared",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types and utilities for What Train Am I On app",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc src/index.ts --outDir ./dist --declaration --declarationMap --sourceMap --module commonjs --target ES2020 --strict --esModuleInterop --skipLibCheck --forceConsistentCasingInFileNames",
+    "dev": "npm run build -- --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["typescript", "types", "mta", "shared"],
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "files": [
+    "dist/**/*"
+  ]
+}
