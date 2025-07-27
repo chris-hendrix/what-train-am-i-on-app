@@ -14,6 +14,8 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+        project: './tsconfig.json',
+        tsconfigRootDir: process.cwd(),
       },
       globals: {
         ...js.configs.recommended.languageOptions?.globals,
@@ -22,6 +24,7 @@ export default [
     rules: {
       ...tseslint.configs.recommended.rules,
       'semi': ['error', 'always'],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
   // API-specific rules (Node.js environment)
@@ -41,7 +44,6 @@ export default [
       },
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-console': 'off',
     },
   },
@@ -57,8 +59,14 @@ export default [
       },
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-console': 'warn',
+    },
+  },
+  // Shared package rules
+  {
+    files: ['packages/shared/**/*.{ts}'],
+    rules: {
+      'no-console': 'error', // Shared packages shouldn't have console statements
     },
   },
   // Ignore patterns

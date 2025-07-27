@@ -2,11 +2,13 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+# Copy API package files
+COPY apps/api/package*.json ./
+RUN npm pkg delete dependencies.@what-train/shared && npm install
 
-COPY index.js ./
+# Copy the API code
+COPY apps/api/index.ts ./
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

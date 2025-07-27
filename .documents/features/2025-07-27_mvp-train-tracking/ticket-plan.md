@@ -105,106 +105,103 @@
 **Acceptance Criteria**:
 - Monorepo structure: `/apps/mobile/`, `/apps/api/`, `/packages/shared/`
 - Root `package.json` with npm workspaces configuration
-- `docker-compose.yml` with expo-app and lambda-api services
-- Expo app runs on ports 19000 (Metro) and 19006 (web) with "Hello World"
-- Lambda API runs on port 3001 with basic "/hello" endpoint
+- `docker-compose.yml` with expo-app and express-api services
+- Expo app with "Hello World" functionality
+- Express API with basic "/hello" endpoint
 - Shared TypeScript types package with basic interfaces
 - Volume mounts for hot reload during development
 - Environment variable configuration (`.env.local.example`)
-- All services start successfully with `docker-compose up`
-- Basic TypeScript, ESLint, and Prettier configuration
+- Basic TypeScript and ESLint configuration
 
 **Dependencies**: None (this is the foundation ticket)  
 **Definition of Done**: 
 - Developer runs `docker-compose up` and sees both services running
-- Expo web shows "Hello World" at `localhost:19006`
-- API returns JSON response at `localhost:3001/hello`
+- Expo app shows "Hello World" and connects to API
+- API returns JSON response
 - Hot reload works for both frontend and backend changes
 
 **Estimated Effort**: 8 points
 
 ---
 
-#### [INFRA] Setup AWS Infrastructure with SAM Templates
-**Priority**: High  
-**Complexity**: High  
-**Skills Required**: AWS SAM, API Gateway, Lambda, CloudFormation
+#### [INFRA] Setup Express API Server
+**Priority**: Medium  
+**Complexity**: Medium  
+**Skills Required**: Docker, Express.js, Node.js, API development
 
-**Description**: Define Infrastructure as Code using AWS SAM for deploying Lambda function, API Gateway, and supporting AWS services.
+**Description**: Setup Express.js API server with proper structure, middleware, and MTA API integration for local development.
 
 **Acceptance Criteria**:
-- `template.yaml` SAM template defining Lambda function and API Gateway
-- API Gateway with CORS configuration for Expo web/mobile
-- Lambda function with proper IAM roles and permissions
-- Systems Manager Parameter Store for MTA API keys
-- CloudWatch Log Groups for monitoring
-- Local testing with `sam local start-api`
+- Express.js server with TypeScript configuration
+- CORS middleware configured for Expo web/mobile requests
+- Basic API routes structure with `/api/hello` endpoint
+- Environment variable configuration for MTA API keys
+- Request logging and error handling middleware
+- Docker integration with existing docker-compose setup
 
 **Dependencies**: Setup Local Development Environment  
-**Definition of Done**: `sam deploy` successfully creates AWS infrastructure and API is accessible
+**Definition of Done**: Express API server runs in Docker and responds to HTTP requests
 
 ---
 
 #### [INFRA] Configure GitHub Actions CI/CD Pipeline
-**Priority**: Medium  
-**Complexity**: Medium  
-**Skills Required**: GitHub Actions, AWS CLI, Node.js
+**Priority**: Low  
+**Complexity**: Low  
+**Skills Required**: GitHub Actions, Docker, Node.js
 
-**Description**: Automate testing, building, and deployment process using GitHub Actions workflows.
+**Description**: Setup basic CI/CD pipeline for Express API and Expo app testing and deployment.
 
 **Acceptance Criteria**:
 - `.github/workflows/ci.yml` for running tests and TypeScript checks
-- `.github/workflows/deploy-api.yml` for Lambda function deployment
-- `.github/workflows/deploy-web.yml` for Expo web app deployment
+- Docker build testing for both API and mobile apps
 - Branch protection requiring passing tests before merge
-- AWS credentials securely stored in GitHub Secrets
-- Deployment only triggers on main branch pushes
+- Basic deployment workflow (future: can be enhanced for production hosting)
 - Build artifacts properly cached between runs
 
-**Dependencies**: INFRA-001, INFRA-003  
-**Definition of Done**: Code changes automatically test and deploy through GitHub Actions
+**Dependencies**: Setup Local Development Environment, Express API Setup  
+**Definition of Done**: Code changes automatically run tests through GitHub Actions
 
 ---
 
 #### [INFRA] Setup Shared TypeScript Types Package
-**Priority**: Medium  
+**Priority**: Low  
 **Complexity**: Low  
 **Skills Required**: TypeScript, NPM packages
 
-**Description**: Create shared TypeScript interfaces and types that can be imported by both frontend and backend applications.
+**Description**: Enhance shared TypeScript interfaces and types beyond the basic setup from the local development environment.
 
 **Acceptance Criteria**:
-- `shared/types/` directory with API request/response interfaces
+- Expand `shared/types/` directory with comprehensive API request/response interfaces
 - MTA data structures (Line, Station, Train, Arrival) defined
+- Express API request/response types
 - Error response types and success response types
-- Export configuration allowing imports from both apps
-- Type definitions match ERD API specifications
-- Automated TypeScript compilation for the shared package
+- Advanced export configuration for complex imports
+- Type definitions for Express routes and middleware
 
 **Dependencies**: Setup Local Development Environment  
-**Definition of Done**: Both apps can import and use shared types without errors
+**Definition of Done**: Both Expo app and Express API can import and use comprehensive shared types
 
 ---
 
 ### Backend API Development Tickets
 
-#### [API] Setup Lambda Function Project Structure
+#### [API] Setup Express API Project Structure
 **Priority**: High  
 **Complexity**: Low  
-**Skills Required**: Node.js, TypeScript, AWS Lambda
+**Skills Required**: Node.js, TypeScript, Express.js
 
-**Description**: Initialize Lambda function project with proper TypeScript configuration and AWS Lambda Runtime Interface.
+**Description**: Initialize Express API project with proper TypeScript configuration and route structure.
 
 **Acceptance Criteria**:
-- `apps/api/src/` directory structure with handler.ts entry point
-- TypeScript configuration compatible with AWS Lambda
-- Package.json with required dependencies (aws-lambda-ric, MTA API clients)
-- Basic handler function that responds to HTTP events
-- Lambda function can be invoked locally using sam local
+- `apps/api/src/` directory structure with app.ts entry point
+- TypeScript configuration optimized for Express.js
+- Package.json with required dependencies (express, cors, MTA API clients)
+- Basic Express app with route handlers
+- Middleware configuration for CORS, logging, error handling
 - Environment variable configuration for development/production
 
-**Dependencies**: INFRA-001, INFRA-002  
-**Definition of Done**: Lambda function returns "Hello World" response when invoked
+**Dependencies**: Setup Local Development Environment, Express API Setup  
+**Definition of Done**: Express server returns "Hello World" response when accessed
 
 ---
 
@@ -271,34 +268,36 @@
 
 ---
 
-#### [API] Implement API Request/Response Handling
+#### [API] Implement Express Route Handlers
 **Priority**: Medium  
 **Complexity**: Low  
-**Skills Required**: HTTP APIs, JSON, Input validation
+**Skills Required**: Express.js, HTTP APIs, JSON, Input validation
 
-**Description**: Create HTTP request handler that validates input and formats responses according to API specification.
+**Description**: Create Express route handlers that validate input and format responses according to API specification.
 
 **Acceptance Criteria**:
-- Validates POST request body for latitude, longitude, line_code
+- Express routes for train identification endpoints
+- Request validation middleware for latitude, longitude, line_code
 - Input sanitization and type checking
 - Structured JSON response matching ERD specification
 - Proper HTTP status codes for success/error cases
-- Request logging for debugging and monitoring
-- CORS headers for web client compatibility
+- Request logging middleware for debugging and monitoring
+- CORS configuration for web client compatibility
 
-**Dependencies**: API-001, INFRA-005 (shared types)  
-**Definition of Done**: API accepts valid requests and returns properly formatted responses
+**Dependencies**: Express API Project Structure, Shared Types  
+**Definition of Done**: Express API accepts valid requests and returns properly formatted responses
 
 ---
 
 #### [API] Add Error Handling and Edge Cases
 **Priority**: Medium  
 **Complexity**: Medium  
-**Skills Required**: Error handling, Logging, System resilience
+**Skills Required**: Express.js, Error handling, Logging, System resilience
 
-**Description**: Implement comprehensive error handling for all failure scenarios outlined in PRD.
+**Description**: Implement comprehensive error handling middleware and edge case handling for the Express API.
 
 **Acceptance Criteria**:
+- Express error handling middleware for all failure scenarios
 - Graceful handling of MTA API unavailability
 - User-friendly error messages for invalid locations
 - Fallback responses when no trains are detected
@@ -307,28 +306,29 @@
 - Structured error logging for troubleshooting
 - Error responses match shared TypeScript interfaces
 
-**Dependencies**: API-004, API-005  
-**Definition of Done**: API handles all identified edge cases without crashing
+**Dependencies**: Train Identification Algorithm, Express Route Handlers  
+**Definition of Done**: Express API handles all identified edge cases without crashing
 
 ---
 
-#### [API] Setup AWS Parameter Store for API Keys
+#### [API] Setup Environment Variable Configuration
 **Priority**: Low  
 **Complexity**: Low  
-**Skills Required**: AWS Parameter Store, IAM, Security
+**Skills Required**: Environment variables, Security, Configuration management
 
-**Description**: Configure secure storage and retrieval of MTA API keys using AWS Systems Manager Parameter Store.
+**Description**: Configure secure storage and retrieval of MTA API keys using environment variables and Docker secrets.
 
 **Acceptance Criteria**:
-- MTA API key stored as SecureString in Parameter Store
-- Lambda IAM role has permission to read parameter
-- Runtime function to fetch API key during Lambda execution
-- Environment-specific parameter names (dev/staging/prod)
-- Error handling when parameter is unavailable
+- MTA API key configuration via environment variables
+- `.env.local.example` template for required variables
+- Docker compose environment variable integration
+- Environment-specific configuration (dev/staging/prod)
+- Error handling when API key is unavailable
 - Documentation for updating API keys
+- Secure key storage practices for production
 
-**Dependencies**: INFRA-003  
-**Definition of Done**: Lambda function can securely retrieve MTA API key at runtime
+**Dependencies**: Express API Setup  
+**Definition of Done**: Express API can securely retrieve MTA API key from environment variables
 
 ---
 
@@ -421,10 +421,10 @@
 **Complexity**: Low  
 **Skills Required**: HTTP clients, Async JavaScript, Error handling
 
-**Description**: Create service to communicate with Lambda function API endpoint.
+**Description**: Create service to communicate with Express API endpoints.
 
 **Acceptance Criteria**:
-- HTTP client configured for Lambda API endpoint
+- HTTP client configured for Express API endpoint
 - Function to call `/api/identify-train` with location and line data
 - Request/response type safety using shared interfaces
 - Timeout handling for slow network connections
@@ -432,8 +432,8 @@
 - Request cancellation when user navigates away
 - Environment-specific API URLs (dev/prod)
 
-**Dependencies**: UI-001, API-005, INFRA-005  
-**Definition of Done**: Client successfully calls API and handles responses
+**Dependencies**: Expo Project Setup, Express Route Handlers, Shared Types  
+**Definition of Done**: Client successfully calls Express API and handles responses
 
 ---
 
@@ -501,23 +501,25 @@
 
 ### Integration & Testing Tickets
 
-#### [TEST] Write Unit Tests for Lambda Function
+#### [TEST] Write Unit Tests for Express API
 **Priority**: Medium  
 **Complexity**: Low  
-**Skills Required**: Jest, Unit testing, Mocking
+**Skills Required**: Jest, Unit testing, Mocking, Express testing
 
-**Description**: Create comprehensive unit test suite for all Lambda function components.
+**Description**: Create comprehensive unit test suite for all Express API components.
 
 **Acceptance Criteria**:
 - Unit tests for train identification algorithm
 - Mocked tests for MTA API integration
-- Edge case testing for error handling
+- Express route handler testing with supertest
+- Middleware testing for CORS, validation, error handling
+- Edge case testing for error scenarios
 - Performance tests ensuring < 5 second response times
 - Test coverage > 80% for all core functions
 - Automated test running in CI/CD pipeline
 
-**Dependencies**: API-004, API-006  
-**Definition of Done**: All tests pass and maintain high code coverage
+**Dependencies**: Train Identification Algorithm, Error Handling  
+**Definition of Done**: All Express API tests pass and maintain high code coverage
 
 ---
 
@@ -546,18 +548,19 @@
 **Complexity**: Medium  
 **Skills Required**: E2E testing, API testing, Integration testing
 
-**Description**: Create end-to-end tests validating complete user workflows.
+**Description**: Create end-to-end tests validating complete user workflows with Express API.
 
 **Acceptance Criteria**:
 - Complete user journey from location input to train results
-- API integration testing with real MTA data
+- Express API integration testing with real MTA data
 - Cross-browser testing for web version
 - Mobile device testing on iOS/Android simulators
 - Performance testing under various network conditions
 - Error scenario testing (no GPS, API failures, etc.)
+- Docker environment testing with both services
 
-**Dependencies**: UI-005, API-005  
-**Definition of Done**: E2E tests validate complete application functionality
+**Dependencies**: API Client Integration, Express Route Handlers  
+**Definition of Done**: E2E tests validate complete application functionality with Express backend
 
 ---
 
@@ -571,75 +574,76 @@
 **Acceptance Criteria**:
 - Initial load time < 3 seconds verified
 - Train identification < 5 seconds verified
-- Memory usage profiling for Lambda function
+- Memory usage profiling for Express API server
 - Bundle size optimization for Expo web
-- Database query optimization (if applicable)
-- Performance monitoring and alerting setup
+- Express route response time optimization
+- Performance monitoring and logging setup
+- Docker container resource usage optimization
 
-**Dependencies**: TEST-003  
-**Definition of Done**: Application meets all performance requirements
+**Dependencies**: End-to-End Integration Tests  
+**Definition of Done**: Application meets all performance requirements with Express backend
 
 ---
 
 ### Deployment Tickets
 
-#### [DEPLOY] Deploy Lambda Function to AWS Production
-**Priority**: High  
-**Complexity**: Low  
-**Skills Required**: AWS SAM, Lambda deployment, Environment management
+#### [DEPLOY] Setup Basic Production Deployment
+**Priority**: Low  
+**Complexity**: Medium  
+**Skills Required**: Docker, Production deployment, Environment management
 
-**Description**: Deploy the completed Lambda function to AWS production environment.
+**Description**: Setup basic production deployment strategy for Express API and Expo web app (future enhancement).
 
 **Acceptance Criteria**:
-- Production deployment using SAM template
-- Environment variables properly configured
-- API Gateway endpoint functional and accessible
-- CloudWatch logging and monitoring active
-- Production MTA API keys configured
-- Health check endpoint responding
+- Docker production configuration for Express API
+- Environment variables properly configured for production
+- Production-ready Express server configuration
+- Health check endpoints for monitoring
+- Production MTA API keys configuration
+- Basic logging and error reporting setup
 
-**Dependencies**: API-006, INFRA-003  
-**Definition of Done**: Lambda function is live and responding to production traffic
+**Dependencies**: Error Handling, Environment Variable Configuration  
+**Definition of Done**: Express API can be deployed to production environment
 
 ---
 
-#### [DEPLOY] Deploy Expo Web App to S3/CloudFront
-**Priority**: High  
+#### [DEPLOY] Deploy Expo Web Application
+**Priority**: Low  
 **Complexity**: Medium  
-**Skills Required**: Expo build, AWS S3, CloudFront, Web deployment
+**Skills Required**: Expo build, Web deployment, Static hosting
 
-**Description**: Build and deploy Expo web application to AWS hosting infrastructure.
+**Description**: Build and deploy Expo web application for production use.
 
 **Acceptance Criteria**:
 - Expo web build optimized for production
-- Static assets deployed to S3 bucket
-- CloudFront distribution configured for global CDN
-- Custom domain and SSL certificate configured
+- Static hosting configuration (Netlify, Vercel, or similar)
 - Environment variables set for production API endpoint
-- Cache invalidation strategy implemented
+- Custom domain configuration (optional)
+- Cache configuration for static assets
+- Build process automation
 
-**Dependencies**: UI-007, INFRA-003  
+**Dependencies**: Application Styling, API Client Integration  
 **Definition of Done**: Web application is accessible via production URL
 
 ---
 
-#### [DEPLOY] Configure Production Monitoring
-**Priority**: Medium  
+#### [DEPLOY] Configure Basic Monitoring
+**Priority**: Low  
 **Complexity**: Low  
-**Skills Required**: CloudWatch, Monitoring, Alerting
+**Skills Required**: Logging, Monitoring, Error tracking
 
-**Description**: Set up comprehensive monitoring and alerting for production systems.
+**Description**: Set up basic monitoring and logging for production systems.
 
 **Acceptance Criteria**:
-- CloudWatch dashboards for Lambda metrics
-- Error rate and latency alarms configured
-- Log aggregation and search functionality
-- API Gateway request/response monitoring
-- Cost monitoring and budget alerts
-- Notification channels for critical issues
+- Express API logging configuration
+- Error tracking and reporting setup
+- Basic performance monitoring
+- Health check endpoints
+- Log rotation and management
+- Simple alerting for critical issues
 
-**Dependencies**: DEPLOY-001, DEPLOY-002  
-**Definition of Done**: Production monitoring provides visibility into system health
+**Dependencies**: Basic Production Deployment, Expo Web Deployment  
+**Definition of Done**: Production monitoring provides basic visibility into system health
 
 ---
 

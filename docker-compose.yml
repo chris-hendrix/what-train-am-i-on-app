@@ -3,8 +3,8 @@ version: '3.8'
 services:
   mobile:
     build:
-      context: ./apps/mobile
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./apps/mobile/Dockerfile
     ports:
       - "19000:8081"   # Metro bundler  
       - "8081:8081"    # Web interface
@@ -18,8 +18,8 @@ services:
 
   api:
     build:
-      context: ./apps/api
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./apps/api/Dockerfile
     ports:
       - "3000:3000"    # API Gateway
     volumes:

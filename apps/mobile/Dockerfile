@@ -2,17 +2,17 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy mobile package files
+COPY apps/mobile/package*.json ./
 
-# Install dependencies
-RUN npm install
+# Remove workspace dependency and install
+RUN npm pkg delete dependencies.@what-train/shared && npm install
 
 # Install web dependencies
 RUN npx expo install react-dom react-native-web @expo/metro-runtime
 
-# Copy source code
-COPY . .
+# Copy mobile source code
+COPY apps/mobile/ .
 
 # Expose ports for Metro and web
 EXPOSE 19000 19006
