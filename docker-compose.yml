@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mobile:
+    build:
+      context: ./apps/mobile
+      dockerfile: Dockerfile
+    ports:
+      - "19000:8081"   # Metro bundler  
+      - "8081:8081"    # Web interface
+    volumes:
+      - ./apps/mobile:/app
+      - /app/node_modules
+    environment:
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+    stdin_open: true
+    tty: true
