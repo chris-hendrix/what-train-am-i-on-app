@@ -12,17 +12,17 @@
 **Goal**: Establish development environment, repository structure, and basic CI/CD pipeline
 
 #### Core Infrastructure Tickets
-- **[DEV-001] - Setup Local Development Environment** - 8 points
-- **[INFRA-001] - Setup AWS Infrastructure with SAM Templates** - 5 points
-- **[INFRA-002] - Configure GitHub Actions CI/CD Pipeline** - 3 points
-- **[INFRA-003] - Setup Shared TypeScript Types Package** - 2 points
+- **[INFRA] Setup Local Development Environment** - 8 points
+- **[INFRA] Setup AWS Infrastructure with SAM Templates** - 5 points
+- **[INFRA] Configure GitHub Actions CI/CD Pipeline** - 3 points
+- **[INFRA] Setup Shared TypeScript Types Package** - 2 points
 
 **Milestone Total**: 18 points
-**Dependencies**: DEV-001 must be completed first (blocks all other development)
+**Dependencies**: Local Development Environment must be completed first (blocks all other development)
 **Parallel Work Streams**: 
-- Any developer: DEV-001 (must be done first)
-- DevOps engineer: INFRA-001, INFRA-002 (after DEV-001)
-- Frontend/Backend developer: INFRA-003 (after DEV-001)
+- Any developer: Setup Local Development Environment (must be done first)
+- DevOps engineer: AWS Infrastructure, CI/CD Pipeline (after local dev setup)
+- Frontend/Backend developer: Shared TypeScript Types (after local dev setup)
 
 ---
 
@@ -95,7 +95,7 @@
 
 ### Infrastructure Tickets
 
-#### [DEV-001] - Setup Local Development Environment
+#### [INFRA] Setup Local Development Environment
 **Priority**: Critical  
 **Complexity**: High  
 **Skills Required**: Docker, Node.js, Expo, TypeScript, Monorepo setup
@@ -125,7 +125,7 @@
 
 ---
 
-#### [INFRA-001] - Setup AWS Infrastructure with SAM Templates
+#### [INFRA] Setup AWS Infrastructure with SAM Templates
 **Priority**: High  
 **Complexity**: High  
 **Skills Required**: AWS SAM, API Gateway, Lambda, CloudFormation
@@ -140,12 +140,12 @@
 - CloudWatch Log Groups for monitoring
 - Local testing with `sam local start-api`
 
-**Dependencies**: DEV-001  
+**Dependencies**: Setup Local Development Environment  
 **Definition of Done**: `sam deploy` successfully creates AWS infrastructure and API is accessible
 
 ---
 
-#### [INFRA-002] - Configure GitHub Actions CI/CD Pipeline
+#### [INFRA] Configure GitHub Actions CI/CD Pipeline
 **Priority**: Medium  
 **Complexity**: Medium  
 **Skills Required**: GitHub Actions, AWS CLI, Node.js
@@ -166,7 +166,7 @@
 
 ---
 
-#### [INFRA-003] - Setup Shared TypeScript Types Package
+#### [INFRA] Setup Shared TypeScript Types Package
 **Priority**: Medium  
 **Complexity**: Low  
 **Skills Required**: TypeScript, NPM packages
@@ -181,14 +181,14 @@
 - Type definitions match ERD API specifications
 - Automated TypeScript compilation for the shared package
 
-**Dependencies**: DEV-001  
+**Dependencies**: Setup Local Development Environment  
 **Definition of Done**: Both apps can import and use shared types without errors
 
 ---
 
 ### Backend API Development Tickets
 
-#### [API-001] - Setup Lambda Function Project Structure
+#### [API] Setup Lambda Function Project Structure
 **Priority**: High  
 **Complexity**: Low  
 **Skills Required**: Node.js, TypeScript, AWS Lambda
@@ -208,7 +208,7 @@
 
 ---
 
-#### [API-002] - Implement MTA GTFS Static Data Parser
+#### [API] Implement MTA GTFS Static Data Parser
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: Node.js, GTFS data formats, Data parsing
@@ -228,7 +228,7 @@
 
 ---
 
-#### [API-003] - Integrate MTA GTFS-RT API Client  
+#### [API] Integrate MTA GTFS-RT API Client  
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: REST APIs, Protocol Buffers, Real-time data
@@ -248,7 +248,7 @@
 
 ---
 
-#### [API-004] - Develop Train Identification Algorithm
+#### [API] Develop Train Identification Algorithm
 **Priority**: High  
 **Complexity**: High  
 **Skills Required**: Algorithms, Geospatial calculations, Data analysis
@@ -271,7 +271,7 @@
 
 ---
 
-#### [API-005] - Implement API Request/Response Handling
+#### [API] Implement API Request/Response Handling
 **Priority**: Medium  
 **Complexity**: Low  
 **Skills Required**: HTTP APIs, JSON, Input validation
@@ -291,7 +291,7 @@
 
 ---
 
-#### [API-006] - Add Error Handling and Edge Cases
+#### [API] Add Error Handling and Edge Cases
 **Priority**: Medium  
 **Complexity**: Medium  
 **Skills Required**: Error handling, Logging, System resilience
@@ -312,7 +312,7 @@
 
 ---
 
-#### [API-007] - Setup AWS Parameter Store for API Keys
+#### [API] Setup AWS Parameter Store for API Keys
 **Priority**: Low  
 **Complexity**: Low  
 **Skills Required**: AWS Parameter Store, IAM, Security
@@ -334,7 +334,7 @@
 
 ### Frontend Application Development Tickets
 
-#### [UI-001] - Setup Expo Project with TypeScript
+#### [UI] Setup Expo Project with TypeScript
 **Priority**: High  
 **Complexity**: Low  
 **Skills Required**: Expo, React Native, TypeScript
@@ -354,7 +354,7 @@
 
 ---
 
-#### [UI-002] - Implement Geolocation Service
+#### [UI] Implement Geolocation Service
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: Geolocation API, React Native, Permission handling
@@ -375,7 +375,7 @@
 
 ---
 
-#### [UI-003] - Create Train Line Selection Component
+#### [UI] Create Train Line Selection Component
 **Priority**: High  
 **Complexity**: Low  
 **Skills Required**: React Native, UI components, Design systems
@@ -395,7 +395,7 @@
 
 ---
 
-#### [UI-004] - Develop Train Results Display Component
+#### [UI] Develop Train Results Display Component
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: React Native, Data visualization, UI/UX
@@ -416,7 +416,7 @@
 
 ---
 
-#### [UI-005] - Implement API Client for Backend Integration
+#### [UI] Implement API Client for Backend Integration
 **Priority**: Medium  
 **Complexity**: Low  
 **Skills Required**: HTTP clients, Async JavaScript, Error handling
@@ -437,7 +437,7 @@
 
 ---
 
-#### [UI-006] - Add Loading States and Error Handling
+#### [UI] Add Loading States and Error Handling
 **Priority**: Medium  
 **Complexity**: Low  
 **Skills Required**: React Native, State management, User experience
@@ -458,7 +458,7 @@
 
 ---
 
-#### [UI-007] - Style Application with MTA Design System
+#### [UI] Style Application with MTA Design System
 **Priority**: Low  
 **Complexity**: Medium  
 **Skills Required**: UI design, CSS/Styling, Brand guidelines
@@ -479,7 +479,7 @@
 
 ---
 
-#### [UI-008] - Implement Manual Station Selection Fallback
+#### [UI] Implement Manual Station Selection Fallback
 **Priority**: Low  
 **Complexity**: Low  
 **Skills Required**: React Native, Search interfaces, Data filtering
@@ -501,7 +501,7 @@
 
 ### Integration & Testing Tickets
 
-#### [TEST-001] - Write Unit Tests for Lambda Function
+#### [TEST] Write Unit Tests for Lambda Function
 **Priority**: Medium  
 **Complexity**: Low  
 **Skills Required**: Jest, Unit testing, Mocking
@@ -521,7 +521,7 @@
 
 ---
 
-#### [TEST-002] - Write Component Tests for Expo App
+#### [TEST] Write Component Tests for Expo App
 **Priority**: Medium  
 **Complexity**: Low  
 **Skills Required**: Jest, React Native Testing Library, Component testing
@@ -541,7 +541,7 @@
 
 ---
 
-#### [TEST-003] - Implement End-to-End Integration Tests
+#### [TEST] Implement End-to-End Integration Tests
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: E2E testing, API testing, Integration testing
@@ -561,7 +561,7 @@
 
 ---
 
-#### [TEST-004] - Performance Testing and Optimization
+#### [TEST] Performance Testing and Optimization
 **Priority**: Medium  
 **Complexity**: Medium  
 **Skills Required**: Performance testing, Optimization, Monitoring
@@ -583,7 +583,7 @@
 
 ### Deployment Tickets
 
-#### [DEPLOY-001] - Deploy Lambda Function to AWS Production
+#### [DEPLOY] Deploy Lambda Function to AWS Production
 **Priority**: High  
 **Complexity**: Low  
 **Skills Required**: AWS SAM, Lambda deployment, Environment management
@@ -603,7 +603,7 @@
 
 ---
 
-#### [DEPLOY-002] - Deploy Expo Web App to S3/CloudFront
+#### [DEPLOY] Deploy Expo Web App to S3/CloudFront
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: Expo build, AWS S3, CloudFront, Web deployment
@@ -623,7 +623,7 @@
 
 ---
 
-#### [DEPLOY-003] - Configure Production Monitoring
+#### [DEPLOY] Configure Production Monitoring
 **Priority**: Medium  
 **Complexity**: Low  
 **Skills Required**: CloudWatch, Monitoring, Alerting
@@ -643,7 +643,7 @@
 
 ---
 
-#### [QA-001] - User Acceptance Testing with Real MTA Data
+#### [QA] User Acceptance Testing with Real MTA Data
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: Manual testing, User experience, MTA system knowledge
