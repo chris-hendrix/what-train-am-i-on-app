@@ -13,6 +13,10 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.get('/health', (_req: Request, res: Response) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 app.get('/hello', (_req: Request, res: Response) => {
   // Return a sample MTA Line object with proper typing
   const sampleLine: Line = {
