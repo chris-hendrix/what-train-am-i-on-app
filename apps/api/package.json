@@ -6,7 +6,8 @@
     "start": "node index.js",
     "dev": "npx tsx watch index.ts",
     "dev:native": "node --watch index.js",
-    "build": "npx tsx index.ts"
+    "build": "npx tsx index.ts",
+    "test": "echo \"No tests implemented yet for API\" && exit 0"
   },
   "dependencies": {
     "@what-train/shared": "*",
