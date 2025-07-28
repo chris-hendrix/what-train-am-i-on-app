@@ -72,6 +72,7 @@ export default [
   // Mobile app-specific rules (Browser/React Native environment)
   {
     files: ['apps/mobile/**/*.{ts,tsx}'],
+    ignores: ['apps/mobile/*.config.ts'],
     languageOptions: {
       globals: {
         console: 'readonly',
@@ -82,6 +83,25 @@ export default [
     },
     rules: {
       'no-console': 'warn',
+    },
+  },
+  // Mobile app config files (Node.js environment)
+  {
+    files: ['apps/mobile/*.config.ts'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'writable',
+        require: 'readonly',
+        exports: 'writable',
+        global: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
     },
   },
   // Shared package rules
