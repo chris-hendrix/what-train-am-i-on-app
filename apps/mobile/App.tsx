@@ -19,8 +19,7 @@ export default function App() {
         }
         setLoading(false);
       })
-      .catch(error => {
-        console.error('API Error:', error);
+      .catch(() => {
         setError('Failed to connect to API');
         setLoading(false);
       });

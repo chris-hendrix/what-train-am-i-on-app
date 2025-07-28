@@ -5,7 +5,7 @@ import tsparser from '@typescript-eslint/parser';
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     plugins: {
       '@typescript-eslint': tseslint,
     },
@@ -25,6 +25,28 @@ export default [
       ...tseslint.configs.recommended.rules,
       'semi': ['error', 'always'],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    },
+  },
+  // JavaScript files (including config files)
+  {
+    files: ['**/*.{js,mjs,cjs}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...js.configs.recommended.languageOptions?.globals,
+        process: 'readonly',
+        console: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'writable',
+        require: 'readonly',
+        exports: 'writable',
+        global: 'readonly',
+      },
+    },
+    rules: {
+      'semi': ['error', 'always'],
     },
   },
   // API-specific rules (Node.js environment)
