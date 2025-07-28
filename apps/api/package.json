@@ -7,7 +7,8 @@
     "dev": "npx tsx watch index.ts",
     "dev:native": "node --watch index.js",
     "build": "npx tsx index.ts",
-    "test": "echo \"No tests implemented yet for API\" && exit 0"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@what-train/shared": "*",
@@ -15,7 +16,10 @@
     "express": "^5.0.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.4",
     "tsx": "^4.7.0",
-    "@types/express": "^4.17.21"
+    "vitest": "^3.2.4"
   }
 }
