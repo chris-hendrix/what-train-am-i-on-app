@@ -20,6 +20,11 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
+    - name: Build shared package
+      run: |
+        cd packages/shared
+        npm run build
+      
     - name: Run ESLint
       run: npm run lint
       
@@ -54,6 +59,11 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
+    - name: Build shared package
+      run: |
+        cd packages/shared
+        npm run build
+      
     - name: Run tests
       run: npm test
 
@@ -72,6 +82,11 @@ jobs:
         
     - name: Install dependencies
       run: npm ci
+      
+    - name: Build shared package
+      run: |
+        cd packages/shared
+        npm run build
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
