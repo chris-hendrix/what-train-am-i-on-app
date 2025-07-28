@@ -55,3 +55,7 @@ Thumbs.db
 
 # ESLint cache
 .eslintcache
+
+# Playwright test artifacts
+**/e2e/playwright-report/
+**/e2e/test-results/

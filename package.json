@@ -12,7 +12,7 @@
     "lint:fix": "eslint . --fix",
     "lint:api": "eslint apps/api",
     "lint:mobile": "eslint apps/mobile",
-    "test": "echo \"No tests implemented yet - all checks pass\" && exit 0"
+    "test": "npm run test --workspaces --if-present"
   },
   "keywords": [],
   "author": "",
