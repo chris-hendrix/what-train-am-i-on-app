@@ -8,6 +8,9 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "npm run dev:api & npm run dev:mobile",
+    "dev:api": "npm run dev --workspace=apps/api",
+    "dev:mobile": "npm run start --workspace=apps/mobile",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:api": "eslint apps/api",

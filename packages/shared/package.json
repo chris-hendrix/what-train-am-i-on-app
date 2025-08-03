@@ -1,14 +1,32 @@
 {
   "name": "@what-train/shared",
   "version": "1.0.0",
-  "description": "Shared TypeScript types and utilities for What Train Am I On app",
+  "description": "Shared TypeScript types for What Train Am I On app",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./types/api": {
+      "types": "./dist/types/api.d.ts",
+      "import": "./dist/types/api.js",
+      "require": "./dist/types/api.js"
+    },
+    "./types/mta": {
+      "types": "./dist/types/mta.d.ts",
+      "import": "./dist/types/mta.js",
+      "require": "./dist/types/mta.js"
+    }
+  },
   "scripts": {
-    "build": "tsc src/index.ts --outDir ./dist --declaration --declarationMap --sourceMap --module commonjs --target ES2020 --strict --esModuleInterop --skipLibCheck --forceConsistentCasingInFileNames",
+    "build": "tsc --build tsconfig.json",
     "dev": "npm run build -- --watch",
     "clean": "rm -rf dist",
-    "test": "echo \"No tests implemented yet for shared package\" && exit 0"
+    "test": "echo \"No tests implemented yet for shared package\" && exit 0",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": ["typescript", "types", "mta", "shared"],
   "license": "ISC",
