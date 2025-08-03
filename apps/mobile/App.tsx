@@ -1,19 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
-import { ApiResponse, Line } from '@what-train/shared';
+import { 
+  Line, 
+  SuccessResponse,
+  ErrorResponse 
+} from '@what-train/shared';
 
 export default function App() {
-  const [line, setLine] = useState<Line | null>(null);
+  const [lines, setLines] = useState<Line[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/hello')
+    fetch('http://localhost:3000/lines')
       .then(response => response.json())
-      .then((data: ApiResponse<Line>) => {
-        if (data.success && data.data) {
-          setLine(data.data);
+      .then((data: SuccessResponse<{ lines: Line[] }> | ErrorResponse) => {
+        if (data.success && 'data' in data) {
+          setLines(data.data.lines);
         } else {
           setError(data.error || 'Failed to load line data');
         }
@@ -45,13 +49,18 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.lineContainer}>
-        <Text style={styles.lineTitle}>MTA Train Line</Text>
-        <View style={[styles.lineIndicator, { backgroundColor: line?.color }]}>
-          <Text style={styles.lineCode}>{line?.code}</Text>
+      <Text style={styles.title}>MTA Train Lines</Text>
+      {lines.map((line) => (
+        <View key={line.id} style={styles.lineContainer}>
+          <View style={[styles.lineIndicator, { backgroundColor: line.color }]}>
+            <Text style={styles.lineCode}>{line.code}</Text>
+          </View>
+          <View style={styles.lineInfo}>
+            <Text style={styles.lineName}>{line.name}</Text>
+            <Text style={styles.lineType}>{line.type.toUpperCase()}</Text>
+          </View>
         </View>
-        <Text style={styles.lineName}>{line?.name}</Text>
-      </View>
+      ))}
       <StatusBar style="auto" />
     </View>
   );
@@ -63,6 +72,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    color: '#333',
   },
   message: {
     fontSize: 18,
@@ -74,32 +90,40 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   lineContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
-  },
-  lineTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
+    padding: 15,
+    marginBottom: 15,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 12,
+    width: '100%',
+    maxWidth: 300,
   },
   lineIndicator: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 15,
+    marginRight: 15,
   },
   lineCode: {
-    fontSize: 32,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
   },
+  lineInfo: {
+    flex: 1,
+  },
   lineName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '600',
-    color: '#555',
-    textAlign: 'center',
+    color: '#333',
+    marginBottom: 4,
+  },
+  lineType: {
+    fontSize: 12,
+    color: '#666',
+    fontWeight: '500',
   },
 });
