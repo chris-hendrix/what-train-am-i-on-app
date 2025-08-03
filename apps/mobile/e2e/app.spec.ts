@@ -1,17 +1,16 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('What Train Am I On App', () => {
-  test('should display train lines information', async ({ page }) => {
+  test('should load page and display routes from API', async ({ page }) => {
     await page.goto('/');
     
     // Wait for the app to load and make API call
-    await page.waitForSelector('text=MTA Train Lines', { timeout: 10000 });
+    await page.waitForSelector('text=NYC Subway Routes', { timeout: 10000 });
     
-    // Verify the train lines title is visible
-    await expect(page.locator('text=MTA Train Lines')).toBeVisible();
+    // Verify the title is visible
+    await expect(page.locator('text=NYC Subway Routes')).toBeVisible();
     
-    // Verify both train lines are displayed
-    await expect(page.locator('text=6 Express')).toBeVisible();
-    await expect(page.locator('text=4 Express')).toBeVisible();
+    // Verify routes are displayed by checking for any route name (API is working)
+    await expect(page.locator('text=Lexington Avenue Local')).toBeVisible();
   });
 });

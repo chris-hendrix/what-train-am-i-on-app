@@ -1,24 +1,14 @@
-// MTA domain types
+// MTA API Response Types
+// These types are used for API responses and match GTFS naming conventions
 
 /**
- * MTA train line information
+ * Route information for API responses
+ * Simplified structure for client consumption using camelCase
  */
-export interface Line {
+export interface Route {
   id: string;
-  name: string;
-  code: string;
-  color: string;
-  type: 'subway' | 'bus' | 'lirr' | 'mnr';
-  isActive: boolean;
-}
-
-/**
- * Basic train information
- */
-export interface Train {
-  id: string;
-  lineId: string;
-  direction: 'N' | 'S' | 'E' | 'W';
-  route: string;
-  timestamp: string;
+  shortName: string;
+  longName: string;
+  color?: string;
+  textColor?: string;
 }
