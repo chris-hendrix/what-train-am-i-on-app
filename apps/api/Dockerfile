@@ -7,7 +7,7 @@ COPY apps/api/package*.json ./
 RUN npm pkg delete dependencies.@what-train/shared && npm install
 
 # Copy the API code
-COPY apps/api/index.ts ./
+COPY apps/api/src/ ./src/
 
 EXPOSE 3000
 

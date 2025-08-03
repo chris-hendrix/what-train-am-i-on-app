@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "npx tsx watch index.ts",
-    "dev:native": "node --watch index.js",
-    "build": "npx tsx index.ts",
+    "start": "node src/index.js",
+    "dev": "npx tsx watch src/index.ts",
+    "dev:native": "node --watch src/index.js",
+    "build": "npx tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
     "@what-train/shared": "*",
     "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
     "express": "^5.0.1"
   },
   "devDependencies": {

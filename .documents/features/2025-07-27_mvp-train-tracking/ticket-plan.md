@@ -30,7 +30,6 @@
 **Goal**: Implement core Express API server with MTA API integration
 
 #### Backend Development Tickets
-- **[API-001] - Setup Express API Project Structure** - 2 points
 - **[API-002] - Implement MTA GTFS Static Data Parser** - 5 points
 - **[API-003] - Integrate MTA GTFS-RT API Client** - 5 points
 - **[API-004] - Develop Train Identification Algorithm** - 8 points
@@ -38,10 +37,10 @@
 - **[API-006] - Add Error Handling and Edge Cases** - 3 points
 - **[API-007] - Setup Environment Variable Configuration** - 1 point
 
-**Milestone Total**: 28 points
-**Dependencies**: Express API Server setup must be ready
+**Milestone Total**: 25 points
+**Dependencies**: Infrastructure foundation is already complete
 **Parallel Work Streams**:
-- Backend developer: API-001, API-002, API-003 (sequential)
+- Backend developer: API-002, API-003 (sequential)
 - Backend developer: API-004, API-005 (after API-003 complete)
 - DevOps engineer: API-007 (parallel with API development)
 
@@ -61,7 +60,7 @@
 - **[UI-008] - Implement Manual Station Selection Fallback** - 2 points
 
 **Milestone Total**: 24 points
-**Dependencies**: INFRA-002 (Docker environment), API-005 (API contract)
+**Dependencies**: Infrastructure foundation complete, API-005 (API contract)
 **Parallel Work Streams**:
 - Frontend developer: UI-001, UI-002, UI-003 (sequential start)
 - Frontend developer: UI-004, UI-007 (after UI-003)
@@ -73,8 +72,6 @@
 **Goal**: End-to-end integration, testing, and production deployment
 
 #### Integration & Testing Tickets
-- **[TEST-001] - Write Unit Tests for Express API** - 3 points
-- **[TEST-002] - Write Component Tests for Expo App** - 3 points  
 - **[TEST-003] - Implement End-to-End Integration Tests** - 5 points
 - **[TEST-004] - Performance Testing and Optimization** - 3 points
 - **[DEPLOY-001] - Setup Basic Production Deployment** - 2 points
@@ -82,11 +79,12 @@
 - **[DEPLOY-003] - Configure Production Monitoring** - 2 points
 - **[QA-001] - User Acceptance Testing with Real MTA Data** - 3 points
 
-**Milestone Total**: 24 points
+**Milestone Total**: 18 points
 **Dependencies**: All previous milestones must be complete
+**Note**: Testing infrastructure is already in place, tests should be added within each feature ticket
 **Parallel Work Streams**:
-- Backend developer: TEST-001, TEST-003
-- Frontend developer: TEST-002, TEST-003  
+- Backend developer: TEST-003, TEST-004
+- Frontend developer: TEST-003, TEST-004  
 - DevOps engineer: DEPLOY-001, DEPLOY-002, DEPLOY-003
 
 ---
@@ -185,43 +183,30 @@
 
 ### Backend API Development Tickets
 
-#### [API] Setup Express API Project Structure
-**Priority**: High  
-**Complexity**: Low  
-**Skills Required**: Node.js, TypeScript, Express.js
-
-**Description**: Initialize Express API project with proper TypeScript configuration and route structure.
-
-**Acceptance Criteria**:
-- `apps/api/src/` directory structure with app.ts entry point
-- TypeScript configuration optimized for Express.js
-- Package.json with required dependencies (express, cors, MTA API clients)
-- Basic Express app with route handlers
-- Middleware configuration for CORS, logging, error handling
-- Environment variable configuration for development/production
-
-**Dependencies**: Setup Local Development Environment, Express API Setup  
-**Definition of Done**: Express server returns "Hello World" response when accessed
-
----
-
-#### [API] Implement MTA GTFS Static Data Parser
+#### [API] Implement MTA GTFS Static Data Parser ✅ **COMPLETED**
 **Priority**: High  
 **Complexity**: Medium  
 **Skills Required**: Node.js, GTFS data formats, Data parsing
 
 **Description**: Create service to parse and query MTA static GTFS data for station coordinates, routes, and stop sequences.
 
-**Acceptance Criteria**:
-- Service can download/parse GTFS static data from MTA
-- Functions to find nearest stations given lat/lng coordinates
-- Route lookup by line code (1,2,3,4,5,6,7,N,Q,R,W,B,D,F,M,A,C,E,G,J,Z,L)
-- Stop sequence data for calculating train direction
-- In-memory caching to avoid repeated parsing
-- Error handling for malformed or unavailable GTFS data
+**Acceptance Criteria**: ✅ **ALL COMPLETED**
+- ✅ Service can parse GTFS static data from MTA (stored locally in repo)
+- ✅ Functions to find nearest stations given lat/lng coordinates
+- ✅ Route lookup by line code (1,2,3,4,5,6,7,N,Q,R,W,B,D,F,M,A,C,E,G,J,Z,L)
+- ✅ Stop sequence data for calculating train direction
+- ✅ In-memory caching using Map-based storage
+- ✅ Error handling for malformed or unavailable GTFS data
 
-**Dependencies**: API-001  
-**Definition of Done**: Service returns correct nearest stations for test coordinates
+**Implementation Details**:
+- GTFS data stored in `/apps/api/data/gtfs/` directory (60MB total)
+- GTFSService class with singleton pattern for efficient memory usage
+- Map-based in-memory storage for fast lookups (~1.5K stops, ~30 routes, ~20K trips)
+- Express API endpoints: `/api/stations/nearest`, `/api/routes/:lineCode`, `/api/routes`, `/api/gtfs/stats`
+- Data loaded from static CSV files on server startup
+
+**Dependencies**: Infrastructure foundation complete  
+**Definition of Done**: ✅ Service returns correct nearest stations for test coordinates
 
 ---
 
@@ -240,7 +225,7 @@
 - Rate limiting and error handling for API calls
 - Configurable API key via environment variables
 
-**Dependencies**: API-001, API-007  
+**Dependencies**: API-007  
 **Definition of Done**: Client successfully fetches live train data from MTA
 
 ---
@@ -284,7 +269,7 @@
 - Request logging middleware for debugging and monitoring
 - CORS configuration for web client compatibility
 
-**Dependencies**: Express API Project Structure, Shared Types  
+**Dependencies**: Shared Types (already complete)  
 **Definition of Done**: Express API accepts valid requests and returns properly formatted responses
 
 ---
@@ -327,7 +312,7 @@
 - Documentation for updating API keys
 - Secure key storage practices for production
 
-**Dependencies**: Express API Setup  
+**Dependencies**: None (infrastructure foundation complete)  
 **Definition of Done**: Express API can securely retrieve MTA API key from environment variables
 
 ---
@@ -349,7 +334,7 @@
 - Integration with shared TypeScript types package
 - Development server runs on port 8081 for web interface
 
-**Dependencies**: INFRA-001, INFRA-002  
+**Dependencies**: Infrastructure foundation complete  
 **Definition of Done**: Expo app loads successfully in browser and mobile simulator
 
 ---
@@ -411,7 +396,7 @@
 - Error states for failed identifications
 - Responsive design for web and mobile
 
-**Dependencies**: UI-001, INFRA-005 (shared types)  
+**Dependencies**: UI-001, Shared types (already complete)  
 **Definition of Done**: Component displays mock train data with proper formatting
 
 ---
@@ -432,7 +417,7 @@
 - Request cancellation when user navigates away
 - Environment-specific API URLs (dev/prod)
 
-**Dependencies**: Expo Project Setup, Express Route Handlers, Shared Types  
+**Dependencies**: UI-001, API-005, Shared Types (already complete)  
 **Definition of Done**: Client successfully calls Express API and handles responses
 
 ---
@@ -501,48 +486,6 @@
 
 ### Integration & Testing Tickets
 
-#### [TEST] Write Unit Tests for Express API
-**Priority**: Medium  
-**Complexity**: Low  
-**Skills Required**: Jest, Unit testing, Mocking, Express testing
-
-**Description**: Create comprehensive unit test suite for all Express API components.
-
-**Acceptance Criteria**:
-- Unit tests for train identification algorithm
-- Mocked tests for MTA API integration
-- Express route handler testing with supertest
-- Middleware testing for CORS, validation, error handling
-- Edge case testing for error scenarios
-- Performance tests ensuring < 5 second response times
-- Test coverage > 80% for all core functions
-- Automated test running in CI/CD pipeline
-
-**Dependencies**: Train Identification Algorithm, Error Handling  
-**Definition of Done**: All Express API tests pass and maintain high code coverage
-
----
-
-#### [TEST] Write Component Tests for Expo App
-**Priority**: Medium  
-**Complexity**: Low  
-**Skills Required**: Jest, React Native Testing Library, Component testing
-
-**Description**: Create unit and integration tests for React Native components.
-
-**Acceptance Criteria**:
-- Component rendering tests for all UI components
-- User interaction testing (button clicks, form inputs)
-- Navigation flow testing
-- API client mocking and testing
-- Accessibility testing for screen readers
-- Snapshot tests for UI regression detection
-
-**Dependencies**: UI-006  
-**Definition of Done**: Component tests pass and prevent UI regressions
-
----
-
 #### [TEST] Implement End-to-End Integration Tests
 **Priority**: High  
 **Complexity**: Medium  
@@ -559,7 +502,7 @@
 - Error scenario testing (no GPS, API failures, etc.)
 - Docker environment testing with both services
 
-**Dependencies**: API Client Integration, Express Route Handlers  
+**Dependencies**: API-005, UI-005  
 **Definition of Done**: E2E tests validate complete application functionality with Express backend
 
 ---
@@ -670,19 +613,17 @@
 ## Dependency Graph
 
 ### Critical Path
-1. **INFRA-001** → **INFRA-002** → **API-001** → **API-002** → **API-003** → **API-004** → **TEST-003** → **DEPLOY-001**
-2. **INFRA-001** → **UI-001** → **UI-002** → **UI-005** → **TEST-003** → **DEPLOY-002**
+1. **API-002** → **API-003** → **API-004** → **TEST-003** → **DEPLOY-001**
+2. **UI-001** → **UI-002** → **UI-005** → **TEST-003** → **DEPLOY-002**
 
 ### Parallel Development Opportunities
-- **Infrastructure Setup**: INFRA-003, INFRA-004, INFRA-005 can be developed simultaneously
-- **Backend Development**: API-002 and API-007 can be developed in parallel after API-001
+- **Backend Development**: API-002 and API-007 can be developed in parallel
 - **Frontend Components**: UI-002, UI-003 can be developed simultaneously after UI-001
-- **Testing**: TEST-001 and TEST-002 can be developed in parallel
+- **Testing**: TEST-003 and TEST-004 can be developed in parallel with deployment prep
 - **Deployment**: DEPLOY-001 and DEPLOY-002 can happen simultaneously
 
 ### Potential Bottlenecks
 - **API-004 (Train Identification Algorithm)**: Highest complexity, blocks integration testing
-- **INFRA-002 (Docker Environment)**: Blocks local development for both frontend and backend
 - **TEST-003 (Integration Tests)**: Requires both frontend and backend completion
 
 ---
@@ -721,8 +662,8 @@
 ## Notes for Development Team
 
 ### Getting Started
-1. Begin with Milestone 1 to establish foundation
-2. Ensure Docker environment is working before proceeding to development
+1. Infrastructure foundation is complete - Docker environment, CI/CD, and shared types are ready
+2. Begin with Milestone 2 (Backend API Development) or Milestone 3 (Frontend Development) in parallel
 3. Set up MTA Developer API access early in the process
 
 ### Code Quality Standards
