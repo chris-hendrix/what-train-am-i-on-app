@@ -63,6 +63,11 @@ export default [
         module: 'writable',
         require: 'readonly',
         global: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
       },
     },
     rules: {
