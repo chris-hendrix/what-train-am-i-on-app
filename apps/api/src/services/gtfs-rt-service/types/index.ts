@@ -198,13 +198,3 @@ export interface CacheStats {
   size: number;
   entries: string[];
 }
-
-/**
- * Service statistics
- */
-export interface GTFSRTStats {
-  activeVehicles: number;
-  activeTripUpdates: number;
-  activeAlerts: number;
-  cachedFeeds: number;
-}

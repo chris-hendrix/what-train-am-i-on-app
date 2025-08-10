@@ -9,9 +9,6 @@ import {
   ServiceAlertWithFeed,
   FeedCacheEntry,
   CacheStats,
-  GTFSRTStats,
-  GTFSRTVehiclePosition,
-  GTFSRTTripUpdate,
   GTFSRTStopTimeUpdate
 } from './types/index.js';
 
@@ -137,14 +134,15 @@ export class GTFSRTService {
       
       this.lastRequestTime = Date.now();
 
-      // Cache the result
+      // Cache the result - cast to our interface for compatibility
+      const feedData = feed as GTFSRTFeedMessage;
       this.feedCache.set(url, {
-        data: feed,
+        data: feedData,
         timestamp: now,
         ttl: this.defaultCacheTTL
       });
 
-      return feed;
+      return feedData;
     } catch (error) {
       console.error(`Failed to fetch GTFS-RT feed from ${url}:`, error);
       return null;
