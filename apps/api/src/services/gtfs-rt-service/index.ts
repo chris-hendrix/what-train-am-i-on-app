@@ -4,48 +4,31 @@ import {
   GTFSRTFeedEntity,
   VehiclePositionWithFeed,
   TripUpdateWithFeed,
-  TrainNearStation,
-  ArrivalPrediction,
-  ServiceAlertWithFeed,
   FeedCacheEntry,
-  CacheStats,
-  GTFSRTStopTimeUpdate
+  CacheStats
 } from './types/index.js';
 
 /**
  * MTA GTFS-RT Service - Real-time Train Data Client
  * 
- * This service fetches and parses real-time train position and trip update data
- * from MTA GTFS-RT feeds using protocol buffers. It provides functions to:
- * - Get current trains near specific stations
- * - Extract real-time arrival predictions
- * - Parse vehicle positions and trip updates
+ * Simplified service focused on core train identification needs:
+ * - Fetch vehicle positions for a specific subway line
+ * - Fetch trip updates for schedule/timing data
  * 
- * The service includes rate limiting and error handling for reliable API calls.
- * API keys can be configured via environment variables.
- * 
- * Data Source: MTA GTFS-RT Feeds (https://api-endpoint.mta.info/)
- * Format: Protocol Buffer (GTFS-RT specification)
+ * Optimized for train identification algorithm with:
+ * - Direct line-to-URL mapping for O(1) lookups
+ * - Caching with 30-second TTL for real-time data
+ * - Single-line focused API for minimal data transfer
  * 
  * @example
  * ```typescript
  * const gtfsRTService = GTFSRTService.getInstance();
- * 
- * // Get vehicle positions for all lines
- * const vehicles = await gtfsRTService.getVehiclePositions();
- * 
- * // Get trip updates for specific line
- * const tripUpdates = await gtfsRTService.getTripUpdates(['1', '2', '3']);
- * 
- * // Get trains near a station
- * const nearbyTrains = await gtfsRTService.getTrainsNearStation('R24');
+ * const vehicles = await gtfsRTService.getVehiclePositions('6');
+ * const tripUpdates = await gtfsRTService.getTripUpdates('6');
  * ```
  */
 export class GTFSRTService {
   private static instance: GTFSRTService;
-  
-  /** MTA API key for authentication (optional as of 2025) */
-  private readonly apiKey: string | undefined;
   
   /** Rate limiting: last request timestamp */
   private lastRequestTime: number = 0;
@@ -76,11 +59,25 @@ export class GTFSRTService {
     'SI': 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si'
   };
 
-  /** Service alerts feed */
-  private readonly alertsFeedUrl = 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts';
+  /** Direct mapping from individual line codes to their feed URLs for O(1) lookup */
+  private readonly lineToUrlMap: Map<string, string> = new Map();
+
 
   private constructor() {
-    this.apiKey = process.env.MTA_API_KEY;
+    this.buildLineToUrlMap();
+  }
+
+  /**
+   * Build the line-to-URL mapping from the grouped feedUrls
+   * @private
+   */
+  private buildLineToUrlMap(): void {
+    Object.entries(this.feedUrls).forEach(([lines, url]) => {
+      const lineList = lines.split(',');
+      lineList.forEach(line => {
+        this.lineToUrlMap.set(line.trim(), url);
+      });
+    });
   }
 
   /**
@@ -117,12 +114,7 @@ export class GTFSRTService {
     }
 
     try {
-      const headers: Record<string, string> = {};
-      if (this.apiKey) {
-        headers['x-api-key'] = this.apiKey;
-      }
-
-      const response = await fetch(url, { headers });
+      const response = await fetch(url);
       
       if (!response.ok) {
         const error = new Error(`${response.url}: ${response.status} ${response.statusText}`);
@@ -150,296 +142,108 @@ export class GTFSRTService {
   }
 
   /**
-   * Get vehicle positions for all subway lines
+   * Get vehicle positions for a specific subway line
    * 
-   * Fetches real-time vehicle position data from all MTA subway feeds.
+   * Fetches real-time vehicle position data for the specified subway line.
    * Returns an array of vehicle entities with position information.
    * 
-   * @returns Array of vehicle position entities
-   * @throws {Error} If no feeds could be fetched
+   * @param lineCode - NYC subway line code (e.g., '6', 'N', 'Q')
+   * @returns Array of vehicle position entities for the specified line
+   * @throws {Error} If line code is invalid or no data could be fetched
    * 
    * @example
    * ```typescript
-   * const vehicles = await gtfsRTService.getVehiclePositions();
+   * const vehicles = await gtfsRTService.getVehiclePositions('6');
    * vehicles.forEach(vehicle => {
    *   console.log(`Train ${vehicle.vehicle.label} at stop ${vehicle.vehicle.stopId}`);
    * });
    * ```
    */
-  public async getVehiclePositions(): Promise<VehiclePositionWithFeed[]> {
+  public async getVehiclePositions(lineCode: string): Promise<VehiclePositionWithFeed[]> {
     const vehiclePositions: VehiclePositionWithFeed[] = [];
     
-    for (const [lines, url] of Object.entries(this.feedUrls)) {
-      try {
-        const feed = await this.fetchFeed(url);
-        if (feed && feed.entity) {
-          feed.entity.forEach((entity: GTFSRTFeedEntity) => {
-            if (entity.vehicle) {
-              vehiclePositions.push({
-                id: entity.id,
-                vehicle: entity.vehicle,
-                feedLines: lines,
-                timestamp: entity.vehicle.timestamp
-              });
-            }
-          });
-        }
-      } catch (error) {
-        console.warn(`Failed to fetch vehicle positions for lines ${lines}:`, error);
+    // Get the feed URL for this specific line
+    const url = this.lineToUrlMap.get(lineCode);
+    if (!url) {
+      throw new Error(`Unknown line code: ${lineCode}`);
+    }
+
+    try {
+      const feed = await this.fetchFeed(url);
+      if (feed && feed.entity) {
+        feed.entity.forEach((entity: GTFSRTFeedEntity) => {
+          if (entity.vehicle) {
+            vehiclePositions.push({
+              id: entity.id,
+              vehicle: entity.vehicle,
+              feedLines: lineCode,
+              timestamp: entity.vehicle.timestamp
+            });
+          }
+        });
       }
+    } catch (error) {
+      throw new Error(`Failed to fetch vehicle positions for line ${lineCode}: ${error}`);
     }
 
     if (vehiclePositions.length === 0) {
-      throw new Error('No vehicle position data could be fetched from any feed');
+      throw new Error(`No vehicle position data found for line ${lineCode}`);
     }
 
     return vehiclePositions;
   }
 
   /**
-   * Get trip updates for specific subway lines
+   * Get trip updates for a specific subway line
    * 
    * Fetches real-time trip update data (delays, schedule changes) for the
-   * specified subway lines. If no lines are specified, fetches all lines.
+   * specified subway line.
    * 
-   * @param lineCodes - Array of NYC subway line codes (e.g., ['1', '2', '3'])
-   * @returns Array of trip update entities
+   * @param lineCode - NYC subway line code (e.g., '6', 'N', 'Q')
+   * @returns Array of trip update entities for the specified line
    * 
    * @example
    * ```typescript
-   * const updates = await gtfsRTService.getTripUpdates(['6']);
+   * const updates = await gtfsRTService.getTripUpdates('6');
    * updates.forEach(update => {
    *   console.log(`Trip ${update.tripUpdate.trip.tripId} has ${update.tripUpdate.stopTimeUpdate.length} stops`);
    * });
    * ```
    */
-  public async getTripUpdates(lineCodes?: string[]): Promise<TripUpdateWithFeed[]> {
+  public async getTripUpdates(lineCode: string): Promise<TripUpdateWithFeed[]> {
     const tripUpdates: TripUpdateWithFeed[] = [];
-    const feedsToFetch = lineCodes ? this.getFeedUrlsForLines(lineCodes) : Object.entries(this.feedUrls);
     
-    for (const [lines, url] of feedsToFetch) {
-      try {
-        const feed = await this.fetchFeed(url);
-        if (feed && feed.entity) {
-          feed.entity.forEach((entity: GTFSRTFeedEntity) => {
-            if (entity.tripUpdate) {
-              tripUpdates.push({
-                id: entity.id,
-                tripUpdate: entity.tripUpdate,
-                feedLines: lines,
-                timestamp: entity.tripUpdate.timestamp
-              });
-            }
-          });
-        }
-      } catch (error) {
-        console.warn(`Failed to fetch trip updates for lines ${lines}:`, error);
+    // Get the feed URL for this specific line
+    const url = this.lineToUrlMap.get(lineCode);
+    if (!url) {
+      throw new Error(`Unknown line code: ${lineCode}`);
+    }
+
+    try {
+      const feed = await this.fetchFeed(url);
+      if (feed && feed.entity) {
+        feed.entity.forEach((entity: GTFSRTFeedEntity) => {
+          if (entity.tripUpdate) {
+            tripUpdates.push({
+              id: entity.id,
+              tripUpdate: entity.tripUpdate,
+              feedLines: lineCode, // Just the requested line
+              timestamp: entity.tripUpdate.timestamp
+            });
+          }
+        });
       }
+    } catch (error) {
+      throw new Error(`Failed to fetch trip updates for line ${lineCode}: ${error}`);
     }
 
     return tripUpdates;
   }
 
-  /**
-   * Get current trains near a specific station
-   * 
-   * Combines vehicle positions and trip updates to find trains that are
-   * currently near or approaching the specified station.
-   * 
-   * @param stationId - GTFS stop ID for the station
-   * @param radiusStops - Number of stops in each direction to consider "near" (default: 2)
-   * @returns Array of trains near the station with position and trip info
-   * 
-   * @example
-   * ```typescript
-   * const nearbyTrains = await gtfsRTService.getTrainsNearStation('R24', 3);
-   * console.log(`Found ${nearbyTrains.length} trains near City Hall`);
-   * ```
-   */
-  public async getTrainsNearStation(stationId: string, radiusStops: number = 2): Promise<TrainNearStation[]> {
-    const [vehiclePositions, tripUpdates] = await Promise.all([
-      this.getVehiclePositions(),
-      this.getTripUpdates()
-    ]);
 
-    const nearbyTrains: TrainNearStation[] = [];
-    
-    // Create a map of trip IDs to trip updates for quick lookup
-    const tripUpdateMap = new Map<string, TripUpdateWithFeed>();
-    tripUpdates.forEach(update => {
-      if (update.tripUpdate && update.tripUpdate.trip && update.tripUpdate.trip.tripId) {
-        tripUpdateMap.set(update.tripUpdate.trip.tripId, update);
-      }
-    });
 
-    vehiclePositions.forEach(vehicle => {
-      if (vehicle.vehicle && vehicle.vehicle.trip && vehicle.vehicle.trip.tripId) {
-        const tripId = vehicle.vehicle.trip.tripId;
-        const tripUpdate = tripUpdateMap.get(tripId);
-        
-        // Check if the vehicle is near the station
-        if (this.isVehicleNearStation(vehicle, stationId, tripUpdate, radiusStops)) {
-          nearbyTrains.push({
-            vehicle: vehicle.vehicle,
-            trip: vehicle.vehicle.trip,
-            tripUpdate: tripUpdate?.tripUpdate,
-            feedLines: vehicle.feedLines,
-            timestamp: vehicle.timestamp || Date.now()
-          });
-        }
-      }
-    });
 
-    return nearbyTrains;
-  }
 
-  /**
-   * Extract real-time arrival predictions for a specific station
-   * 
-   * Processes trip updates to extract arrival time predictions for trains
-   * arriving at the specified station.
-   * 
-   * @param stationId - GTFS stop ID for the station  
-   * @param lineCodes - Optional array of line codes to filter by
-   * @returns Array of arrival predictions with train and timing info
-   * 
-   * @example
-   * ```typescript
-   * const arrivals = await gtfsRTService.getArrivalPredictions('R24');
-   * arrivals.forEach(arrival => {
-   *   console.log(`${arrival.routeId} train arriving in ${arrival.minutesUntilArrival} minutes`);
-   * });
-   * ```
-   */
-  public async getArrivalPredictions(stationId: string, lineCodes?: string[]): Promise<ArrivalPrediction[]> {
-    const tripUpdates = await this.getTripUpdates(lineCodes);
-    const predictions: ArrivalPrediction[] = [];
-    
-    tripUpdates.forEach(update => {
-      if (update.tripUpdate && update.tripUpdate.stopTimeUpdate) {
-        update.tripUpdate.stopTimeUpdate.forEach((stopTime: GTFSRTStopTimeUpdate) => {
-          if (stopTime.stopId === stationId || stopTime.stopId?.startsWith(stationId)) {
-            const arrival = stopTime.arrival || stopTime.departure;
-            if (arrival && arrival.time) {
-              const arrivalTime = new Date(arrival.time * 1000);
-              const minutesUntilArrival = Math.round((arrivalTime.getTime() - Date.now()) / 60000);
-              
-              predictions.push({
-                tripId: update.tripUpdate.trip.tripId,
-                routeId: update.tripUpdate.trip.routeId,
-                direction: update.tripUpdate.trip.directionId,
-                stopId: stopTime.stopId,
-                arrivalTime,
-                minutesUntilArrival,
-                delay: arrival.delay || 0,
-                feedLines: update.feedLines
-              });
-            }
-          }
-        });
-      }
-    });
-
-    return predictions.sort((a, b) => a.arrivalTime.getTime() - b.arrivalTime.getTime());
-  }
-
-  /**
-   * Get service alerts for subway system
-   * 
-   * Fetches current service alerts and disruptions from the MTA alerts feed.
-   * 
-   * @param lineCodes - Optional array of line codes to filter alerts
-   * @returns Array of service alert entities
-   */
-  public async getServiceAlerts(lineCodes?: string[]): Promise<ServiceAlertWithFeed[]> {
-    try {
-      const feed = await this.fetchFeed(this.alertsFeedUrl);
-      if (!feed || !feed.entity) {
-        return [];
-      }
-
-      const alerts: ServiceAlertWithFeed[] = feed.entity
-        .filter((entity: GTFSRTFeedEntity) => entity.alert)
-        .map((entity: GTFSRTFeedEntity) => ({
-          id: entity.id,
-          alert: entity.alert!
-        }));
-
-      if (lineCodes) {
-        return alerts.filter((alertWithFeed: ServiceAlertWithFeed) => {
-          return alertWithFeed.alert.informedEntity?.some((entity) => 
-            entity.routeId && lineCodes.includes(entity.routeId)
-          );
-        });
-      }
-
-      return alerts;
-    } catch (error) {
-      console.error('Failed to fetch service alerts:', error);
-      return [];
-    }
-  }
-
-  /**
-   * Get feed URLs for specific line codes
-   * @param lineCodes - Array of line codes
-   * @returns Array of [lines, url] pairs
-   * @private
-   */
-  private getFeedUrlsForLines(lineCodes: string[]): [string, string][] {
-    const feedsToFetch: [string, string][] = [];
-    
-    for (const [lines, url] of Object.entries(this.feedUrls)) {
-      const feedLines = lines.split(',');
-      if (lineCodes.some(code => feedLines.includes(code))) {
-        feedsToFetch.push([lines, url]);
-      }
-    }
-    
-    return feedsToFetch;
-  }
-
-  /**
-   * Check if a vehicle is near a specific station
-   * @param vehicle - Vehicle position entity
-   * @param stationId - Target station ID
-   * @param tripUpdate - Associated trip update (optional)
-   * @param radiusStops - Number of stops to consider "near"
-   * @returns true if vehicle is considered near the station
-   * @private
-   */
-  private isVehicleNearStation(
-    vehicle: VehiclePositionWithFeed, 
-    stationId: string, 
-    tripUpdate: TripUpdateWithFeed | undefined, 
-    radiusStops: number
-  ): boolean {
-    // Check if vehicle is currently at the station
-    if (vehicle.vehicle.stopId === stationId || vehicle.vehicle.stopId?.startsWith(stationId)) {
-      return true;
-    }
-
-    // Check trip updates for upcoming stops
-    if (tripUpdate && tripUpdate.tripUpdate.stopTimeUpdate) {
-      const stopUpdates = tripUpdate.tripUpdate.stopTimeUpdate;
-      const currentStopIndex = stopUpdates.findIndex((stop: GTFSRTStopTimeUpdate) => 
-        stop.stopId === vehicle.vehicle.stopId || stop.stopId?.startsWith(vehicle.vehicle.stopId || '')
-      );
-      
-      if (currentStopIndex >= 0) {
-        // Check if target station is within radius of current position
-        for (let i = Math.max(0, currentStopIndex - radiusStops); 
-             i <= Math.min(stopUpdates.length - 1, currentStopIndex + radiusStops); 
-             i++) {
-          if (stopUpdates[i].stopId === stationId || stopUpdates[i].stopId?.startsWith(stationId)) {
-            return true;
-          }
-        }
-      }
-    }
-
-    return false;
-  }
 
   /**
    * Clear the feed cache
