@@ -18,14 +18,13 @@ export interface GTFSRTFeedMessage {
 }
 
 /**
- * GTFS-RT Feed Entity (can contain vehicle, trip update, or alert)
+ * GTFS-RT Feed Entity (can contain vehicle or trip update)
  */
 export interface GTFSRTFeedEntity {
   id: string;
   isDeleted?: boolean;
   tripUpdate?: GTFSRTTripUpdate;
   vehicle?: GTFSRTVehiclePosition;
-  alert?: GTFSRTAlert;
 }
 
 /**
@@ -87,46 +86,6 @@ export interface GTFSRTStopTimeUpdate {
   scheduleRelationship?: number;
 }
 
-/**
- * GTFS-RT Service Alert
- */
-export interface GTFSRTAlert {
-  activePeriod?: Array<{
-    start?: number;
-    end?: number;
-  }>;
-  informedEntity?: Array<{
-    agencyId?: string;
-    routeId?: string;
-    routeType?: number;
-    stopId?: string;
-    trip?: {
-      tripId?: string;
-      routeId?: string;
-      directionId?: number;
-    };
-  }>;
-  cause?: number;
-  effect?: number;
-  url?: {
-    translation: Array<{
-      text: string;
-      language?: string;
-    }>;
-  };
-  headerText?: {
-    translation: Array<{
-      text: string;
-      language?: string;
-    }>;
-  };
-  descriptionText?: {
-    translation: Array<{
-      text: string;
-      language?: string;
-    }>;
-  };
-}
 
 /**
  * Processed vehicle position with feed metadata
@@ -148,39 +107,6 @@ export interface TripUpdateWithFeed {
   timestamp?: number;
 }
 
-/**
- * Processed arrival prediction data
- */
-export interface ArrivalPrediction {
-  tripId: string;
-  routeId: string;
-  direction?: number;
-  stopId: string;
-  arrivalTime: Date;
-  minutesUntilArrival: number;
-  delay: number;
-  feedLines: string;
-}
-
-/**
- * Train information near a station
- */
-export interface TrainNearStation {
-  vehicle: GTFSRTVehiclePosition;
-  trip?: GTFSRTVehiclePosition['trip'];
-  tripUpdate?: GTFSRTTripUpdate;
-  feedLines: string;
-  timestamp: number;
-}
-
-/**
- * Service alert with feed metadata
- */
-export interface ServiceAlertWithFeed {
-  id: string;
-  alert: GTFSRTAlert;
-  feedLines?: string;
-}
 
 /**
  * Feed cache entry

@@ -52,7 +52,7 @@ describe('GTFSRTService', () => {
       // Mock fetch to reject
       vi.mocked(fetch).mockRejectedValue(new Error('Network error'));
 
-      await expect(gtfsRTService.getVehiclePositions()).rejects.toThrow('No vehicle position data could be fetched from any feed');
+      await expect(gtfsRTService.getVehiclePositions('6')).rejects.toThrow('No vehicle position data found for line 6');
     });
 
     it('should handle 404 responses', async () => {
@@ -61,57 +61,20 @@ describe('GTFSRTService', () => {
         new Response('Not Found', { status: 404, statusText: 'Not Found' })
       );
 
-      await expect(gtfsRTService.getVehiclePositions()).rejects.toThrow('No vehicle position data could be fetched from any feed');
+      await expect(gtfsRTService.getVehiclePositions('6')).rejects.toThrow('No vehicle position data found for line 6');
+    });
+
+    it('should throw error for unknown line code', async () => {
+      await expect(gtfsRTService.getVehiclePositions('INVALID')).rejects.toThrow('Unknown line code: INVALID');
     });
   });
 
-  describe('Service Alerts', () => {
-    it('should return empty array when feed fails', async () => {
-      vi.mocked(fetch).mockRejectedValue(new Error('Network error'));
 
-      const alerts = await gtfsRTService.getServiceAlerts();
-      expect(alerts).toEqual([]);
-    });
 
-    it('should return empty array for empty feed', async () => {
-      // Mock successful response with empty feed
-      const mockFeedData = {
-        header: { gtfsRealtimeVersion: '2.0' },
-        entity: []
-      };
-      
-      vi.mocked(fetch).mockResolvedValue(
-        new Response(JSON.stringify(mockFeedData), { 
-          status: 200,
-          headers: { 'content-type': 'application/json' }
-        })
-      );
 
-      const alerts = await gtfsRTService.getServiceAlerts();
-      expect(alerts).toEqual([]);
-    });
-  });
 
-  describe('Arrival Predictions', () => {
-    it('should return empty array when no data available', async () => {
-      vi.mocked(fetch).mockRejectedValue(new Error('Network error'));
-
-      const predictions = await gtfsRTService.getArrivalPredictions('R24');
-      expect(predictions).toEqual([]);
-    });
-  });
-
-  describe('Trains Near Station', () => {
-    it('should handle errors gracefully', async () => {
-      vi.mocked(fetch).mockRejectedValue(new Error('Network error'));
-
-      await expect(gtfsRTService.getTrainsNearStation('R24')).rejects.toThrow();
-    });
-  });
-
-  describe('API Key Configuration', () => {
-    it('should work without API key (URL-encoded endpoints)', () => {
-      // Service should initialize without throwing
+  describe('Service Initialization', () => {
+    it('should initialize successfully', () => {
       expect(gtfsRTService).toBeDefined();
     });
   });
