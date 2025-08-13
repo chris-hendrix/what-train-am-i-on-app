@@ -9,13 +9,13 @@ export const validateNearestTrainsRequest = (
   res: Response,
   next: NextFunction
 ) => {
-  const { latitude, longitude, line_code, direction } = req.body as Partial<NearestTrainsRequest>;
+  const { latitude, longitude, lineCode, direction } = req.body as Partial<NearestTrainsRequest>;
 
   // Check required fields
-  if (latitude === undefined || longitude === undefined || line_code === undefined || direction === undefined) {
+  if (latitude === undefined || longitude === undefined || lineCode === undefined || direction === undefined) {
     return res.status(400).json({
       success: false,
-      error: 'Missing required fields: latitude, longitude, line_code, and direction are required',
+      error: 'Missing required fields: latitude, longitude, lineCode, and direction are required',
       timestamp: new Date().toISOString()
     });
   }
@@ -63,11 +63,11 @@ export const validateNearestTrainsRequest = (
     });
   }
 
-  // Validate line_code
-  if (typeof line_code !== 'string' || line_code.trim().length === 0) {
+  // Validate lineCode
+  if (typeof lineCode !== 'string' || lineCode.trim().length === 0) {
     return res.status(400).json({
       success: false,
-      error: 'line_code must be a non-empty string',
+      error: 'lineCode must be a non-empty string',
       timestamp: new Date().toISOString()
     });
   }
@@ -89,8 +89,8 @@ export const validateNearestTrainsRequest = (
     });
   }
 
-  // Sanitize line_code (trim whitespace and convert to uppercase)
-  req.body.line_code = line_code.trim().toUpperCase();
+  // Sanitize lineCode (trim whitespace and convert to uppercase)
+  req.body.lineCode = lineCode.trim().toUpperCase();
 
   next();
 };

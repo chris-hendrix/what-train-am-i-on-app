@@ -45,8 +45,8 @@ export class TrainFinderService {
   private readonly gtfsRTService: GTFSRTService;
   private readonly gtfsService: GTFSService;
   
-  /** Maximum distance from train for consideration (meters) */
-  private readonly maxProximityDistance = 2000;
+  /** Default maximum distance from train for consideration (meters) */
+  private readonly defaultMaxProximityDistance = 500;
 
   private constructor() {
     this.gtfsRTService = GTFSRTService.getInstance();
@@ -126,7 +126,7 @@ export class TrainFinderService {
     vehicles: VehiclePositionWithFeed[]
   ): TrainCandidate[] {
     const nearbyTrains: TrainCandidate[] = [];
-    
+    const maxProximityDistance = request.radiusMeters || this.defaultMaxProximityDistance;
     
     for (const vehicle of vehicles) {
       
@@ -146,7 +146,13 @@ export class TrainFinderService {
           if (trainDirection !== request.direction) {
             continue;
           }
+        } else {
+          // If we have a trip ID but can't determine direction, skip this vehicle
+          continue;
         }
+      } else {
+        // If no trip ID at all, skip this vehicle (can't determine direction)
+        continue;
       }
 
       // Try GPS position first (ideal case)
@@ -158,7 +164,7 @@ export class TrainFinderService {
           vehicle.vehicle.position.longitude
         );
         
-        if (distance <= this.maxProximityDistance) {
+        if (distance <= maxProximityDistance) {
           nearbyTrains.push(this.createTrainCandidate(vehicle, request, distance));
         }
         continue;
@@ -176,7 +182,7 @@ export class TrainFinderService {
             stop.stop_lon
           );
           
-          if (distance <= this.maxProximityDistance) {
+          if (distance <= maxProximityDistance) {
             // Create train candidate with stop coordinates
             const trainCandidate = this.createTrainCandidate(vehicle, request, distance);
             // Override position with stop coordinates

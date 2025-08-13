@@ -20,6 +20,9 @@ export interface TrainFinderRequest {
   
   /** Train direction (0 = typically uptown/north, 1 = typically downtown/south) */
   direction: number;
+  
+  /** Optional search radius in meters (default: 500) */
+  radiusMeters?: number;
 }
 
 

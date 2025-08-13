@@ -98,21 +98,22 @@ router.get('/api/stations/nearest', (req: Request, res: Response) => {
 // Nearest trains endpoint
 router.post('/nearest-trains', validateNearestTrainsRequest, async (req: Request, res: Response) => {
   try {
-    const { latitude, longitude, line_code, direction } = req.body as NearestTrainsRequest;
+    const { latitude, longitude, lineCode, direction, radiusMeters } = req.body as NearestTrainsRequest;
     
     const trainCandidates = await trainFinderService.findNearestTrains({
       userLatitude: latitude,
       userLongitude: longitude,
-      lineCode: line_code,
-      direction: direction
+      lineCode: lineCode,
+      direction: direction,
+      radiusMeters: radiusMeters
     });
 
     // Get route information
-    const routeInfo = gtfsService.getRouteByLineCode(line_code);
+    const routeInfo = gtfsService.getRouteByLineCode(lineCode);
     if (!routeInfo) {
       return res.status(404).json({
         success: false,
-        error: `Route information not found for line ${line_code}`,
+        error: `Route information not found for line ${lineCode}`,
         timestamp: new Date().toISOString()
       });
     }
@@ -146,18 +147,18 @@ router.post('/nearest-trains', validateNearestTrainsRequest, async (req: Request
       }
 
       return {
-        train_id: train.vehicleId,
+        trainId: train.vehicleId,
         line: {
           code: routeInfo.route.route_short_name,
           name: routeInfo.route.route_long_name,
           color: `#${routeInfo.route.route_color || '808080'}`
         },
         direction: directionName,
-        current_station: currentStationName,
-        next_stops: nextStops,
-        service_type: serviceType,
-        distance_meters: Math.round(train.distanceToUser),
-        last_updated: train.timestamp 
+        currentStation: currentStationName,
+        nextStops: nextStops,
+        serviceType: serviceType,
+        distanceMeters: Math.round(train.distanceToUser),
+        lastUpdated: train.timestamp 
           ? new Date(train.timestamp * 1000).toISOString() 
           : new Date().toISOString()
       };
@@ -167,7 +168,7 @@ router.post('/nearest-trains', validateNearestTrainsRequest, async (req: Request
       success: true,
       data: {
         trains,
-        total_found: trains.length
+        totalFound: trains.length
       },
       timestamp: new Date().toISOString()
     };
