@@ -32,45 +32,61 @@ This is a completely stateless system with no database requirements.
 
 **Input Request:**
 ```http
-POST /api/identify-train
+POST /nearest-trains
 Content-Type: application/json
 
 {
   "latitude": 40.7589,
   "longitude": -73.9851,
-  "line_code": "6"
+  "line_code": "6",
+  "direction": 1
 }
 ```
 
+**Request Parameters:**
+- `latitude`, `longitude`: User's current location (WGS84)
+- `line_code`: NYC subway line (e.g., "6", "N", "Q", "A")
+- `direction`: 0 = uptown/north, 1 = downtown/south
+
 **Processing Steps:**
 1. Express middleware validates and parses request body
-2. Query MTA static GTFS data for nearest stations on specified line
-3. Call MTA GTFS-RT API for current trains near those stations  
-4. Calculate best train match based on position/direction/timing
-5. Fetch arrival predictions for next 3 stops from GTFS-RT
-6. Format and return JSON response
+2. Query MTA static GTFS data for route information
+3. Call MTA GTFS-RT API for current trains on the specified line
+4. Find all trains within proximity range (< 500m) and sort by distance
+5. Format train data with station names, distances, and metadata
+6. Return JSON response with list of nearest trains
 
 **Output Response:**
 ```json
 {
-  "train_id": "6_051500_6..N03R",
-  "line": {
-    "code": "6", 
-    "name": "6 Express",
-    "color": "#00933C"
+  "success": true,
+  "data": {
+    "trains": [
+      {
+        "train_id": "6_051500_6..N03R",
+        "line": {
+          "code": "6", 
+          "name": "6 Express",
+          "color": "#00933C"
+        },
+        "direction": "Downtown & Brooklyn",
+        "current_station": "59 St-Lexington Av",
+        "next_stops": [...],
+        "service_type": "express",
+        "distance_meters": 120,
+        "last_updated": "2025-07-27T15:21:15Z"
+      }
+    ],
+    "total_found": 1
   },
-  "direction": "Downtown & Brooklyn",
-  "current_station": "59 St-Lexington Av",
-  "next_stops": [...],
-  "service_type": "express",
-  "last_updated": "2025-07-27T15:21:15Z"
+  "timestamp": "2025-07-27T15:21:15Z"
 }
 ```
 
 ## Docker Infrastructure Components
 
 ### Express API Server
-- REST API endpoints: `/api/identify-train`, `/api/health`
+- REST API endpoints: `/nearest-trains`, `/health`
 - CORS middleware enabled for Expo web/mobile requests
 - Request validation and error handling middleware
 - Built-in request logging and monitoring
@@ -169,7 +185,7 @@ services:
 2. **Expo Development**: 
    - Web: `http://localhost:8081`
    - Mobile: Expo Go app connects to Metro bundler
-3. **Express API**: `http://localhost:3000/api/hello`
+3. **Express API**: `http://localhost:3000/health`
 4. **Hot Reload**: Both frontend and backend auto-reload on changes
 5. **Shared Types**: TypeScript interfaces sync across containers
 

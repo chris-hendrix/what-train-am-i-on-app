@@ -26,3 +26,49 @@ export interface ErrorResponse extends ApiResponse<never> {
   success: false;
   error: string;
 }
+
+/**
+ * Nearest trains request payload
+ */
+export interface NearestTrainsRequest {
+  latitude: number;
+  longitude: number;
+  line_code: string;
+  direction: number;
+}
+
+/**
+ * Individual train data in the response
+ */
+export interface TrainData {
+  train_id: string;
+  line: {
+    code: string;
+    name: string;
+    color: string;
+  };
+  direction: string;
+  current_station: string;
+  next_stops: NextStop[];
+  service_type: string;
+  distance_meters: number;
+  last_updated: string;
+}
+
+/**
+ * Nearest trains response data
+ */
+export interface NearestTrainsResponse {
+  trains: TrainData[];
+  total_found: number;
+}
+
+/**
+ * Next stop information
+ */
+export interface NextStop {
+  station_id: string;
+  station_name: string;
+  eta_minutes: number;
+  eta_timestamp: string;
+}

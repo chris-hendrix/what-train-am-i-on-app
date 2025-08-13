@@ -1,4 +1,5 @@
 import { GTFSRTService } from '../gtfs-rt-service/index.js';
+import { GTFSService } from '../gtfs-service/index.js';
 import { VehiclePositionWithFeed } from '../gtfs-rt-service/types/index.js';
 import { 
   TrainFinderRequest,
@@ -42,12 +43,14 @@ export class TrainFinderService {
   private static instance: TrainFinderService;
   
   private readonly gtfsRTService: GTFSRTService;
+  private readonly gtfsService: GTFSService;
   
   /** Maximum distance from train for consideration (meters) */
-  private readonly maxProximityDistance = 500;
+  private readonly maxProximityDistance = 2000;
 
   private constructor() {
     this.gtfsRTService = GTFSRTService.getInstance();
+    this.gtfsService = GTFSService.getInstance();
   }
 
   /**
@@ -76,7 +79,9 @@ export class TrainFinderService {
     const vehicles = await this.gtfsRTService.getVehiclePositions(request.lineCode);
     
     // Find and return all nearby trains sorted by distance
-    return this.findNearbyTrains(request, vehicles);
+    const nearbyTrains = this.findNearbyTrains(request, vehicles);
+    
+    return nearbyTrains;
   }
 
   /**
@@ -122,51 +127,95 @@ export class TrainFinderService {
   ): TrainCandidate[] {
     const nearbyTrains: TrainCandidate[] = [];
     
+    
     for (const vehicle of vehicles) {
-      // Skip vehicles without position data
-      if (!vehicle.vehicle.position?.latitude || !vehicle.vehicle.position?.longitude) {
+      
+      // Extract direction from trip ID pattern (..N.. = 0, ..S.. = 1)
+      let trainDirection: number | undefined;
+      const tripId = vehicle.vehicle.trip?.tripId;
+      
+      if (tripId) {
+        if (tripId.includes('..N') || tripId.includes('.N')) {
+          trainDirection = 0;
+        } else if (tripId.includes('..S') || tripId.includes('.S')) {
+          trainDirection = 1;
+        }
+        
+        if (trainDirection !== undefined) {
+          // Filter by direction using parsed direction
+          if (trainDirection !== request.direction) {
+            continue;
+          }
+        }
+      }
+
+      // Try GPS position first (ideal case)
+      if (vehicle.vehicle.position?.latitude && vehicle.vehicle.position?.longitude) {
+        const distance = this.calculateDistance(
+          request.userLatitude,
+          request.userLongitude,
+          vehicle.vehicle.position.latitude,
+          vehicle.vehicle.position.longitude
+        );
+        
+        if (distance <= this.maxProximityDistance) {
+          nearbyTrains.push(this.createTrainCandidate(vehicle, request, distance));
+        }
         continue;
       }
       
-      // Skip trains not traveling in the specified direction
-      const trainDirection = vehicle.vehicle.trip?.directionId;
-      if (trainDirection !== request.direction) {
-        continue;
-      }
-      
-      // Calculate distance to user
-      const distance = this.calculateDistance(
-        request.userLatitude,
-        request.userLongitude,
-        vehicle.vehicle.position.latitude,
-        vehicle.vehicle.position.longitude
-      );
-      
-      // Only consider trains within maximum proximity
-      if (distance <= this.maxProximityDistance) {
-        nearbyTrains.push({
-          vehicleId: vehicle.id,
-          tripId: vehicle.vehicle.trip?.tripId || null,
-          routeId: vehicle.vehicle.trip?.routeId || request.lineCode,
-          label: vehicle.vehicle.label || null,
-          position: {
-            latitude: vehicle.vehicle.position.latitude,
-            longitude: vehicle.vehicle.position.longitude,
-            bearing: vehicle.vehicle.position.bearing,
-            speed: vehicle.vehicle.position.speed
-          },
-          currentStopId: vehicle.vehicle.stopId || null,
-          currentStopSequence: vehicle.vehicle.currentStopSequence || null,
-          currentStatus: vehicle.vehicle.currentStatus || null,
-          direction: vehicle.vehicle.trip?.directionId ?? null,
-          distanceToUser: distance,
-          timestamp: vehicle.vehicle.timestamp || Date.now()
-        });
+      // Fallback: Use stop coordinates if vehicle has a stopId
+      if (vehicle.vehicle.stopId) {
+        const stop = this.gtfsService.getStop(vehicle.vehicle.stopId);
+        if (stop) {
+          // Calculate distance using stop coordinates
+          const distance = this.calculateDistance(
+            request.userLatitude,
+            request.userLongitude,
+            stop.stop_lat,
+            stop.stop_lon
+          );
+          
+          if (distance <= this.maxProximityDistance) {
+            // Create train candidate with stop coordinates
+            const trainCandidate = this.createTrainCandidate(vehicle, request, distance);
+            // Override position with stop coordinates
+            trainCandidate.position.latitude = stop.stop_lat;
+            trainCandidate.position.longitude = stop.stop_lon;
+            
+            nearbyTrains.push(trainCandidate);
+          }
+        }
       }
     }
     
     // Sort by distance (nearest first)
     return nearbyTrains.sort((a, b) => a.distanceToUser - b.distanceToUser);
+  }
+
+  /**
+   * Create a TrainCandidate from vehicle data
+   * @private
+   */
+  private createTrainCandidate(vehicle: VehiclePositionWithFeed, request: TrainFinderRequest, distance: number): TrainCandidate {
+    return {
+      vehicleId: vehicle.id,
+      tripId: vehicle.vehicle.trip?.tripId || null,
+      routeId: vehicle.vehicle.trip?.routeId || request.lineCode,
+      label: vehicle.vehicle.label || null,
+      position: {
+        latitude: vehicle.vehicle.position?.latitude || 0,
+        longitude: vehicle.vehicle.position?.longitude || 0,
+        bearing: vehicle.vehicle.position?.bearing,
+        speed: vehicle.vehicle.position?.speed
+      },
+      currentStopId: vehicle.vehicle.stopId || null,
+      currentStopSequence: vehicle.vehicle.currentStopSequence || null,
+      currentStatus: vehicle.vehicle.currentStatus || null,
+      direction: vehicle.vehicle.trip?.directionId ?? null,
+      distanceToUser: distance,
+      timestamp: vehicle.vehicle.timestamp || Date.now()
+    };
   }
 
 
