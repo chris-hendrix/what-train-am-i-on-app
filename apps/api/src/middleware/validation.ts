@@ -58,7 +58,7 @@ export const validateNearestTrainsRequest = (
   if (latitude < 40.4 || latitude > 41.0 || longitude < -74.5 || longitude > -73.5) {
     return res.status(400).json({
       success: false,
-      error: 'Location appears to be outside NYC area',
+      error: 'Location appears to be outside NYC area. This service only works within the 5 boroughs of New York City.',
       timestamp: new Date().toISOString()
     });
   }

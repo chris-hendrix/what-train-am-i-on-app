@@ -2,6 +2,7 @@ import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import { GTFSService } from './services/gtfs-service/index.js';
 import appRoutes from './routes/index.js';
+import { errorHandler, notFoundHandler } from './middleware/error.js';
 
 const app = express();
 const gtfsService = GTFSService.getInstance();
@@ -25,10 +26,14 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// JSON parsing middleware
+// JSON parsing middleware  
 app.use(express.json());
 
 // Route handlers
 app.use('/', appRoutes);
+
+// Error handling middleware (must be after routes)
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;

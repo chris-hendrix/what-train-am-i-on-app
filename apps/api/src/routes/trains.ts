@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { 
   SuccessResponse,
   NearestTrainsRequest,
@@ -11,6 +11,7 @@ import { GTFSService } from '../services/gtfs-service/index.js';
 import { TrainFinderService } from '../services/train-finder-service/index.js';
 import { validateNearestTrainsRequest } from '../middleware/validation.js';
 import { requestLogger } from '../middleware/logging.js';
+import { asyncHandler, MtaApiError, NoTrainsFoundError } from '../middleware/error.js';
 
 const router = Router();
 const gtfsService = GTFSService.getInstance();
@@ -23,10 +24,16 @@ router.use(requestLogger);
  * Takes user coordinates, line code, and direction to identify nearby trains
  * Returns train data with current position and next stops
  */
-router.post('/trains/nearest', validateNearestTrainsRequest, async (req: Request, res: Response) => {
+router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
+  const { latitude, longitude, lineCode, direction, radiusMeters } = req.body as NearestTrainsRequest;
+  
+  // Get route information first
+  const routeInfo = gtfsService.getRouteByLineCode(lineCode);
+  if (!routeInfo) {
+    throw new Error(`Route information not found for line ${lineCode}`);
+  }
+
   try {
-    const { latitude, longitude, lineCode, direction, radiusMeters } = req.body as NearestTrainsRequest;
-    
     const trainCandidates = await trainFinderService.findNearestTrains({
       userLatitude: latitude,
       userLongitude: longitude,
@@ -35,13 +42,9 @@ router.post('/trains/nearest', validateNearestTrainsRequest, async (req: Request
       radiusMeters: radiusMeters
     });
 
-    const routeInfo = gtfsService.getRouteByLineCode(lineCode);
-    if (!routeInfo) {
-      return res.status(404).json({
-        success: false,
-        error: `Route information not found for line ${lineCode}`,
-        timestamp: new Date().toISOString()
-      });
+    // Handle case where no trains are found
+    if (trainCandidates.length === 0) {
+      throw new NoTrainsFoundError(`No trains found for line ${lineCode} in the specified area. This could be due to service disruptions, trains not currently running, or being outside the service area.`);
     }
 
     const trains: TrainData[] = trainCandidates.map(train => {
@@ -95,13 +98,22 @@ router.post('/trains/nearest', validateNearestTrainsRequest, async (req: Request
 
     res.json(response);
   } catch (error) {
-    console.error('Train identification error:', error);
-    res.status(500).json({
-      success: false,
-      error: `Failed to identify train: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      timestamp: new Date().toISOString()
-    });
+    // Handle service-level errors and convert to appropriate API errors
+    if (error instanceof Error) {
+      if (error.message.includes('timeout') || error.message.includes('TIMEOUT')) {
+        throw new MtaApiError('MTA real-time data request timed out. Please try again.');
+      }
+      if (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('connection')) {
+        throw new MtaApiError('Unable to connect to MTA real-time data service. Please try again later.');
+      }
+      if (error.message.includes('GTFS data not loaded')) {
+        throw new Error('Service temporarily unavailable - data is loading');
+      }
+    }
+    
+    // Re-throw to let error middleware handle it
+    throw error;
   }
-});
+}));
 
 export default router;
