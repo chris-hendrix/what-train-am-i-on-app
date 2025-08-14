@@ -2,7 +2,4 @@
 // Main barrel export file
 
 // API response types
-export * from './types/api';
-
-// MTA domain types  
-export * from './types/mta';
+export * from './types/index';

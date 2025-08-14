@@ -107,7 +107,7 @@ describe('TrainFinderService', () => {
         {
           id: 'train1',
           vehicle: {
-            trip: { tripId: 'trip1', routeId: '6', directionId: 1 }, // Wrong direction
+            trip: { tripId: '6..S01R', routeId: '6', directionId: 1 }, // Southbound trip ID, but request wants northbound (0)
             position: { latitude: 40.7589, longitude: -73.9851 }
           },
           feedLines: '6',
@@ -147,7 +147,7 @@ describe('TrainFinderService', () => {
         {
           id: 'train1',
           vehicle: {
-            trip: { tripId: 'trip1', routeId: '6', directionId: 0 },
+            trip: { tripId: '6..N01R', routeId: '6', directionId: 0 }, // Northbound trip ID
             position: { latitude: 40.7600, longitude: -73.9851 }, // ~120m away
             label: 'Train 1'
           },
@@ -157,7 +157,7 @@ describe('TrainFinderService', () => {
         {
           id: 'train2', 
           vehicle: {
-            trip: { tripId: 'trip2', routeId: '6', directionId: 0 },
+            trip: { tripId: '6..N02R', routeId: '6', directionId: 0 }, // Northbound trip ID
             position: { latitude: 40.7589, longitude: -73.9861 }, // ~80m away
             label: 'Train 2'
           },
@@ -167,7 +167,7 @@ describe('TrainFinderService', () => {
         {
           id: 'train3',
           vehicle: {
-            trip: { tripId: 'trip3', routeId: '6', directionId: 0 },
+            trip: { tripId: '6..N03R', routeId: '6', directionId: 0 }, // Northbound trip ID
             position: { latitude: 40.7595, longitude: -73.9856 }, // ~60m away
             label: 'Train 3'
           },
@@ -196,7 +196,7 @@ describe('TrainFinderService', () => {
         {
           id: 'train1',
           vehicle: {
-            trip: { tripId: 'trip1', routeId: '6', directionId: 0 }
+            trip: { tripId: '6..N01R', routeId: '6', directionId: 0 } // Northbound trip ID
             // No position data
           },
           feedLines: '6',
@@ -205,7 +205,7 @@ describe('TrainFinderService', () => {
         {
           id: 'train2',
           vehicle: {
-            trip: { tripId: 'trip2', routeId: '6', directionId: 0 },
+            trip: { tripId: '6..N02R', routeId: '6', directionId: 0 }, // Northbound trip ID
             position: { latitude: 40.7595, longitude: -73.9856 },
             label: 'Train 2'
           },
@@ -229,7 +229,7 @@ describe('TrainFinderService', () => {
           id: 'vehicle123',
           vehicle: {
             trip: { 
-              tripId: 'trip456', 
+              tripId: '6..N01R', 
               routeId: '6', 
               directionId: 0 
             },
@@ -258,7 +258,7 @@ describe('TrainFinderService', () => {
       const train = result[0];
       
       expect(train.vehicleId).toBe('vehicle123');
-      expect(train.tripId).toBe('trip456');
+      expect(train.tripId).toBe('6..N01R');
       expect(train.routeId).toBe('6');
       expect(train.label).toBe('Train A');
       expect(train.position.latitude).toBe(40.7595);
@@ -293,6 +293,55 @@ describe('TrainFinderService', () => {
 
       expect(result).toHaveLength(0); // Should be filtered out due to no direction info
     });
+
+    it('should filter by trip ID pattern for direction', async () => {
+      const mockVehicles: VehiclePositionWithFeed[] = [
+        {
+          id: 'northbound1',
+          vehicle: {
+            trip: { tripId: '6..N01R', routeId: '6' }, // Northbound pattern
+            position: { latitude: 40.7595, longitude: -73.9856 },
+            label: 'Northbound Train'
+          },
+          feedLines: '6',
+          timestamp: Date.now()
+        },
+        {
+          id: 'southbound1',
+          vehicle: {
+            trip: { tripId: '6..S01R', routeId: '6' }, // Southbound pattern
+            position: { latitude: 40.7595, longitude: -73.9856 },
+            label: 'Southbound Train'
+          },
+          feedLines: '6',
+          timestamp: Date.now()
+        },
+        {
+          id: 'shuttle1',
+          vehicle: {
+            trip: { tripId: 'GS.N01R', routeId: 'GS' }, // Shuttle northbound pattern
+            position: { latitude: 40.7595, longitude: -73.9856 },
+            label: 'Shuttle Train'
+          },
+          feedLines: '6',
+          timestamp: Date.now()
+        }
+      ];
+
+      mockGetVehiclePositions.mockResolvedValue(mockVehicles);
+
+      // Request northbound trains (direction 0)
+      const northboundResult = await trainFinderService.findNearestTrains(validRequest);
+      expect(northboundResult).toHaveLength(2);
+      expect(northboundResult.some(t => t.label === 'Northbound Train')).toBe(true);
+      expect(northboundResult.some(t => t.label === 'Shuttle Train')).toBe(true);
+
+      // Request southbound trains (direction 1)
+      const southboundRequest = { ...validRequest, direction: 1 };
+      const southboundResult = await trainFinderService.findNearestTrains(southboundRequest);
+      expect(southboundResult).toHaveLength(1);
+      expect(southboundResult[0].label).toBe('Southbound Train');
+    });
   });
 
   describe('Distance Calculations', () => {
@@ -303,7 +352,7 @@ describe('TrainFinderService', () => {
         {
           id: 'nearTrain',
           vehicle: {
-            trip: { tripId: 'trip1', routeId: '6', directionId: 0 },
+            trip: { tripId: '6..N01R', routeId: '6', directionId: 0 }, // Northbound trip ID
             position: { latitude: 40.7600, longitude: -73.9851 }, // ~120m north
             label: 'Near Train'
           },
@@ -313,8 +362,8 @@ describe('TrainFinderService', () => {
         {
           id: 'farTrain',
           vehicle: {
-            trip: { tripId: 'trip2', routeId: '6', directionId: 0 },
-            position: { latitude: 40.7750, longitude: -73.9851 }, // ~1800m north - very far
+            trip: { tripId: '6..N02R', routeId: '6', directionId: 0 }, // Northbound trip ID
+            position: { latitude: 40.7650, longitude: -73.9851 }, // ~700m north - beyond 500m limit
             label: 'Far Train'
           },
           feedLines: '6',
@@ -329,6 +378,45 @@ describe('TrainFinderService', () => {
       expect(result).toHaveLength(1);
       expect(result[0].label).toBe('Near Train');
       expect(result[0].distanceToUser).toBeLessThanOrEqual(500);
+    });
+
+    it('should respect custom radius parameter', async () => {
+      const mockVehicles: VehiclePositionWithFeed[] = [
+        {
+          id: 'nearTrain',
+          vehicle: {
+            trip: { tripId: '6..N01R', routeId: '6', directionId: 0 },
+            position: { latitude: 40.7600, longitude: -73.9851 }, // ~120m away
+            label: 'Near Train'
+          },
+          feedLines: '6',
+          timestamp: Date.now()
+        },
+        {
+          id: 'mediumTrain',
+          vehicle: {
+            trip: { tripId: '6..N02R', routeId: '6', directionId: 0 },
+            position: { latitude: 40.7650, longitude: -73.9851 }, // ~700m away
+            label: 'Medium Train'
+          },
+          feedLines: '6',
+          timestamp: Date.now()
+        }
+      ];
+
+      mockGetVehiclePositions.mockResolvedValue(mockVehicles);
+
+      // Test with default 500m radius - should only find near train
+      const defaultResult = await trainFinderService.findNearestTrains(validRequest);
+      expect(defaultResult).toHaveLength(1);
+      expect(defaultResult[0].label).toBe('Near Train');
+
+      // Test with 1000m radius - should find both trains
+      const customRadiusRequest = { ...validRequest, radiusMeters: 1000 };
+      const customResult = await trainFinderService.findNearestTrains(customRadiusRequest);
+      expect(customResult).toHaveLength(2);
+      expect(customResult.some(t => t.label === 'Near Train')).toBe(true);
+      expect(customResult.some(t => t.label === 'Medium Train')).toBe(true);
     });
   });
 

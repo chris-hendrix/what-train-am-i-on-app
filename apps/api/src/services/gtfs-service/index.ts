@@ -455,6 +455,29 @@ export class GTFSService {
   }
 
   /**
+   * Get a stop by its ID
+   * 
+   * @param stopId - GTFS stop ID
+   * @returns GTFSStop object or null if not found
+   * @throws {Error} If GTFS data has not been loaded
+   * 
+   * @example
+   * ```typescript
+   * const stop = gtfsService.getStop('101');
+   * if (stop) {
+   *   console.log(stop.stop_name); // "Van Cortlandt Park-242 St"
+   * }
+   * ```
+   */
+  public getStop(stopId: string): GTFSStop | null {
+    if (!this.isLoaded) {
+      throw new Error('GTFS data not loaded. Call loadData() first.');
+    }
+    
+    return this.stops.get(stopId) || null;
+  }
+
+  /**
    * Get statistics about the loaded GTFS data
    * 
    * @returns Object containing counts of stops, routes, trips, and stop times

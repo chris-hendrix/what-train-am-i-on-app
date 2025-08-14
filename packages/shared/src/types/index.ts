@@ -1,4 +1,4 @@
-// API response types
+// Generic API response types
 
 /**
  * Generic API response wrapper
@@ -26,3 +26,7 @@ export interface ErrorResponse extends ApiResponse<never> {
   success: false;
   error: string;
 }
+
+// Re-export specific types from other modules
+export * from './routes.js';
+export * from './trains.js';

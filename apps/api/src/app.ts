@@ -1,7 +1,6 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import { GTFSService } from './services/gtfs-service/index.js';
-import healthRoutes from './routes/health.js';
 import appRoutes from './routes/index.js';
 
 const app = express();
@@ -10,11 +9,19 @@ const gtfsService = GTFSService.getInstance();
 // Initialize GTFS data on startup
 gtfsService.loadData().catch(console.error);
 
-// Simple CORS middleware
+// CORS middleware with proper configuration
 app.use((_req: Request, res: Response, next: NextFunction) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.header('Access-Control-Max-Age', '86400'); // 24 hours
+  
+  // Handle preflight requests
+  if (_req.method === 'OPTIONS') {
+    res.sendStatus(200);
+    return;
+  }
+  
   next();
 });
 
@@ -22,7 +29,6 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
 app.use(express.json());
 
 // Route handlers
-app.use('/', healthRoutes);
 app.use('/', appRoutes);
 
 export default app;
