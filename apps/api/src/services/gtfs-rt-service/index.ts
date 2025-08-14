@@ -7,6 +7,7 @@ import {
   FeedCacheEntry,
   CacheStats
 } from './types/index.js';
+import { GTFSRTError, GTFSRTTimeoutError, GTFSRTUnavailableError } from './errors.js';
 
 /**
  * MTA GTFS-RT Service - Real-time Train Data Client
@@ -136,8 +137,13 @@ export class GTFSRTService {
 
       return feedData;
     } catch (error) {
-      console.error(`Failed to fetch GTFS-RT feed from ${url}:`, error);
-      return null;
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          throw new GTFSRTTimeoutError(`GTFS-RT request timed out for ${url}`);
+        }
+        throw new GTFSRTUnavailableError(`Failed to fetch GTFS-RT data from ${url}: ${error.message}`);
+      }
+      throw new GTFSRTError(`Unknown error fetching GTFS-RT data from ${url}`);
     }
   }
 
