@@ -52,7 +52,7 @@ describe('GTFSRTService', () => {
       // Mock fetch to reject
       vi.mocked(fetch).mockRejectedValue(new Error('Network error'));
 
-      await expect(gtfsRTService.getVehiclePositions('6')).rejects.toThrow('No vehicle position data found for line 6');
+      await expect(gtfsRTService.getVehiclePositions('6')).rejects.toThrow('GTFSRTUnavailableError');
     });
 
     it('should handle 404 responses', async () => {
@@ -61,7 +61,7 @@ describe('GTFSRTService', () => {
         new Response('Not Found', { status: 404, statusText: 'Not Found' })
       );
 
-      await expect(gtfsRTService.getVehiclePositions('6')).rejects.toThrow('No vehicle position data found for line 6');
+      await expect(gtfsRTService.getVehiclePositions('6')).rejects.toThrow('GTFSRTUnavailableError');
     });
 
     it('should throw error for unknown line code', async () => {

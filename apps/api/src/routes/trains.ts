@@ -11,7 +11,8 @@ import { GTFSService } from '../services/gtfs-service/index.js';
 import { TrainFinderService } from '../services/train-finder-service/index.js';
 import { validateNearestTrainsRequest } from '../middleware/validation.js';
 import { requestLogger } from '../middleware/logging.js';
-import { asyncHandler, MtaApiError, NoTrainsFoundError } from '../middleware/error.js';
+import { asyncHandler, MtaApiError, NoTrainsFoundError, RequestTimeoutError } from '../middleware/error.js';
+import { GTFSRTError, GTFSRTTimeoutError, GTFSRTUnavailableError } from '../services/gtfs-rt-service/errors.js';
 
 const router = Router();
 const gtfsService = GTFSService.getInstance();
@@ -98,17 +99,15 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
 
     res.json(response);
   } catch (error) {
-    // Handle service-level errors and convert to appropriate API errors
-    if (error instanceof Error) {
-      if (error.message.includes('timeout') || error.message.includes('TIMEOUT')) {
-        throw new MtaApiError('MTA real-time data request timed out. Please try again.');
-      }
-      if (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('connection')) {
-        throw new MtaApiError('Unable to connect to MTA real-time data service. Please try again later.');
-      }
-      if (error.message.includes('GTFS data not loaded')) {
-        throw new Error('Service temporarily unavailable - data is loading');
-      }
+    // Handle service-specific errors and convert to appropriate API errors
+    if (error instanceof GTFSRTTimeoutError) {
+      throw new RequestTimeoutError('MTA real-time data request timed out. Please try again.');
+    }
+    if (error instanceof GTFSRTUnavailableError || error instanceof GTFSRTError) {
+      throw new MtaApiError('MTA real-time data service is temporarily unavailable. Please try again later.');
+    }
+    if (error instanceof Error && error.message.includes('GTFS data not loaded')) {
+      throw new Error('Service temporarily unavailable - data is loading');
     }
     
     // Re-throw to let error middleware handle it
