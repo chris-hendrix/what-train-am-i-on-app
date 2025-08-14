@@ -1,7 +1,6 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import { GTFSService } from './services/gtfs-service/index.js';
-import healthRoutes from './routes/health.js';
 import appRoutes from './routes/index.js';
 
 const app = express();
@@ -30,7 +29,6 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
 app.use(express.json());
 
 // Route handlers
-app.use('/', healthRoutes);
 app.use('/', appRoutes);
 
 export default app;

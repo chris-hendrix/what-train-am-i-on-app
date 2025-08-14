@@ -4,6 +4,10 @@ import { SuccessResponse } from '@what-train/shared';
 
 const router = Router();
 
+/**
+ * Health check endpoint
+ * Returns API status and service availability
+ */
 router.get('/health', (_req: Request, res: Response) => {
   const response: SuccessResponse<{
     status: string;

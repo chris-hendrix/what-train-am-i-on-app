@@ -1,6 +1,3 @@
-// MTA API Response Types
-// These types are used for API responses and match GTFS naming conventions
-
 /**
  * Route information for API responses
  * Simplified structure for client consumption using camelCase
@@ -11,4 +8,11 @@ export interface Route {
   longName: string;
   color?: string;
   textColor?: string;
+}
+
+/**
+ * Routes response data
+ */
+export interface RoutesResponse {
+  routes: Route[];
 }
