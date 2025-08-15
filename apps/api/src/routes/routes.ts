@@ -19,13 +19,18 @@ router.use(requestLogger);
  */
 router.get('/routes', asyncHandler(async (_req: Request, res: Response, _next: NextFunction) => {
   const gtfsRoutes = gtfsService.getAllRoutes();
-  const routes: Route[] = gtfsRoutes.map(gtfsRoute => ({
-    id: gtfsRoute.route_id,
-    shortName: gtfsRoute.route_short_name,
-    longName: gtfsRoute.route_long_name,
-    color: gtfsRoute.route_color,
-    textColor: gtfsRoute.route_text_color
-  }));
+  const routes: Route[] = gtfsRoutes.map(gtfsRoute => {
+    const headsigns = gtfsService.getHeadsignsForLine(gtfsRoute.routeShortName);
+
+    return {
+      id: gtfsRoute.routeId,
+      shortName: gtfsRoute.routeShortName,
+      longName: gtfsRoute.routeLongName,
+      color: gtfsRoute.routeColor,
+      textColor: gtfsRoute.routeTextColor,
+      headsigns
+    };
+  });
   
   const response: SuccessResponse<{ routes: Route[] }> = {
     success: true,

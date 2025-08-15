@@ -55,6 +55,9 @@ export class GTFSService {
   /** Map of trip_id -> GTFSTrip for trip information */
   private readonly trips: Map<string, GTFSTrip> = new Map();
   
+  /** Map of lineCode -> headsign mappings for fast direction lookups */
+  private readonly lineHeadsigns: Map<string, Record<string, number>> = new Map();
+  
   /** Flag to track if GTFS data has been loaded */
   private isLoaded = false;
 
@@ -102,6 +105,9 @@ export class GTFSService {
         this.loadStopTimes()
       ]);
       
+      // Build headsign mappings after all data is loaded
+      this.buildHeadsignMappings();
+      
       this.isLoaded = true;
       console.log(`GTFS data loaded: ${this.stops.size} stops, ${this.routes.size} routes, ${this.trips.size} trips`);
     } catch (error) {
@@ -122,21 +128,21 @@ export class GTFSService {
         .pipe(csv())
         .on('data', (row) => {
           const stop: GTFSStop = {
-            stop_id: row.stop_id,
-            stop_code: row.stop_code || undefined,
-            stop_name: row.stop_name,
-            stop_desc: row.stop_desc || undefined,
-            stop_lat: parseFloat(row.stop_lat),
-            stop_lon: parseFloat(row.stop_lon),
-            zone_id: row.zone_id || undefined,
-            stop_url: row.stop_url || undefined,
-            location_type: row.location_type ? parseInt(row.location_type) : undefined,
-            parent_station: row.parent_station || undefined,
-            stop_timezone: row.stop_timezone || undefined,
-            wheelchair_boarding: row.wheelchair_boarding ? parseInt(row.wheelchair_boarding) : undefined
+            stopId: row.stop_id,
+            stopCode: row.stop_code || undefined,
+            stopName: row.stop_name,
+            stopDesc: row.stop_desc || undefined,
+            stopLat: parseFloat(row.stop_lat),
+            stopLon: parseFloat(row.stop_lon),
+            zoneId: row.zone_id || undefined,
+            stopUrl: row.stop_url || undefined,
+            locationType: row.location_type ? parseInt(row.location_type) : undefined,
+            parentStation: row.parent_station || undefined,
+            stopTimezone: row.stop_timezone || undefined,
+            wheelchairBoarding: row.wheelchair_boarding ? parseInt(row.wheelchair_boarding) : undefined
           };
           
-          this.stops.set(stop.stop_id, stop);
+          this.stops.set(stop.stopId, stop);
         })
         .on('end', resolve)
         .on('error', reject);
@@ -156,18 +162,18 @@ export class GTFSService {
         .pipe(csv())
         .on('data', (row) => {
           const route: GTFSRoute = {
-            route_id: row.route_id,
-            agency_id: row.agency_id || undefined,
-            route_short_name: row.route_short_name,
-            route_long_name: row.route_long_name,
-            route_desc: row.route_desc || undefined,
-            route_type: parseInt(row.route_type),
-            route_url: row.route_url || undefined,
-            route_color: row.route_color || undefined,
-            route_text_color: row.route_text_color || undefined
+            routeId: row.route_id,
+            agencyId: row.agency_id || undefined,
+            routeShortName: row.route_short_name,
+            routeLongName: row.route_long_name,
+            routeDesc: row.route_desc || undefined,
+            routeType: parseInt(row.route_type),
+            routeUrl: row.route_url || undefined,
+            routeColor: row.route_color || undefined,
+            routeTextColor: row.route_text_color || undefined
           };
           
-          this.routes.set(route.route_id, route);
+          this.routes.set(route.routeId, route);
         })
         .on('end', resolve)
         .on('error', reject);
@@ -187,19 +193,19 @@ export class GTFSService {
         .pipe(csv())
         .on('data', (row) => {
           const trip: GTFSTrip = {
-            route_id: row.route_id,
-            service_id: row.service_id,
-            trip_id: row.trip_id,
-            trip_headsign: row.trip_headsign || undefined,
-            trip_short_name: row.trip_short_name || undefined,
-            direction_id: row.direction_id ? parseInt(row.direction_id) : undefined,
-            block_id: row.block_id || undefined,
-            shape_id: row.shape_id || undefined,
-            wheelchair_accessible: row.wheelchair_accessible ? parseInt(row.wheelchair_accessible) : undefined,
-            bikes_allowed: row.bikes_allowed ? parseInt(row.bikes_allowed) : undefined
+            routeId: row.route_id,
+            serviceId: row.service_id,
+            tripId: row.trip_id,
+            tripHeadsign: row.trip_headsign || undefined,
+            tripShortName: row.trip_short_name || undefined,
+            directionId: row.direction_id ? parseInt(row.direction_id) : undefined,
+            blockId: row.block_id || undefined,
+            shapeId: row.shape_id || undefined,
+            wheelchairAccessible: row.wheelchair_accessible ? parseInt(row.wheelchair_accessible) : undefined,
+            bikesAllowed: row.bikes_allowed ? parseInt(row.bikes_allowed) : undefined
           };
           
-          this.trips.set(trip.trip_id, trip);
+          this.trips.set(trip.tripId, trip);
         })
         .on('end', resolve)
         .on('error', reject);
@@ -219,30 +225,71 @@ export class GTFSService {
         .pipe(csv())
         .on('data', (row) => {
           const stopTime: GTFSStopTime = {
-            trip_id: row.trip_id,
-            arrival_time: row.arrival_time,
-            departure_time: row.departure_time,
-            stop_id: row.stop_id,
-            stop_sequence: parseInt(row.stop_sequence),
-            stop_headsign: row.stop_headsign || undefined,
-            pickup_type: row.pickup_type ? parseInt(row.pickup_type) : undefined,
-            drop_off_type: row.drop_off_type ? parseInt(row.drop_off_type) : undefined,
-            shape_dist_traveled: row.shape_dist_traveled ? parseFloat(row.shape_dist_traveled) : undefined
+            tripId: row.trip_id,
+            arrivalTime: row.arrival_time,
+            departureTime: row.departure_time,
+            stopId: row.stop_id,
+            stopSequence: parseInt(row.stop_sequence),
+            stopHeadsign: row.stop_headsign || undefined,
+            pickupType: row.pickup_type ? parseInt(row.pickup_type) : undefined,
+            dropOffType: row.drop_off_type ? parseInt(row.drop_off_type) : undefined,
+            shapeDistTraveled: row.shape_dist_traveled ? parseFloat(row.shape_dist_traveled) : undefined
           };
 
-          const tripStopTimes = this.stopTimes.get(stopTime.trip_id) || [];
+          const tripStopTimes = this.stopTimes.get(stopTime.tripId) || [];
           tripStopTimes.push(stopTime);
-          this.stopTimes.set(stopTime.trip_id, tripStopTimes);
+          this.stopTimes.set(stopTime.tripId, tripStopTimes);
         })
         .on('end', () => {
           // Sort stop times by sequence for each trip
           this.stopTimes.forEach((stopTimes, tripId) => {
-            stopTimes.sort((a, b) => a.stop_sequence - b.stop_sequence);
+            stopTimes.sort((a, b) => a.stopSequence - b.stopSequence);
             this.stopTimes.set(tripId, stopTimes);
           });
           resolve();
         })
         .on('error', reject);
+    });
+  }
+
+  /**
+   * Build headsign mappings for all routes
+   * Creates a fast lookup map of lineCode -> headsign:direction mapping
+   * @private
+   * 
+   * @example
+   * After processing, lineHeadsigns will contain:
+   * ```
+   * "A" -> {
+   *   "Far Rockaway-Mott Av": 1,
+   *   "Euclid Av": 0,
+   *   "Ozone Park-Lefferts Blvd": 1,
+   *   "Inwood-207 St": 0
+   * }
+   * ```
+   */
+  private buildHeadsignMappings(): void {
+    const routeHeadsigns = new Map<string, Record<string, number>>();
+
+    // Build headsign -> direction mapping for each route
+    this.trips.forEach(trip => {
+      const route = this.routes.get(trip.routeId);
+      if (!route || !trip.tripHeadsign) return;
+
+      const lineCode = route.routeShortName;
+      const directionId = trip.directionId ?? 0;
+
+      if (!routeHeadsigns.has(lineCode)) {
+        routeHeadsigns.set(lineCode, {});
+      }
+
+      const headsignMap = routeHeadsigns.get(lineCode)!;
+      headsignMap[trip.tripHeadsign] = directionId;
+    });
+
+    // Store the mappings
+    routeHeadsigns.forEach((headsigns, lineCode) => {
+      this.lineHeadsigns.set(lineCode, headsigns);
     });
   }
 
@@ -275,12 +322,12 @@ export class GTFSService {
     const stationsWithDistance: StationWithDistance[] = [];
 
     this.stops.forEach((stop) => {
-      // Filter to only include actual stations (location_type 1) or platforms (location_type 0/undefined)
-      if (stop.location_type && stop.location_type > 1) {
+      // Filter to only include actual stations (locationType 1) or platforms (locationType 0/undefined)
+      if (stop.locationType && stop.locationType > 1) {
         return;
       }
 
-      const distance = this.calculateDistance(lat, lon, stop.stop_lat, stop.stop_lon);
+      const distance = this.calculateDistance(lat, lon, stop.stopLat, stop.stopLon);
       stationsWithDistance.push({
         ...stop,
         distance
@@ -315,7 +362,7 @@ export class GTFSService {
     }
 
     const route = Array.from(this.routes.values())
-      .find(r => r.route_short_name === lineCode);
+      .find(r => r.routeShortName === lineCode);
 
     if (!route) {
       return null;
@@ -324,13 +371,13 @@ export class GTFSService {
     // Get stops for this route
     const routeStops: GTFSStop[] = [];
     const routeTrips = Array.from(this.trips.values())
-      .filter(trip => trip.route_id === route.route_id);
+      .filter(trip => trip.routeId === route.routeId);
 
     const stopIds = new Set<string>();
     routeTrips.forEach(trip => {
-      const tripStopTimes = this.stopTimes.get(trip.trip_id) || [];
+      const tripStopTimes = this.stopTimes.get(trip.tripId) || [];
       tripStopTimes.forEach(stopTime => {
-        stopIds.add(stopTime.stop_id);
+        stopIds.add(stopTime.stopId);
       });
     });
 
@@ -373,37 +420,37 @@ export class GTFSService {
 
     const sequences = new Map<string, StopSequence>();
     const routeTrips = Array.from(this.trips.values())
-      .filter(trip => trip.route_id === routeId);
+      .filter(trip => trip.routeId === routeId);
 
     routeTrips.forEach(trip => {
-      const directionId = trip.direction_id || 0;
+      const directionId = trip.directionId || 0;
       const sequenceKey = `${routeId}_${directionId}`;
       
       if (!sequences.has(sequenceKey)) {
         sequences.set(sequenceKey, {
-          route_id: routeId,
-          direction_id: directionId,
+          routeId: routeId,
+          directionId: directionId,
           stops: []
         });
       }
 
       const sequence = sequences.get(sequenceKey)!;
-      const tripStopTimes = this.stopTimes.get(trip.trip_id) || [];
+      const tripStopTimes = this.stopTimes.get(trip.tripId) || [];
       
       tripStopTimes.forEach(stopTime => {
-        const stop = this.stops.get(stopTime.stop_id);
-        if (stop && !sequence.stops.some(s => s.stop_id === stop.stop_id)) {
+        const stop = this.stops.get(stopTime.stopId);
+        if (stop && !sequence.stops.some(s => s.stopId === stop.stopId)) {
           sequence.stops.push({
-            stop_id: stop.stop_id,
-            stop_sequence: stopTime.stop_sequence,
-            stop_name: stop.stop_name
+            stopId: stop.stopId,
+            stopSequence: stopTime.stopSequence,
+            stopName: stop.stopName
           });
         }
       });
     });
 
     sequences.forEach(sequence => {
-      sequence.stops.sort((a, b) => a.stop_sequence - b.stop_sequence);
+      sequence.stops.sort((a, b) => a.stopSequence - b.stopSequence);
     });
 
     return Array.from(sequences.values());
@@ -475,6 +522,47 @@ export class GTFSService {
     }
     
     return this.stops.get(stopId) || null;
+  }
+
+  /**
+   * Get headsign mappings for a subway line
+   * 
+   * @param lineCode - NYC subway line code (1,2,3,4,5,6,7,N,Q,R,W,B,D,F,M,A,C,E,G,J,Z,L)
+   * @returns Object mapping headsign strings to direction IDs
+   * @throws {Error} If GTFS data has not been loaded
+   * 
+   * @example
+   * ```typescript
+   * const headsigns = gtfsService.getHeadsignsForLine('A');
+   * // Returns: {
+   * //   "Euclid Av": 0,
+   * //   "Inwood-207 St": 0,
+   * //   "Far Rockaway-Mott Av": 1,
+   * //   "Ozone Park-Lefferts Blvd": 1
+   * // }
+   * ```
+   */
+  public getHeadsignsForLine(lineCode: string): Record<string, number> {
+    if (!this.isLoaded) {
+      throw new Error('GTFS data not loaded. Call loadData() first.');
+    }
+
+    return this.lineHeadsigns.get(lineCode) || {};
+  }
+
+  /**
+   * Get trip information by trip ID
+   * 
+   * @param tripId - GTFS trip ID
+   * @returns Trip object or null if not found
+   * @throws {Error} If GTFS data has not been loaded
+   */
+  public getTrip(tripId: string): GTFSTrip | null {
+    if (!this.isLoaded) {
+      throw new Error('GTFS data not loaded. Call loadData() first.');
+    }
+
+    return this.trips.get(tripId) || null;
   }
 
   /**

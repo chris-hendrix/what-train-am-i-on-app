@@ -34,6 +34,7 @@ describe('Trains API', () => {
         .send({
           latitude: 40.7589,
           longitude: -73.9851
+          // lineCode is missing
         })
         .expect(400);
 
@@ -74,6 +75,51 @@ describe('Trains API', () => {
         expect(response.body.data).toHaveProperty('trains');
         expect(response.body.data).toHaveProperty('totalFound');
       }
+    });
+
+    it('should accept request without direction (searches all directions)', async () => {
+      const response = await request(app)
+        .post('/trains/nearest')
+        .send({
+          latitude: 40.7589,
+          longitude: -73.9851,
+          lineCode: '6'
+        });
+
+      expect(response.status).not.toBe(400);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('timestamp');
+    });
+
+    it('should accept request with headsign parameter', async () => {
+      const response = await request(app)
+        .post('/trains/nearest')
+        .send({
+          latitude: 40.7589,
+          longitude: -73.9851,
+          lineCode: '6',
+          headsign: 'Brooklyn Bridge-City Hall'
+        });
+
+      expect(response.status).not.toBe(400);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('timestamp');
+    });
+
+    it('should return 400 for invalid headsign', async () => {
+      const response = await request(app)
+        .post('/trains/nearest')
+        .send({
+          latitude: 40.7589,
+          longitude: -73.9851,
+          lineCode: '6',
+          headsign: 'Invalid Headsign'
+        })
+        .expect(400);
+
+      expect(response.body).toHaveProperty('success', false);
+      expect(response.body).toHaveProperty('error');
+      expect(response.body.error).toMatch(/Invalid headsign/);
     });
 
     it('should return valid JSON with correct headers', async () => {

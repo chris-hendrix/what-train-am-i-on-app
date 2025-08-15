@@ -91,16 +91,16 @@ export class TrainFinderService {
    * @private
    */
   private validateRequest(request: TrainFinderRequest): void {
-    if (!request.userLatitude || !request.userLongitude || !request.lineCode || request.direction === undefined) {
-      throw new Error('userLatitude, userLongitude, lineCode, and direction are required');
+    if (!request.userLatitude || !request.userLongitude || !request.lineCode) {
+      throw new Error('userLatitude, userLongitude, and lineCode are required');
     }
     
     if (typeof request.userLatitude !== 'number' || typeof request.userLongitude !== 'number') {
       throw new Error('userLatitude and userLongitude must be numbers');
     }
     
-    if (typeof request.direction !== 'number' || (request.direction !== 0 && request.direction !== 1)) {
-      throw new Error('direction must be 0 or 1');
+    if (request.direction !== undefined && (typeof request.direction !== 'number' || (request.direction !== 0 && request.direction !== 1))) {
+      throw new Error('direction must be 0 or 1 if provided');
     }
     
     // Validate NYC area bounds (rough check)
@@ -142,8 +142,8 @@ export class TrainFinderService {
         }
         
         if (trainDirection !== undefined) {
-          // Filter by direction using parsed direction
-          if (trainDirection !== request.direction) {
+          // Filter by direction using parsed direction (only if direction is specified in request)
+          if (request.direction !== undefined && trainDirection !== request.direction) {
             continue;
           }
         } else {
@@ -178,16 +178,16 @@ export class TrainFinderService {
           const distance = this.calculateDistance(
             request.userLatitude,
             request.userLongitude,
-            stop.stop_lat,
-            stop.stop_lon
+            stop.stopLat,
+            stop.stopLon
           );
           
           if (distance <= maxProximityDistance) {
             // Create train candidate with stop coordinates
             const trainCandidate = this.createTrainCandidate(vehicle, request, distance);
             // Override position with stop coordinates
-            trainCandidate.position.latitude = stop.stop_lat;
-            trainCandidate.position.longitude = stop.stop_lon;
+            trainCandidate.position.latitude = stop.stopLat;
+            trainCandidate.position.longitude = stop.stopLon;
             
             nearbyTrains.push(trainCandidate);
           }

@@ -36,7 +36,7 @@ describe('GTFSService', () => {
       const stations = gtfsService.findNearestStations(40.7589, -73.9851, 5);
       
       expect(stations).toHaveLength(5);
-      expect(stations[0]).toHaveProperty('stop_name');
+      expect(stations[0]).toHaveProperty('stopName');
       expect(stations[0]).toHaveProperty('distance');
       expect(stations[0].distance).toBeLessThan(500); // Should be close to a major station
       
@@ -74,8 +74,8 @@ describe('GTFSService', () => {
         const routeInfo = gtfsService.getRouteByLineCode(lineCode);
         
         expect(routeInfo).not.toBeNull();
-        expect(routeInfo!.route.route_short_name).toBe(lineCode);
-        expect(routeInfo!.route.route_long_name).toBeTruthy();
+        expect(routeInfo!.route.routeShortName).toBe(lineCode);
+        expect(routeInfo!.route.routeLongName).toBeTruthy();
         expect(routeInfo!.stops.length).toBeGreaterThan(10); // Reasonable number of stops
       });
     });
@@ -92,10 +92,10 @@ describe('GTFSService', () => {
       
       // Verify stops have required properties
       routeInfo!.stops.forEach(stop => {
-        expect(stop).toHaveProperty('stop_id');
-        expect(stop).toHaveProperty('stop_name');
-        expect(stop).toHaveProperty('stop_lat');
-        expect(stop).toHaveProperty('stop_lon');
+        expect(stop).toHaveProperty('stopId');
+        expect(stop).toHaveProperty('stopName');
+        expect(stop).toHaveProperty('stopLat');
+        expect(stop).toHaveProperty('stopLon');
       });
     });
   });
@@ -105,21 +105,21 @@ describe('GTFSService', () => {
       const route6Info = gtfsService.getRouteByLineCode('6');
       expect(route6Info).not.toBeNull();
       
-      const sequences = gtfsService.getStopSequencesForRoute(route6Info!.route.route_id);
+      const sequences = gtfsService.getStopSequencesForRoute(route6Info!.route.routeId);
       
       expect(sequences.length).toBeGreaterThanOrEqual(1); // At least one direction
       expect(sequences.length).toBeLessThanOrEqual(2); // At most two directions
       
       sequences.forEach(sequence => {
-        expect(sequence).toHaveProperty('route_id');
-        expect(sequence).toHaveProperty('direction_id');
+        expect(sequence).toHaveProperty('routeId');
+        expect(sequence).toHaveProperty('directionId');
         expect(sequence).toHaveProperty('stops');
         expect(sequence.stops.length).toBeGreaterThan(10);
         
         // Verify stops are ordered by sequence
         for (let i = 1; i < sequence.stops.length; i++) {
-          expect(sequence.stops[i].stop_sequence).toBeGreaterThanOrEqual(
-            sequence.stops[i - 1].stop_sequence
+          expect(sequence.stops[i].stopSequence).toBeGreaterThanOrEqual(
+            sequence.stops[i - 1].stopSequence
           );
         }
       });
@@ -138,16 +138,16 @@ describe('GTFSService', () => {
       expect(routes.length).toBeGreaterThan(25); // NYC has ~30 subway routes
       
       routes.forEach(route => {
-        expect(route).toHaveProperty('route_id');
-        expect(route).toHaveProperty('route_short_name');
-        expect(route).toHaveProperty('route_long_name');
-        expect(route).toHaveProperty('route_type');
+        expect(route).toHaveProperty('routeId');
+        expect(route).toHaveProperty('routeShortName');
+        expect(route).toHaveProperty('routeLongName');
+        expect(route).toHaveProperty('routeType');
       });
     });
 
     it('should include major subway lines', () => {
       const routes = gtfsService.getAllRoutes();
-      const routeCodes = routes.map(r => r.route_short_name);
+      const routeCodes = routes.map(r => r.routeShortName);
       
       // Test for some major lines
       expect(routeCodes).toContain('1');
