@@ -1,7 +1,7 @@
 # MVP Train Tracking - Development Ticket Plan
 
 ## Executive Summary
-- **Total Estimated Effort**: 26-34 story points (6-8 weeks for 2-3 developers)
+- **Total Estimated Effort**: 29-37 story points (7-9 weeks for 2-3 developers)
 - **Number of Milestones**: 4 milestones (2-week sprints each)
 - **Key Risks**: MTA API integration complexity, geolocation accuracy, Docker environment setup
 - **Recommended Team Size**: 2-3 developers (1 frontend, 1 backend, 1 DevOps/fullstack)
@@ -52,18 +52,19 @@
 #### Frontend Development Tickets  
 - **[UI-001] - Setup Expo Project with TypeScript** - 2 points
 - **[UI-002] - Implement Geolocation Service** - 3 points
-- **[UI-003] - Create Train Line Selection Component** - 3 points
+- **[UI-003] - Create Train Line Selection Page** - 4 points
+- **[UI-003b] - Create Direction Selection Page** - 3 points
 - **[UI-004] - Develop Train Results Display Component** - 5 points
 - **[UI-005] - Implement API Client for Backend Integration** - 3 points
 - **[UI-006] - Add Loading States and Error Handling** - 3 points
 - **[UI-007] - Style Application with MTA Design System** - 3 points
 - **[UI-008] - Implement Manual Station Selection Fallback** - 2 points
 
-**Milestone Total**: 24 points
+**Milestone Total**: 27 points
 **Dependencies**: Infrastructure foundation complete, API-005 (API contract)
 **Parallel Work Streams**:
-- Frontend developer: UI-001, UI-002, UI-003 (sequential start)
-- Frontend developer: UI-004, UI-007 (after UI-003)
+- Frontend developer: UI-001, UI-002, UI-003, UI-003b (sequential for navigation setup)
+- Frontend developer: UI-004, UI-007 (after UI-003b)
 - Frontend developer: UI-005, UI-006 (after API-005 complete)
 
 ---
@@ -170,9 +171,11 @@
 
 **Acceptance Criteria**:
 - Expand `shared/types/` directory with comprehensive API request/response interfaces
-- MTA data structures (Line, Station, Train, Arrival) defined
-- Express API request/response types
+- MTA data structures (Line, Station, Train, Arrival, Direction) defined
+- Express API request/response types including optional direction parameter
+- Train identification request interface with optional direction field
 - Error response types and success response types
+- Navigation state types for multi-page train selection flow
 - Advanced export configuration for complex imports
 - Type definitions for Express routes and middleware
 
@@ -238,15 +241,16 @@
 **Description**: Implement core logic to match user location with specific train based on real-time position data.
 
 **Acceptance Criteria**:
-- Algorithm takes user lat/lng + line code as input
+- Algorithm takes user lat/lng + line code + optional direction as input
 - Matches user position to most likely train based on:
   - Proximity to train's current position
-  - Train direction and timing
+  - Train direction and timing (use direction hint when provided)
   - Station sequence alignment
-- Handles edge cases (between stations, multiple trains, etc.)
+- Handles edge cases (between stations, multiple trains, no direction provided, etc.)
+- When direction is not provided, consider trains in both directions
 - Returns confidence score with train identification
 - Performance optimized for < 5 second response time
-- Comprehensive unit tests for various scenarios
+- Comprehensive unit tests for various scenarios including direction skip cases
 
 **Dependencies**: API-002, API-003  
 **Definition of Done**: Algorithm correctly identifies test trains with >80% accuracy
@@ -262,8 +266,8 @@
 
 **Acceptance Criteria**:
 - Express routes for train identification endpoints
-- Request validation middleware for latitude, longitude, line_code
-- Input sanitization and type checking
+- Request validation middleware for latitude, longitude, line_code, and optional direction
+- Input sanitization and type checking (handle null/undefined direction gracefully)
 - Structured JSON response matching ERD specification
 - Proper HTTP status codes for success/error cases
 - Request logging middleware for debugging and monitoring
@@ -329,7 +333,7 @@
 **Acceptance Criteria**:
 - Expo project created in `apps/mobile/` with TypeScript template
 - Navigation structure using React Navigation
-- Basic screens: Home, Train Results, Error
+- Basic screens: Home, Train Selection, Direction Selection, Train Results, Error
 - Expo configuration for web and mobile builds
 - Integration with shared TypeScript types package
 - Development server runs on port 8081 for web interface
@@ -360,23 +364,48 @@
 
 ---
 
-#### [UI] Create Train Line Selection Component
+#### [UI] Create Train Line Selection Page
 **Priority**: High  
-**Complexity**: Low  
-**Skills Required**: React Native, UI components, Design systems
+**Complexity**: Medium  
+**Skills Required**: React Native, UI components, Design systems, Navigation
 
-**Description**: Build dropdown/picker component for users to select their MTA train line.
+**Description**: Build train line selection page displaying MTA lines as cards/buttons in a multi-page flow.
 
 **Acceptance Criteria**:
-- Dropdown with all MTA lines (1,2,3,4,5,6,7,N,Q,R,W,B,D,F,M,A,C,E,G,J,Z,L)
+- Full-page display with all MTA lines (1,2,3,4,5,6,7,N,Q,R,W,B,D,F,M,A,C,E,G,J,Z,L) as cards/buttons
 - Visual design matching MTA line colors and branding
 - Search/filter functionality for quick line selection
-- Mobile-optimized picker for native apps
+- Mobile-optimized card layout with touch targets
 - Keyboard navigation support for web
-- Selected line state management
+- Selected line state management across navigation
+- Navigation to Direction Selection page on line selection
+- React Navigation integration with proper screen transitions
 
 **Dependencies**: UI-001  
-**Definition of Done**: Users can select any MTA line with appropriate visual feedback
+**Definition of Done**: Users can select any MTA line and navigate to direction selection page
+
+---
+
+#### [UI] Create Direction Selection Page
+**Priority**: High  
+**Complexity**: Low  
+**Skills Required**: React Native, UI components, Navigation, State management
+
+**Description**: Build direction selection page where users choose train direction or skip if uncertain.
+
+**Acceptance Criteria**:
+- Display available directions for the selected train line
+- Show terminal station names for clarity (e.g., "Uptown to 125th St", "Downtown to Whitehall-S Ferry")
+- "Skip" option for users uncertain about their direction
+- Visual design consistent with train line selection page
+- Back navigation to Train Line Selection page
+- Forward navigation to Train Results page
+- State management for selected direction (including skip state)
+- React Navigation integration with proper screen transitions
+- Handle train lines with multiple branches appropriately
+
+**Dependencies**: UI-003  
+**Definition of Done**: Users can select direction, skip selection, or navigate back; state persists across navigation
 
 ---
 
@@ -396,8 +425,8 @@
 - Error states for failed identifications
 - Responsive design for web and mobile
 
-**Dependencies**: UI-001, Shared types (already complete)  
-**Definition of Done**: Component displays mock train data with proper formatting
+**Dependencies**: UI-001, UI-003b (Direction Selection), Shared types (already complete)  
+**Definition of Done**: Component displays mock train data with proper formatting and receives navigation state from direction selection
 
 ---
 
@@ -410,8 +439,9 @@
 
 **Acceptance Criteria**:
 - HTTP client configured for Express API endpoint
-- Function to call `/api/identify-train` with location and line data
+- Function to call `/api/identify-train` with location, line data, and optional direction
 - Request/response type safety using shared interfaces
+- Handle optional direction parameter (null/undefined when user skips direction selection)
 - Timeout handling for slow network connections
 - Retry logic for transient failures
 - Request cancellation when user navigates away
@@ -459,8 +489,8 @@
 - Loading animations and micro-interactions
 - Dark mode support (bonus)
 
-**Dependencies**: UI-003, UI-004  
-**Definition of Done**: App has polished, professional appearance matching MTA aesthetic
+**Dependencies**: UI-003, UI-003b, UI-004  
+**Definition of Done**: App has polished, professional appearance matching MTA aesthetic across all pages
 
 ---
 
@@ -614,11 +644,11 @@
 
 ### Critical Path
 1. **API-002** → **API-003** → **API-004** → **TEST-003** → **DEPLOY-001**
-2. **UI-001** → **UI-002** → **UI-005** → **TEST-003** → **DEPLOY-002**
+2. **UI-001** → **UI-002** → **UI-003** → **UI-003b** → **UI-005** → **TEST-003** → **DEPLOY-002**
 
 ### Parallel Development Opportunities
 - **Backend Development**: API-002 and API-007 can be developed in parallel
-- **Frontend Components**: UI-002, UI-003 can be developed simultaneously after UI-001
+- **Frontend Components**: UI-002 can be developed in parallel with UI-003 after UI-001, but UI-003b depends on UI-003
 - **Testing**: TEST-003 and TEST-004 can be developed in parallel with deployment prep
 - **Deployment**: DEPLOY-001 and DEPLOY-002 can happen simultaneously
 
@@ -665,6 +695,7 @@
 1. Infrastructure foundation is complete - Docker environment, CI/CD, and shared types are ready
 2. Begin with Milestone 2 (Backend API Development) or Milestone 3 (Frontend Development) in parallel
 3. Set up MTA Developer API access early in the process
+4. The frontend now uses a multi-page navigation flow: Train Selection → Direction Selection → Results
 
 ### Code Quality Standards
 - Maintain >80% test coverage across all packages

@@ -1,7 +1,36 @@
 # MVP Train Tracking - Entity Relationship Diagram
 
 ## Architecture Overview
-**Express.js Backend Architecture**: Expo frontend calling Express.js API server that processes location + line input through MTA APIs and returns real-time results.
+**Express.js Backend Architecture**: Expo frontend with multi-page train selection flow calling Express.js API server that processes location + line input (with optional direction) through MTA APIs and returns real-time results.
+
+## Frontend State Management
+The multi-page train selection flow requires client-side state management:
+
+### Navigation Stack
+- **Train Selection Page** (`/train-selection`): User selects train line from visual cards
+- **Direction Selection Page** (`/direction-selection`): User selects direction or skips
+- **Results Page** (`/train-results`): Display identified trains and arrivals
+
+### Client State Structure
+```typescript
+interface TrainSelectionState {
+  selectedLine: {
+    code: string;        // e.g., "6", "N", "Q"
+    name: string;        // e.g., "6 Express"
+    color: string;       // MTA official color
+  } | null;
+  selectedDirection: {
+    code: number;        // 0 = uptown/north, 1 = downtown/south
+    name: string;        // e.g., "Downtown & Brooklyn"
+    terminals: string[]; // Terminal station names
+  } | null;
+  userLocation: {
+    latitude: number;
+    longitude: number;
+  } | null;
+  skipDirection: boolean; // True if user skipped direction selection
+}
+```
 
 ## No Persistent Data Storage
 This is a completely stateless system with no database requirements.
@@ -46,15 +75,16 @@ Content-Type: application/json
 **Request Parameters:**
 - `latitude`, `longitude`: User's current location (WGS84)
 - `line_code`: NYC subway line (e.g., "6", "N", "Q", "A")
-- `direction`: 0 = uptown/north, 1 = downtown/south
+- `direction`: 0 = uptown/north, 1 = downtown/south (OPTIONAL - can be null/undefined for multi-page flow skip functionality)
 
 **Processing Steps:**
 1. Express middleware validates and parses request body
 2. Query MTA static GTFS data for route information
 3. Call MTA GTFS-RT API for current trains on the specified line
 4. Find all trains within proximity range (< 500m) and sort by distance
-5. Format train data with station names, distances, and metadata
-6. Return JSON response with list of nearest trains
+5. **Enhanced Direction Handling**: If direction parameter is provided, filter trains by direction; if null/undefined (from multi-page flow skip), return trains from both directions
+6. Format train data with station names, distances, and metadata
+7. Return JSON response with list of nearest trains
 
 **Output Response:**
 ```json
