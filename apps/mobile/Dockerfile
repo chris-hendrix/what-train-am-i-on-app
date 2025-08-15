@@ -18,4 +18,4 @@ COPY apps/mobile/ .
 EXPOSE 19000 19006
 
 # Start the development server with web interface
-CMD ["npm", "run", "web"]
+CMD ["npm", "start"]

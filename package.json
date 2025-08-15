@@ -15,7 +15,8 @@
     "lint:fix": "eslint . --fix",
     "lint:api": "eslint apps/api",
     "lint:mobile": "eslint apps/mobile",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "npm run test:e2e --workspace=apps/mobile"
   },
   "keywords": [],
   "author": "",
