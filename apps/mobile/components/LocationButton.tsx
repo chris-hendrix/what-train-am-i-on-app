@@ -1,22 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useGeolocation } from '../hooks/useGeolocation';
-import * as Location from 'expo-location';
+import { useAppContext } from '../context/AppContext';
 
 export function LocationButton() {
   const {
     location,
-    loading,
-    error,
+    locationLoading,
+    locationError,
     getCurrentLocation,
-    clearError,
-  } = useGeolocation();
+  } = useAppContext();
 
   const handleLocationPress = async () => {
-    await getCurrentLocation({
-      accuracy: Location.Accuracy.High,
-      minAccuracy: 100,
-    });
+    await getCurrentLocation();
   };
 
   const showLocationInfo = () => {
@@ -30,7 +25,7 @@ export function LocationButton() {
   };
 
   const getButtonText = () => {
-    if (loading) return 'Getting Location...';
+    if (locationLoading) return 'Getting Location...';
     if (location) return 'Update Location';
     return 'Get Location';
   };
@@ -38,9 +33,9 @@ export function LocationButton() {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
+        style={[styles.button, locationLoading && styles.buttonDisabled]}
         onPress={handleLocationPress}
-        disabled={loading}
+        disabled={locationLoading}
       >
         <Text style={styles.buttonText}>{getButtonText()}</Text>
       </TouchableOpacity>
@@ -56,11 +51,17 @@ export function LocationButton() {
         </TouchableOpacity>
       )}
 
-      {error && (
+      {locationError && (
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity style={styles.clearErrorButton} onPress={clearError}>
-            <Text style={styles.clearErrorText}>Dismiss</Text>
+          <Text style={styles.errorText}>{locationError}</Text>
+          <TouchableOpacity 
+            style={styles.clearErrorButton} 
+            onPress={() => {
+              // Clear error by requesting location again
+              getCurrentLocation();
+            }}
+          >
+            <Text style={styles.clearErrorText}>Retry</Text>
           </TouchableOpacity>
         </View>
       )}
