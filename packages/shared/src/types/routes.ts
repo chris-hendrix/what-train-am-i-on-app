@@ -8,6 +8,7 @@ export interface Route {
   longName: string;
   color?: string;
   textColor?: string;
+  headsigns?: Record<string, number>; // headsign -> direction_id mapping
 }
 
 /**

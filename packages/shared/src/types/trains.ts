@@ -5,7 +5,10 @@ export interface NearestTrainsRequest {
   latitude: number;
   longitude: number;
   lineCode: string;
-  direction: number;
+  /** Optional direction filter (0 or 1). If not provided, searches all directions */
+  direction?: number;
+  /** Optional headsign filter. If provided, overrides direction */
+  headsign?: string;
   /** Optional search radius in meters (default: 500) */
   radiusMeters?: number;
 }
