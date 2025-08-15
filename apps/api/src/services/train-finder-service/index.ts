@@ -178,16 +178,16 @@ export class TrainFinderService {
           const distance = this.calculateDistance(
             request.userLatitude,
             request.userLongitude,
-            stop.stop_lat,
-            stop.stop_lon
+            stop.stopLat,
+            stop.stopLon
           );
           
           if (distance <= maxProximityDistance) {
             // Create train candidate with stop coordinates
             const trainCandidate = this.createTrainCandidate(vehicle, request, distance);
             // Override position with stop coordinates
-            trainCandidate.position.latitude = stop.stop_lat;
-            trainCandidate.position.longitude = stop.stop_lon;
+            trainCandidate.position.latitude = stop.stopLat;
+            trainCandidate.position.longitude = stop.stopLon;
             
             nearbyTrains.push(trainCandidate);
           }

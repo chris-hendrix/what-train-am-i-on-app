@@ -69,13 +69,13 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
       if (train.currentStopId) {
         const station = gtfsService.getStop(train.currentStopId);
         if (station) {
-          currentStationName = station.stop_name;
+          currentStationName = station.stopName;
         }
       }
 
       const nextStops: NextStop[] = [];
 
-      const serviceType = routeInfo.route.route_short_name.includes('Express') ? 'express' : 'local';
+      const serviceType = routeInfo.route.routeShortName.includes('Express') ? 'express' : 'local';
 
       let directionName = 'Unknown Direction';
       if (train.tripId) {
@@ -89,9 +89,9 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
       return {
         trainId: train.vehicleId,
         line: {
-          code: routeInfo.route.route_short_name,
-          name: routeInfo.route.route_long_name,
-          color: `#${routeInfo.route.route_color || '808080'}`
+          code: routeInfo.route.routeShortName,
+          name: routeInfo.route.routeLongName,
+          color: `#${routeInfo.route.routeColor || '808080'}`
         },
         direction: directionName,
         currentStation: currentStationName,
