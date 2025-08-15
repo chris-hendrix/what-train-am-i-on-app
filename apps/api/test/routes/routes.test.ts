@@ -34,9 +34,34 @@ describe('Routes API', () => {
         expect(route).toHaveProperty('shortName');
         expect(route).toHaveProperty('longName');
         expect(route).toHaveProperty('color');
+        expect(route).toHaveProperty('headsigns');
         expect(typeof route.id).toBe('string');
         expect(typeof route.shortName).toBe('string');
         expect(typeof route.longName).toBe('string');
+        expect(typeof route.headsigns).toBe('object');
+      }
+    });
+
+    it('should include headsign mappings for routes', async () => {
+      const response = await request(app)
+        .get('/routes')
+        .expect(200);
+
+      const { data } = response.body;
+      
+      if (data.routes.length > 0) {
+        const route = data.routes[0];
+        expect(route).toHaveProperty('headsigns');
+        expect(typeof route.headsigns).toBe('object');
+        
+        if (route.headsigns && Object.keys(route.headsigns).length > 0) {
+          const firstHeadsign = Object.keys(route.headsigns)[0];
+          const firstDirection = route.headsigns[firstHeadsign];
+          expect(typeof firstHeadsign).toBe('string');
+          expect(typeof firstDirection).toBe('number');
+          expect(firstDirection).toBeGreaterThanOrEqual(0);
+          expect(firstDirection).toBeLessThanOrEqual(1);
+        }
       }
     });
 

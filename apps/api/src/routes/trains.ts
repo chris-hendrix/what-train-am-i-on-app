@@ -26,7 +26,7 @@ router.use(requestLogger);
  * Returns train data with current position and next stops
  */
 router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
-  const { latitude, longitude, lineCode, direction, radiusMeters } = req.body as NearestTrainsRequest;
+  const { latitude, longitude, lineCode, direction, headsign, radiusMeters } = req.body as NearestTrainsRequest;
   
   // Get route information first
   const routeInfo = gtfsService.getRouteByLineCode(lineCode);
@@ -34,12 +34,28 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
     throw new Error(`Route information not found for line ${lineCode}`);
   }
 
+  // Resolve direction from headsign if provided, otherwise use direction parameter
+  let resolvedDirection: number | undefined = direction;
+  if (headsign) {
+    const headsignMappings = gtfsService.getHeadsignsForLine(lineCode);
+    if (headsignMappings[headsign] !== undefined) {
+      resolvedDirection = headsignMappings[headsign];
+    } else {
+      res.status(400).json({
+        success: false,
+        error: `Invalid headsign "${headsign}" for line ${lineCode}`,
+        timestamp: new Date().toISOString()
+      });
+      return;
+    }
+  }
+
   try {
     const trainCandidates = await trainFinderService.findNearestTrains({
       userLatitude: latitude,
       userLongitude: longitude,
       lineCode: lineCode,
-      direction: direction,
+      direction: resolvedDirection,
       radiusMeters: radiusMeters
     });
 

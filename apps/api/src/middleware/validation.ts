@@ -9,13 +9,13 @@ export const validateNearestTrainsRequest = (
   res: Response,
   next: NextFunction
 ) => {
-  const { latitude, longitude, lineCode, direction } = req.body as Partial<NearestTrainsRequest>;
+  const { latitude, longitude, lineCode, direction, headsign } = req.body as Partial<NearestTrainsRequest>;
 
   // Check required fields
-  if (latitude === undefined || longitude === undefined || lineCode === undefined || direction === undefined) {
+  if (latitude === undefined || longitude === undefined || lineCode === undefined) {
     return res.status(400).json({
       success: false,
-      error: 'Missing required fields: latitude, longitude, lineCode, and direction are required',
+      error: 'Missing required fields: latitude, longitude, and lineCode are required',
       timestamp: new Date().toISOString()
     });
   }
@@ -72,21 +72,37 @@ export const validateNearestTrainsRequest = (
     });
   }
 
-  // Validate direction
-  if (typeof direction !== 'number' || isNaN(direction)) {
-    return res.status(400).json({
-      success: false,
-      error: 'direction must be a valid number',
-      timestamp: new Date().toISOString()
-    });
+  // Validate direction (if provided)
+  if (direction !== undefined) {
+    if (typeof direction !== 'number' || isNaN(direction)) {
+      return res.status(400).json({
+        success: false,
+        error: 'direction must be a valid number',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    if (direction !== 0 && direction !== 1) {
+      return res.status(400).json({
+        success: false,
+        error: 'direction must be 0 (uptown/north) or 1 (downtown/south)',
+        timestamp: new Date().toISOString()
+      });
+    }
   }
 
-  if (direction !== 0 && direction !== 1) {
-    return res.status(400).json({
-      success: false,
-      error: 'direction must be 0 (uptown/north) or 1 (downtown/south)',
-      timestamp: new Date().toISOString()
-    });
+  // Validate headsign (if provided)
+  if (headsign !== undefined) {
+    if (typeof headsign !== 'string' || headsign.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'headsign must be a non-empty string',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Sanitize headsign
+    req.body.headsign = headsign.trim();
   }
 
   // Sanitize lineCode (trim whitespace and convert to uppercase)

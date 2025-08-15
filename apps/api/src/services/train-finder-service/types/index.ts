@@ -18,8 +18,8 @@ export interface TrainFinderRequest {
   /** NYC subway line code (e.g., '6', 'N', 'Q', 'A', etc.) */
   lineCode: string;
   
-  /** Train direction (0 = typically uptown/north, 1 = typically downtown/south) */
-  direction: number;
+  /** Train direction (0 = typically uptown/north, 1 = typically downtown/south). Optional - if not provided, searches all directions */
+  direction?: number;
   
   /** Optional search radius in meters (default: 500) */
   radiusMeters?: number;

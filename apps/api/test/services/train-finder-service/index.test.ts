@@ -40,35 +40,36 @@ describe('TrainFinderService', () => {
       const invalidRequest = { ...validRequest, userLatitude: undefined } as unknown as TrainFinderRequest;
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
-        .rejects.toThrow('userLatitude, userLongitude, lineCode, and direction are required');
+        .rejects.toThrow('userLatitude, userLongitude, and lineCode are required');
     });
 
     it('should throw error for missing userLongitude', async () => {
       const invalidRequest = { ...validRequest, userLongitude: undefined } as unknown as TrainFinderRequest;
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
-        .rejects.toThrow('userLatitude, userLongitude, lineCode, and direction are required');
+        .rejects.toThrow('userLatitude, userLongitude, and lineCode are required');
     });
 
     it('should throw error for missing lineCode', async () => {
       const invalidRequest = { ...validRequest, lineCode: undefined } as unknown as TrainFinderRequest;
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
-        .rejects.toThrow('userLatitude, userLongitude, lineCode, and direction are required');
+        .rejects.toThrow('userLatitude, userLongitude, and lineCode are required');
     });
 
-    it('should throw error for missing direction', async () => {
-      const invalidRequest = { ...validRequest, direction: undefined } as unknown as TrainFinderRequest;
+    it('should accept request without direction (optional)', async () => {
+      const requestWithoutDirection = { ...validRequest, direction: undefined } as TrainFinderRequest;
       
-      await expect(trainFinderService.findNearestTrains(invalidRequest))
-        .rejects.toThrow('userLatitude, userLongitude, lineCode, and direction are required');
+      // Should not throw error since direction is now optional
+      const result = await trainFinderService.findNearestTrains(requestWithoutDirection);
+      expect(Array.isArray(result)).toBe(true);
     });
 
     it('should throw error for invalid direction value', async () => {
       const invalidRequest = { ...validRequest, direction: 2 };
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
-        .rejects.toThrow('direction must be 0 or 1');
+        .rejects.toThrow('direction must be 0 or 1 if provided');
     });
 
     it('should throw error for non-numeric coordinates', async () => {
@@ -89,7 +90,7 @@ describe('TrainFinderService', () => {
       const invalidRequest = { ...validRequest, lineCode: '' };
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
-        .rejects.toThrow('userLatitude, userLongitude, lineCode, and direction are required');
+        .rejects.toThrow('userLatitude, userLongitude, and lineCode are required');
     });
   });
 

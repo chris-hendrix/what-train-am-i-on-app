@@ -55,6 +55,9 @@ export class GTFSService {
   /** Map of trip_id -> GTFSTrip for trip information */
   private readonly trips: Map<string, GTFSTrip> = new Map();
   
+  /** Map of lineCode -> headsign mappings for fast direction lookups */
+  private readonly lineHeadsigns: Map<string, Record<string, number>> = new Map();
+  
   /** Flag to track if GTFS data has been loaded */
   private isLoaded = false;
 
@@ -101,6 +104,9 @@ export class GTFSService {
         this.loadTrips(),
         this.loadStopTimes()
       ]);
+      
+      // Build headsign mappings after all data is loaded
+      this.buildHeadsignMappings();
       
       this.isLoaded = true;
       console.log(`GTFS data loaded: ${this.stops.size} stops, ${this.routes.size} routes, ${this.trips.size} trips`);
@@ -243,6 +249,47 @@ export class GTFSService {
           resolve();
         })
         .on('error', reject);
+    });
+  }
+
+  /**
+   * Build headsign mappings for all routes
+   * Creates a fast lookup map of lineCode -> headsign:direction mapping
+   * @private
+   * 
+   * @example
+   * After processing, lineHeadsigns will contain:
+   * ```
+   * "A" -> {
+   *   "Far Rockaway-Mott Av": 1,
+   *   "Euclid Av": 0,
+   *   "Ozone Park-Lefferts Blvd": 1,
+   *   "Inwood-207 St": 0
+   * }
+   * ```
+   */
+  private buildHeadsignMappings(): void {
+    const routeHeadsigns = new Map<string, Record<string, number>>();
+
+    // Build headsign -> direction mapping for each route
+    this.trips.forEach(trip => {
+      const route = this.routes.get(trip.route_id);
+      if (!route || !trip.trip_headsign) return;
+
+      const lineCode = route.route_short_name;
+      const directionId = trip.direction_id ?? 0;
+
+      if (!routeHeadsigns.has(lineCode)) {
+        routeHeadsigns.set(lineCode, {});
+      }
+
+      const headsignMap = routeHeadsigns.get(lineCode)!;
+      headsignMap[trip.trip_headsign] = directionId;
+    });
+
+    // Store the mappings
+    routeHeadsigns.forEach((headsigns, lineCode) => {
+      this.lineHeadsigns.set(lineCode, headsigns);
     });
   }
 
@@ -475,6 +522,47 @@ export class GTFSService {
     }
     
     return this.stops.get(stopId) || null;
+  }
+
+  /**
+   * Get headsign mappings for a subway line
+   * 
+   * @param lineCode - NYC subway line code (1,2,3,4,5,6,7,N,Q,R,W,B,D,F,M,A,C,E,G,J,Z,L)
+   * @returns Object mapping headsign strings to direction IDs
+   * @throws {Error} If GTFS data has not been loaded
+   * 
+   * @example
+   * ```typescript
+   * const headsigns = gtfsService.getHeadsignsForLine('A');
+   * // Returns: {
+   * //   "Euclid Av": 0,
+   * //   "Inwood-207 St": 0,
+   * //   "Far Rockaway-Mott Av": 1,
+   * //   "Ozone Park-Lefferts Blvd": 1
+   * // }
+   * ```
+   */
+  public getHeadsignsForLine(lineCode: string): Record<string, number> {
+    if (!this.isLoaded) {
+      throw new Error('GTFS data not loaded. Call loadData() first.');
+    }
+
+    return this.lineHeadsigns.get(lineCode) || {};
+  }
+
+  /**
+   * Get trip information by trip ID
+   * 
+   * @param tripId - GTFS trip ID
+   * @returns Trip object or null if not found
+   * @throws {Error} If GTFS data has not been loaded
+   */
+  public getTrip(tripId: string): GTFSTrip | null {
+    if (!this.isLoaded) {
+      throw new Error('GTFS data not loaded. Call loadData() first.');
+    }
+
+    return this.trips.get(tripId) || null;
   }
 
   /**
