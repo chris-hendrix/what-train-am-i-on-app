@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import {
   Route,
   SuccessResponse,
   ErrorResponse
 } from '@what-train/shared';
+import { LocationButton } from '../components/LocationButton';
 
 export default function HomeScreen() {
   const [routes, setRoutes] = useState<Route[]>([]);
@@ -52,8 +53,12 @@ export default function HomeScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>NYC Subway Routes</Text>
+    <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
+      <Text style={styles.title}>What Train Am I On?</Text>
+      
+      <LocationButton />
+      
+      <Text style={styles.sectionTitle}>NYC Subway Routes</Text>
       {routes.map((route) => (
         <View key={route.id} style={styles.routeContainer}>
           <View style={[styles.routeIndicator, { backgroundColor: route.color ? `#${route.color}` : '#666' }]}>
@@ -68,22 +73,33 @@ export default function HomeScreen() {
         </View>
       ))}
       <StatusBar style="auto" />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  container: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    minHeight: '100%',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 30,
+    color: '#333',
+    textAlign: 'center',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginTop: 30,
+    marginBottom: 20,
     color: '#333',
   },
   message: {
