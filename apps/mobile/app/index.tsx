@@ -7,7 +7,7 @@ import {
   ErrorResponse
 } from '@what-train/shared';
 
-export default function App() {
+export default function HomeScreen() {
   const [routes, setRoutes] = useState<Route[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
