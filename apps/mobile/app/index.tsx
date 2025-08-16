@@ -8,7 +8,7 @@ export default function HomeScreen() {
   const router = useRouter();
   
   // Get routes from global context
-  const { routesLoading, routesFromCache, location, locationError } = useAppContext();
+  const { routesLoading, routesFromCache } = useAppContext();
 
   const handleStartSearch = () => {
     router.push('/trains');
@@ -26,28 +26,7 @@ export default function HomeScreen() {
         </Text>
       </View>
       
-      <View style={styles.content}>
-        {location && (
-          <View style={styles.locationStatus}>
-            <Text style={styles.locationText}>
-              📍 Location: {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
-            </Text>
-            {location.accuracy && (
-              <Text style={styles.accuracyText}>
-                Accuracy: {Math.round(location.accuracy)}m
-              </Text>
-            )}
-          </View>
-        )}
-        
-        {locationError && (
-          <View style={styles.locationError}>
-            <Text style={styles.locationErrorText}>
-              Location: {locationError}
-            </Text>
-          </View>
-        )}
-        
+      <View style={styles.content}>        
         <View style={styles.actionSection}>
           <Text style={styles.actionTitle}>Ready to find your train?</Text>
           <TouchableOpacity
@@ -188,39 +167,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     flex: 1,
-  },
-  locationStatus: {
-    backgroundColor: '#e8f5e8',
-    borderRadius: 12,
-    padding: 15,
-    marginVertical: 10,
-    borderWidth: 1,
-    borderColor: '#c3e6c3',
-    alignItems: 'center',
-  },
-  locationText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#2d5a2d',
-    textAlign: 'center',
-  },
-  accuracyText: {
-    fontSize: 12,
-    color: '#5a7a5a',
-    marginTop: 4,
-  },
-  locationError: {
-    backgroundColor: '#fdeaea',
-    borderRadius: 12,
-    padding: 15,
-    marginVertical: 10,
-    borderWidth: 1,
-    borderColor: '#f5c6c6',
-    alignItems: 'center',
-  },
-  locationErrorText: {
-    fontSize: 14,
-    color: '#d63384',
-    textAlign: 'center',
   },
 });

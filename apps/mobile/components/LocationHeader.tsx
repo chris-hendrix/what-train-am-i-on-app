@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
 import { useAppContext } from '../context/AppContext';
-import { useFindNearestTrains } from '../hooks/useFindNearestTrains';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,42 +11,16 @@ interface LocationHeaderProps {
 }
 
 export function LocationHeader({ title, showBackButton = false, backAction }: LocationHeaderProps) {
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const {
     location,
-    locationLoading,
     locationError,
-    getCurrentLocation,
   } = useAppContext();
   
-  const { findNearestTrains } = useFindNearestTrains();
 
 
-  const handleLocationPress = async () => {
-    // Always refresh location and fetch nearest trains
-    await getCurrentLocation();
-    
-    // Call nearest trains endpoint if we have location
-    if (location) {
-      await findNearestTrains({
-        latitude: location.latitude,
-        longitude: location.longitude,
-        radiusMeters: 500 // 500 meter radius
-      });
-    }
-  };
-
-
-  const getLocationButtonColor = () => {
-    if (locationLoading) return '#007AFF';
-    if (locationError) return '#FF3B30';
-    if (location) return '#34C759';
-    return '#8E8E93';
-  };
-
-  const handleHomePress = () => {
-    router.push('/');
+  const handleLocationDisplayPress = () => {
+    console.log('TODO: Location display clicked');
   };
 
   return (
@@ -66,24 +38,24 @@ export function LocationHeader({ title, showBackButton = false, backAction }: Lo
       </View>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.homeButton}
-          onPress={handleHomePress}
-        >
-          <Ionicons name="home" size={20} color="#007AFF" />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.locationButton}
-          onPress={handleLocationPress}
-          disabled={locationLoading}
-        >
-          <Ionicons 
-            name="refresh" 
-            size={20} 
-            color={getLocationButtonColor()} 
-          />
-        </TouchableOpacity>
+        {location && (
+          <TouchableOpacity
+            style={[
+              styles.locationDisplay,
+              { backgroundColor: locationError ? '#FFD60A' : '#28A745' }
+            ]}
+            onPress={handleLocationDisplayPress}
+          >
+            <View style={styles.locationDisplayContent}>
+              <Ionicons name="location" size={12} color="white" style={styles.locationIcon} />
+              <View style={styles.locationCoordinates}>
+                <Text style={styles.locationDisplayText}>{location.latitude.toFixed(4)}</Text>
+                <Text style={styles.locationDisplayText}>{location.longitude.toFixed(4)}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
+        
       </View>
     </View>
   );
@@ -126,19 +98,29 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 8,
   },
-  homeButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 8,
+  locationDisplay: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 20,
+    maxWidth: 140,
   },
-  locationButton: {
-    width: 36,
-    height: 36,
+  locationDisplayContent: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  locationIcon: {
+    marginRight: 4,
+  },
+  locationCoordinates: {
+    flex: 1,
+  },
+  locationDisplayText: {
+    fontSize: 9,
+    fontWeight: '600',
+    color: 'white',
+    textAlign: 'center',
+    lineHeight: 12,
   },
 });
