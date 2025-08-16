@@ -13,6 +13,7 @@ import { validateNearestTrainsRequest } from '../middleware/validation.js';
 import { requestLogger } from '../middleware/logging.js';
 import { asyncHandler, MtaApiError, RequestTimeoutError } from '../middleware/error.js';
 import { GTFSRTError, GTFSRTTimeoutError, GTFSRTUnavailableError } from '../services/gtfs-rt-service/errors.js';
+import { DEBUG_CONFIG } from '../config/debug.js';
 
 const router = Router();
 const gtfsService = GTFSService.getInstance();
@@ -24,9 +25,11 @@ router.use(requestLogger);
  * Find nearest trains to user location
  * Takes user coordinates, line code, and direction to identify nearby trains
  * Returns train data with current position and next stops
+ * Note: Raw GTFS data included automatically in development mode
  */
 router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
   const { latitude, longitude, lineCode, direction, headsign, radiusMeters } = req.body as NearestTrainsRequest;
+  const includeGtfsData = DEBUG_CONFIG.INCLUDE_GTFS_DATA;
   
   // Get route information first
   const routeInfo = gtfsService.getRouteByLineCode(lineCode);
@@ -84,7 +87,7 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
         }
       }
 
-      return {
+      const trainData: TrainData = {
         trainId: train.vehicleId,
         line: {
           code: routeInfo.route.routeShortName,
@@ -100,6 +103,16 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
           ? new Date(train.timestamp * 1000).toISOString() 
           : new Date().toISOString()
       };
+
+      // Add raw GTFS data for debugging if requested
+      if (includeGtfsData) {
+        (trainData as TrainData & { gtfsData?: { rawTrain: typeof train; routeInfo: typeof routeInfo } }).gtfsData = {
+          rawTrain: train,
+          routeInfo: routeInfo
+        };
+      }
+
+      return trainData;
     });
 
     const response: SuccessResponse<NearestTrainsResponse> = {
