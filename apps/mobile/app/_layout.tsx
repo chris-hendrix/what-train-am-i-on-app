@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { AppProvider } from '../context/AppContext';
 import { LocationHeader } from '../components/LocationHeader';
+import { TrainSearchHeader } from '../components/TrainSearchHeader';
 
 export default function RootLayout() {
   return (
@@ -21,7 +22,7 @@ export default function RootLayout() {
         <Stack.Screen 
           name="trains/[lineCode]" 
           options={{ 
-            header: () => <LocationHeader title="Train Search" />,
+            header: () => <TrainSearchHeader />,
           }} 
         />
         <Stack.Screen 

@@ -4,7 +4,7 @@
 export interface NearestTrainsRequest {
   latitude: number;
   longitude: number;
-  lineCode?: string;
+  lineCode: string;
   /** Optional direction filter (0 or 1). If not provided, searches all directions */
   direction?: number;
   /** Optional headsign filter. If provided, overrides direction */

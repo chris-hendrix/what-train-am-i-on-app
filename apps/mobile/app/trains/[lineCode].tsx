@@ -160,75 +160,88 @@ export default function TrainSearchScreen() {
       <StatusBar style="auto" />
       
       <ContentContainer>
-        <View style={styles.header}>
-        <View style={[
-          styles.routeIndicator,
-          { backgroundColor: route?.color ? `#${route.color}` : '#666' }
-        ]}>
-          <Text style={[
-            styles.routeCode,
-            { color: route?.textColor ? `#${route.textColor}` : 'white' }
-          ]}>
-            {route?.shortName || params.lineCode}
-          </Text>
-        </View>
-        <Text style={styles.title}>{route?.longName || `${params.lineCode} Train`}</Text>
-        <Text style={styles.subtitle}>
-          {results && results.trains && results.trains.length > 0 
-            ? `Found ${filteredTrains.length} nearby train${filteredTrains.length > 1 ? 's' : ''}${selectedDirection ? ` (${selectedDirection})` : ''}`
-            : hasSearched ? 'No trains found nearby' : 'Searching for nearby trains...'
+        <ScrollView 
+          style={styles.content}
+          refreshControl={
+            <RefreshControl
+              refreshing={searchingTrains}
+              onRefresh={handleRefresh}
+              title="Pull to refresh"
+              tintColor="#007AFF"
+            />
           }
-        </Text>
-      </View>
-
-      {results && results.trains && results.trains.length > 0 && (
-        <View style={styles.filterSection}>
-          <Text style={styles.filterTitle}>Filter by direction:</Text>
-          <View style={styles.filterButtons}>
-            <TouchableOpacity
-              style={[
-                styles.filterButton,
-                selectedDirection === 'uptown' && styles.filterButtonActive
-              ]}
-              onPress={() => handleDirectionFilter('uptown')}
-            >
+        >
+          <View style={styles.header}>
+            <View style={[
+              styles.routeIndicator,
+              { backgroundColor: route?.color ? `#${route.color}` : '#666' }
+            ]}>
               <Text style={[
-                styles.filterButtonText,
-                selectedDirection === 'uptown' && styles.filterButtonTextActive
+                styles.routeCode,
+                { color: route?.textColor ? `#${route.textColor}` : 'white' }
               ]}>
-                Uptown & Bronx
+                {route?.shortName || params.lineCode}
               </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={[
-                styles.filterButton,
-                selectedDirection === 'downtown' && styles.filterButtonActive
-              ]}
-              onPress={() => handleDirectionFilter('downtown')}
-            >
-              <Text style={[
-                styles.filterButtonText,
-                selectedDirection === 'downtown' && styles.filterButtonTextActive
-              ]}>
-                Downtown & Brooklyn
-              </Text>
-            </TouchableOpacity>
+            </View>
+            <Text style={styles.title}>{route?.longName || `${params.lineCode} Train`}</Text>
+            <Text style={styles.subtitle}>
+              {results && results.trains && results.trains.length > 0 
+                ? `Found ${filteredTrains.length} nearby train${filteredTrains.length > 1 ? 's' : ''}${selectedDirection ? ` (${selectedDirection})` : ''}`
+                : hasSearched ? 'No trains found nearby' : 'Searching for nearby trains...'
+              }
+            </Text>
           </View>
-        </View>
-      )}
 
-      <ScrollView 
-        style={styles.content}
-        refreshControl={
-          <RefreshControl
-            refreshing={searchingTrains}
-            onRefresh={handleRefresh}
-            title="Pull to refresh"
-            tintColor="#007AFF"
-          />
-        }
-      >
+          {directionsInfo.length > 0 && (
+            <View style={styles.filterSection}>
+              <Text style={styles.filterTitle}>Choose direction:</Text>
+              <View style={styles.directionCards}>
+                {directionsInfo.map((directionInfo) => {
+                  const isUptown = directionInfo.direction === 0;
+                  const directionKey = isUptown ? 'uptown' : 'downtown';
+                  const isSelected = selectedDirection === directionKey;
+                  
+                  return (
+                    <TouchableOpacity
+                      key={directionInfo.direction}
+                      style={[
+                        styles.directionCard,
+                        isSelected && styles.directionCardActive
+                      ]}
+                      onPress={() => handleDirectionFilter(directionKey)}
+                    >
+                      <Text style={[
+                        styles.directionCardLabel,
+                        isSelected && styles.directionCardLabelActive
+                      ]}>
+                        {directionInfo.label}
+                      </Text>
+                      
+                      <View style={styles.directionCardContent}>
+                        <Text style={[
+                          styles.destinationsLabel,
+                          isSelected && styles.destinationsLabelActive
+                        ]}>
+                          Destinations:
+                        </Text>
+                        {directionInfo.headsigns.map((headsign) => (
+                          <Text 
+                            key={headsign} 
+                            style={[
+                              styles.destinationText,
+                              isSelected && styles.destinationTextActive
+                            ]}
+                          >
+                            • {headsign}
+                          </Text>
+                        ))}
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          )}
         {filteredTrains.length > 0 ? (
           <View style={styles.resultsSection}>
             {filteredTrains.map((train: TrainData, index: number) => (
@@ -289,25 +302,6 @@ export default function TrainSearchScreen() {
                 : `No ${route?.shortName || params.lineCode} trains are currently nearby. Pull down to refresh or try again in a few minutes.`
               }
             </Text>
-            
-            {directionsInfo.length > 0 && (
-              <View style={styles.infoSection}>
-                <Text style={styles.infoTitle}>About this line</Text>
-                {directionsInfo.map((directionInfo) => (
-                  <View key={directionInfo.direction} style={styles.directionInfoSection}>
-                    <Text style={styles.directionLabel}>{directionInfo.label}</Text>
-                    <View style={styles.headsignsContainer}>
-                      <Text style={styles.headsignsTitle}>Destinations:</Text>
-                      {directionInfo.headsigns.map((headsign) => (
-                        <View key={headsign} style={styles.headsignInfo}>
-                          <Text style={styles.headsignText}>{headsign}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  </View>
-                ))}
-              </View>
-            )}
           </View>
         ) : null}
         </ScrollView>
@@ -332,8 +326,6 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     backgroundColor: '#f8f9fa',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
   },
   routeIndicator: {
     width: 60,
@@ -360,7 +352,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 20,
   },
   filterSection: {
     backgroundColor: 'white',
@@ -376,84 +367,55 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     textAlign: 'center',
   },
-  filterButtons: {
+  directionCards: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     gap: 12,
   },
-  filterButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
+  directionCard: {
+    flex: 1,
     backgroundColor: '#f8f9fa',
+    borderRadius: 12,
+    padding: 16,
     borderWidth: 2,
     borderColor: '#e0e0e0',
-    minWidth: 120,
-    alignItems: 'center',
   },
-  filterButtonActive: {
-    backgroundColor: '#007AFF',
+  directionCardActive: {
+    backgroundColor: '#e3f2fd',
     borderColor: '#007AFF',
   },
-  filterButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#666',
+  directionCardLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 8,
+    textAlign: 'center',
   },
-  filterButtonTextActive: {
-    color: 'white',
+  directionCardLabelActive: {
+    color: '#007AFF',
   },
-  infoSection: {
-    marginBottom: 25,
+  directionCardContent: {
     alignItems: 'center',
   },
-  infoTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  infoSubtitle: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  directionInfoSection: {
-    marginBottom: 25,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 16,
-    padding: 20,
-  },
-  directionLabel: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#007AFF',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  headsignsContainer: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 15,
-  },
-  headsignsTitle: {
-    fontSize: 16,
+  destinationsLabel: {
+    fontSize: 12,
     fontWeight: '600',
-    color: '#333',
-    marginBottom: 12,
+    color: '#666',
+    marginBottom: 6,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
-  headsignInfo: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 8,
-    marginBottom: 8,
+  destinationsLabelActive: {
+    color: '#0056b3',
   },
-  headsignText: {
-    fontSize: 15,
-    color: '#333',
+  destinationText: {
+    fontSize: 13,
+    color: '#555',
+    marginBottom: 2,
+    textAlign: 'center',
+  },
+  destinationTextActive: {
+    color: '#007AFF',
     fontWeight: '500',
   },
   searchingSection: {
@@ -472,6 +434,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   resultsSection: {
+    paddingHorizontal: 20,
     paddingBottom: 20,
   },
   trainCard: {
@@ -562,8 +525,7 @@ const styles = StyleSheet.create({
   },
   noResultsSection: {
     alignItems: 'center',
-    paddingVertical: 40,
-    paddingHorizontal: 20,
+    padding: 20,
   },
   noResultsTitle: {
     fontSize: 24,

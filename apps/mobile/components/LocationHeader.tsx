@@ -8,9 +8,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface LocationHeaderProps {
   title: string;
+  showBackButton?: boolean;
+  backAction?: () => void;
 }
 
-export function LocationHeader({ title }: LocationHeaderProps) {
+export function LocationHeader({ title, showBackButton = false, backAction }: LocationHeaderProps) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const {
@@ -51,7 +53,17 @@ export function LocationHeader({ title }: LocationHeaderProps) {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.leftSection}>
+        {showBackButton && (
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={backAction}
+          >
+            <Ionicons name="arrow-back" size={20} color="#007AFF" />
+          </TouchableOpacity>
+        )}
+        <Text style={[styles.title, showBackButton && styles.titleWithBack]}>{title}</Text>
+      </View>
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
@@ -89,11 +101,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
   },
+  leftSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  backButton: {
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
   title: {
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
     flex: 1,
+  },
+  titleWithBack: {
+    flex: 1,
+    marginLeft: 0,
   },
   buttonsContainer: {
     flexDirection: 'row',
