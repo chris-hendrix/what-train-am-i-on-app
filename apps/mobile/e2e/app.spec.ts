@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('What Train Am I On App - E2E Flow', () => {
-  test('complete user flow: home -> select line -> filter trains', async ({ page }) => {
+  test('complete user flow: home -> select line -> filter trains', async ({ page }, testInfo) => {
+    const projectName = testInfo.project.name;
     // Mock geolocation for consistent testing
     await page.context().grantPermissions(['geolocation']);
     await page.context().setGeolocation({ latitude: 40.7589, longitude: -73.9851 });
@@ -55,6 +56,12 @@ test.describe('What Train Am I On App - E2E Flow', () => {
       await page.goto('/');
       await page.waitForSelector('input[placeholder="Search train lines..."]', { timeout: 10000 });
       await expect(page.locator('input[placeholder="Search train lines..."]')).toBeVisible();
+      
+      // Capture screenshot for PR documentation
+      await page.screenshot({ 
+        path: `./e2e/screenshots/${projectName}/home-page-route-selection.png`,
+        fullPage: true 
+      });
     });
 
     await test.step('Navigate to train line page', async () => {
@@ -73,6 +80,12 @@ test.describe('What Train Am I On App - E2E Flow', () => {
       await expect(page.locator('[data-testid="train-card"]').filter({ hasText: 'Uptown & Bronx' })).toBeVisible();
       await expect(page.locator('[data-testid="train-card"]').filter({ hasText: 'Times Sq-42 St' })).toBeVisible();
       await expect(page.locator('[data-testid="train-card"]').filter({ hasText: '51 St' })).toBeVisible();
+      
+      // Capture screenshot for PR documentation
+      await page.screenshot({ 
+        path: `./e2e/screenshots/${projectName}/train-line-detail-page.png`,
+        fullPage: true 
+      });
     });
 
     await test.step('Test direction filtering functionality', async () => {
@@ -84,6 +97,12 @@ test.describe('What Train Am I On App - E2E Flow', () => {
       // Verify only downtown trains are visible
       await expect(page.locator('[data-testid="train-card"]').filter({ hasText: 'Downtown & Brooklyn' })).toBeVisible();
       await expect(page.locator('[data-testid="train-card"]').filter({ hasText: 'Uptown & Bronx' })).toHaveCount(0);
+      
+      // Capture screenshot for PR documentation
+      await page.screenshot({ 
+        path: `./e2e/screenshots/${projectName}/direction-filter-downtown.png`,
+        fullPage: true 
+      });
     });
 
     await test.step('Test filter toggle behavior', async () => {
@@ -102,6 +121,12 @@ test.describe('What Train Am I On App - E2E Flow', () => {
       // Verify only uptown trains are visible
       await expect(page.locator('[data-testid="train-card"]').filter({ hasText: 'Uptown & Bronx' })).toBeVisible();
       await expect(page.locator('[data-testid="train-card"]').filter({ hasText: 'Downtown & Brooklyn' })).toHaveCount(0);
+      
+      // Capture screenshot for PR documentation
+      await page.screenshot({ 
+        path: `./e2e/screenshots/${projectName}/direction-filter-uptown.png`,
+        fullPage: true 
+      });
     });
   });
 });

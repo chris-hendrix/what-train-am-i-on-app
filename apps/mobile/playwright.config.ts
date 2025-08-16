@@ -11,11 +11,22 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:8081',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'mobile',
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 375, height: 812 } // iPhone 12 size
+      },
+    },
+    {
+      name: 'desktop',
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 }
+      },
     },
   ],
   webServer: process.env.SKIP_WEBSERVER ? undefined : [
