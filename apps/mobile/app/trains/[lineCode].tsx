@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, RefreshControl, TouchableOpacity } 
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { useAppContext } from '../../context/AppContext';
-import { useTrainSearch } from '../../hooks/useTrainSearch';
+import { useFindNearestTrains } from '../../hooks/useFindNearestTrains';
 import { Route, TrainData, NextStop } from '@what-train/shared';
 
 interface DirectionInfo {
@@ -21,7 +21,7 @@ export default function TrainSearchScreen() {
     location, 
     getRouteByLineCode 
   } = useAppContext();
-  const { searchTrains, loading: searchingTrains, error: searchError, clearError, results } = useTrainSearch();
+  const { findNearestTrains, loading: searchingTrains, error: searchError, clearError, results } = useFindNearestTrains();
   const [route, setRoute] = useState<Route | null>(null);
   const [directionsInfo, setDirectionsInfo] = useState<DirectionInfo[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
@@ -70,12 +70,12 @@ export default function TrainSearchScreen() {
           lineCode: params.lineCode,
         };
 
-        await searchTrains(requestParams);
+        await findNearestTrains(requestParams);
       }
     };
 
     performSearch();
-  }, [route, location, hasSearched, searchingTrains, params.lineCode, searchTrains, clearError]);
+  }, [route, location, hasSearched, searchingTrains, params.lineCode, findNearestTrains, clearError]);
 
   const handleRefresh = async () => {
     if (route && location) {
@@ -85,7 +85,7 @@ export default function TrainSearchScreen() {
         longitude: location.longitude,
         lineCode: params.lineCode,
       };
-      await searchTrains(requestParams);
+      await findNearestTrains(requestParams);
     }
   };
 

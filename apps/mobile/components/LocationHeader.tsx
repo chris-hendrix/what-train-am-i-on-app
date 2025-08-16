@@ -1,51 +1,42 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAppContext } from '../context/AppContext';
+import { useFindNearestTrains } from '../hooks/useFindNearestTrains';
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface LocationHeaderProps {
   title: string;
-  showHomeButton?: boolean;
 }
 
-export function LocationHeader({ title, showHomeButton = true }: LocationHeaderProps) {
+export function LocationHeader({ title }: LocationHeaderProps) {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const {
     location,
     locationLoading,
     locationError,
     getCurrentLocation,
   } = useAppContext();
+  
+  const { findNearestTrains } = useFindNearestTrains();
 
-  const showLocationInfo = () => {
-    if (!location) {
-      Alert.alert('Location', 'No location available');
-      return;
-    }
-    
-    Alert.alert(
-      'Current Location',
-      `Latitude: ${location.latitude.toFixed(6)}\nLongitude: ${location.longitude.toFixed(6)}\nAccuracy: ${location.accuracy ? Math.round(location.accuracy) + 'm' : 'Unknown'}`,
-      [{ text: 'OK' }]
-    );
-  };
 
   const handleLocationPress = async () => {
-    if (location && !locationLoading) {
-      // If we have location, show info
-      showLocationInfo();
-    } else {
-      // If no location or loading, request location
-      await getCurrentLocation();
+    // Always refresh location and fetch nearest trains
+    await getCurrentLocation();
+    
+    // Call nearest trains endpoint if we have location
+    if (location) {
+      await findNearestTrains({
+        latitude: location.latitude,
+        longitude: location.longitude,
+        radiusMeters: 500 // 500 meter radius
+      });
     }
   };
 
-  const getLocationButtonText = () => {
-    if (locationLoading) return '⟳';
-    if (locationError) return '📍!';
-    if (location) return '📍';
-    return '📍?';
-  };
 
   const getLocationButtonColor = () => {
     if (locationLoading) return '#007AFF';
@@ -59,27 +50,27 @@ export function LocationHeader({ title, showHomeButton = true }: LocationHeaderP
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
       <Text style={styles.title}>{title}</Text>
-      
+
       <View style={styles.buttonsContainer}>
-        {showHomeButton && (
-          <TouchableOpacity
-            style={styles.homeButton}
-            onPress={handleHomePress}
-          >
-            <Text style={styles.homeButtonText}>🏠</Text>
-          </TouchableOpacity>
-        )}
-        
         <TouchableOpacity
-          style={[styles.locationButton, { borderColor: getLocationButtonColor() }]}
+          style={styles.homeButton}
+          onPress={handleHomePress}
+        >
+          <Ionicons name="home" size={20} color="#007AFF" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.locationButton}
           onPress={handleLocationPress}
           disabled={locationLoading}
         >
-          <Text style={[styles.locationText, { color: getLocationButtonColor() }]}>
-            {getLocationButtonText()}
-          </Text>
+          <Ionicons 
+            name="refresh" 
+            size={20} 
+            color={getLocationButtonColor()} 
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -93,7 +84,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 8,
+    paddingBottom: 16,
     backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
   },
   title: {
     fontSize: 18,
@@ -113,19 +107,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 8,
   },
-  homeButtonText: {
-    fontSize: 18,
-  },
   locationButton: {
     width: 36,
     height: 36,
-    borderRadius: 18,
-    borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  locationText: {
-    fontSize: 16,
-    fontWeight: '600',
   },
 });

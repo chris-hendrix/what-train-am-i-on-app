@@ -6,20 +6,20 @@ import {
   ErrorResponse
 } from '@what-train/shared';
 
-interface UseTrainSearchReturn {
-  searchTrains: (params: NearestTrainsRequest) => Promise<NearestTrainsResponse | null>;
+interface UseFindNearestTrainsReturn {
+  findNearestTrains: (params: NearestTrainsRequest) => Promise<NearestTrainsResponse | null>;
   loading: boolean;
   error: string | null;
   results: NearestTrainsResponse | null;
   clearError: () => void;
 }
 
-export function useTrainSearch(): UseTrainSearchReturn {
+export function useFindNearestTrains(): UseFindNearestTrainsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<NearestTrainsResponse | null>(null);
 
-  const searchTrains = async (params: NearestTrainsRequest): Promise<NearestTrainsResponse | null> => {
+  const findNearestTrains = async (params: NearestTrainsRequest): Promise<NearestTrainsResponse | null> => {
     setLoading(true);
     setError(null);
 
@@ -56,7 +56,7 @@ export function useTrainSearch(): UseTrainSearchReturn {
   };
 
   return {
-    searchTrains,
+    findNearestTrains,
     loading,
     error,
     results,

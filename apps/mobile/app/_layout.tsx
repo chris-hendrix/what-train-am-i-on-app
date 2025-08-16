@@ -9,25 +9,25 @@ export default function RootLayout() {
         <Stack.Screen 
           name="index" 
           options={{ 
-            headerTitle: () => <LocationHeader title="What Train Am I On?" showHomeButton={false} />,
+            header: () => <LocationHeader title="What Train Am I On?" />,
           }} 
         />
         <Stack.Screen 
           name="trains/index" 
           options={{ 
-            headerTitle: () => <LocationHeader title="Select Train Line" />,
+            header: () => <LocationHeader title="Select Train Line" />,
           }} 
         />
         <Stack.Screen 
           name="trains/[lineCode]" 
           options={{ 
-            headerTitle: () => <LocationHeader title="Train Search" />,
+            header: () => <LocationHeader title="Train Search" />,
           }} 
         />
         <Stack.Screen 
           name="error" 
           options={{ 
-            headerTitle: () => <LocationHeader title="Error" />,
+            header: () => <LocationHeader title="Error" />,
           }} 
         />
       </Stack>
