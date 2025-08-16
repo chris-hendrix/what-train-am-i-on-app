@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface LocationHeaderProps {
-  title: string;
+  title: string | React.ReactNode;
   showBackButton?: boolean;
   backAction?: () => void;
 }
@@ -34,7 +34,16 @@ export function LocationHeader({ title, showBackButton = false, backAction }: Lo
             <Ionicons name="arrow-back" size={20} color="#007AFF" />
           </TouchableOpacity>
         )}
-        <Text style={[styles.title, showBackButton && styles.titleWithBack]}>{title}</Text>
+      </View>
+
+      <View style={styles.centerSection}>
+        {typeof title === 'string' ? (
+          <Text style={styles.title}>{title}</Text>
+        ) : (
+          <View style={styles.titleContainer}>
+            {title}
+          </View>
+        )}
       </View>
 
       <View style={styles.buttonsContainer}>
@@ -67,37 +76,45 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    paddingBottom: 16,
+    paddingVertical: 12,
+    paddingBottom: 20,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
+    minHeight: 80,
   },
   leftSection: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
+    justifyContent: 'flex-start',
   },
   backButton: {
     width: 36,
     height: 36,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 8,
+  },
+  centerSection: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
-    flex: 1,
+    textAlign: 'center',
   },
-  titleWithBack: {
-    flex: 1,
-    marginLeft: 0,
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonsContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     gap: 8,
   },
   locationDisplay: {

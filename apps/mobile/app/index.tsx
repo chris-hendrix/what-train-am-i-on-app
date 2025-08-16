@@ -1,64 +1,98 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { useAppContext } from '../context/AppContext';
 import { ContentContainer } from '../components/ContentContainer';
+import { RouteCard } from '../components/RouteCard';
+import { useResponsive } from '../hooks/useResponsive';
 
-export default function HomeScreen() {
-  const router = useRouter();
-  
-  // Get routes from global context
-  const { routesLoading, routesFromCache } = useAppContext();
+export default function TrainSelectionScreen() {
+  const { filteredRoutes, routesLoading, routesError, refreshRoutes, searchQuery, setSearchQuery } = useAppContext();
+  const { isMobile, isTablet } = useResponsive();
 
-  const handleStartSearch = () => {
-    router.push('/trains');
+  // Calculate responsive grid columns and card width
+  const getGridColumns = () => {
+    if (isMobile) return 2;
+    if (isTablet) return 3;
+    return 4; // desktop
   };
+
+  const columns = getGridColumns();
+  // Calculate card width as percentage (ensuring we never go below 2 columns)
+  // Use slightly smaller percentages to ensure proper wrapping
+  const cardWidthPercent = columns === 2 ? 47 : columns === 3 ? 31 : 23;
+
+
+  if (routesLoading) {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.message}>Loading train lines...</Text>
+          </View>
+        </ContentContainer>
+      </View>
+    );
+  }
+
+  if (routesError) {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.error}>{routesError}</Text>
+            <TouchableOpacity
+              style={styles.retryButton}
+              onPress={refreshRoutes}
+            >
+              <Text style={styles.retryButtonText}>Retry</Text>
+            </TouchableOpacity>
+          </View>
+        </ContentContainer>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      
+
       <ContentContainer>
-        <View style={styles.header}>
-        <Text style={styles.title}>What Train Am I On?</Text>
-        <Text style={styles.subtitle}>
-          Find your exact train and see upcoming stops in real-time
-        </Text>
-      </View>
-      
-      <View style={styles.content}>        
-        <View style={styles.actionSection}>
-          <Text style={styles.actionTitle}>Ready to find your train?</Text>
-          <TouchableOpacity
-            style={[styles.startButton, routesLoading && styles.startButtonLoading]}
-            onPress={handleStartSearch}
-            disabled={routesLoading}
-          >
-            <Text style={styles.startButtonText}>
-              {routesLoading ? 'Loading Routes...' : 'Select Train Line'}
-            </Text>
-          </TouchableOpacity>
-          {routesFromCache && !routesLoading && (
-            <Text style={styles.cacheStatus}>Routes loaded from cache</Text>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.routesContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.header}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search train lines..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              autoCapitalize="characters"
+              autoCorrect={false}
+            />
+          </View>
+
+          {filteredRoutes.length === 0 ? (
+            <View style={styles.noResultsContainer}>
+              <Text style={styles.noResultsText}>
+                {searchQuery ? 'No train lines found matching your search' : 'No train lines available'}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.routesGrid}>
+              {filteredRoutes.map((route) => (
+                <RouteCard
+                  key={route.id}
+                  route={route}
+                  widthPercent={cardWidthPercent}
+                />
+              ))}
+            </View>
           )}
-        </View>
-        
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>How it works:</Text>
-          <View style={styles.stepContainer}>
-            <Text style={styles.stepNumber}>1</Text>
-            <Text style={styles.stepText}>Select your train line</Text>
-          </View>
-          <View style={styles.stepContainer}>
-            <Text style={styles.stepNumber}>2</Text>
-            <Text style={styles.stepText}>Choose direction (optional)</Text>
-          </View>
-          <View style={styles.stepContainer}>
-            <Text style={styles.stepNumber}>3</Text>
-            <Text style={styles.stepText}>Get real-time train information</Text>
-          </View>
-        </View>
-        </View>
+        </ScrollView>
       </ContentContainer>
     </View>
   );
@@ -69,103 +103,70 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  header: {
-    padding: 30,
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    backgroundColor: '#fff',
+  },
+  searchInput: {
+    height: 45,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    fontSize: 16,
     backgroundColor: '#f8f9fa',
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+  scrollView: {
+    flex: 1,
+  },
+  routesContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  routesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12, // Modern gap property for consistent spacing
+  },
+  message: {
+    fontSize: 18,
     color: '#333',
     textAlign: 'center',
-    marginBottom: 10,
   },
-  subtitle: {
+  error: {
+    fontSize: 16,
+    color: '#d32f2f',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  noResultsContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 40,
+  },
+  noResultsText: {
     fontSize: 16,
     color: '#666',
     textAlign: 'center',
-    lineHeight: 22,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  actionSection: {
-    alignItems: 'center',
-    marginVertical: 30,
-  },
-  actionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  startButton: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 18,
-    paddingHorizontal: 40,
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  startButtonLoading: {
-    backgroundColor: '#A0A0A0',
-    shadowOpacity: 0.1,
-  },
-  startButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  cacheStatus: {
-    fontSize: 12,
-    color: '#28a745',
-    textAlign: 'center',
-    marginTop: 8,
-    fontStyle: 'italic',
-  },
-  infoSection: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
-  },
-  infoTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  stepContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  stepNumber: {
-    width: 28,
-    height: 28,
-    backgroundColor: '#007AFF',
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    lineHeight: 28,
-    borderRadius: 14,
-    marginRight: 12,
-  },
-  stepText: {
-    fontSize: 16,
-    color: '#333',
-    flex: 1,
   },
 });

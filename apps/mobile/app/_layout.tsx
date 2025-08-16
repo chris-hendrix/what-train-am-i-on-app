@@ -14,13 +14,7 @@ export default function RootLayout() {
           }} 
         />
         <Stack.Screen 
-          name="trains/index" 
-          options={{ 
-            header: () => <LocationHeader title="Select Train Line" />,
-          }} 
-        />
-        <Stack.Screen 
-          name="trains/[lineCode]" 
+          name="[lineCode]" 
           options={{ 
             header: () => <TrainSearchHeader />,
           }} 

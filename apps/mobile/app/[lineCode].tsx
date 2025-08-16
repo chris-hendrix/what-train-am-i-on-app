@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
-import { useAppContext } from '../../context/AppContext';
-import { useFindNearestTrains } from '../../hooks/useFindNearestTrains';
+import { useAppContext } from '../context/AppContext';
+import { useFindNearestTrains } from '../hooks/useFindNearestTrains';
 import { Route, TrainData, NextStop } from '@what-train/shared';
-import { ContentContainer } from '../../components/ContentContainer';
+import { ContentContainer } from '../components/ContentContainer';
 
 interface DirectionInfo {
   direction: number;
@@ -171,26 +171,6 @@ export default function TrainSearchScreen() {
             />
           }
         >
-          <View style={styles.header}>
-            <View style={[
-              styles.routeIndicator,
-              { backgroundColor: route?.color ? `#${route.color}` : '#666' }
-            ]}>
-              <Text style={[
-                styles.routeCode,
-                { color: route?.textColor ? `#${route.textColor}` : 'white' }
-              ]}>
-                {route?.shortName || params.lineCode}
-              </Text>
-            </View>
-            <Text style={styles.title}>{route?.longName || `${params.lineCode} Train`}</Text>
-            <Text style={styles.subtitle}>
-              {results && results.trains && results.trains.length > 0 
-                ? `Found ${filteredTrains.length} nearby train${filteredTrains.length > 1 ? 's' : ''}${selectedDirection ? ` (${selectedDirection})` : ''}`
-                : hasSearched ? 'No trains found nearby' : 'Searching for nearby trains...'
-              }
-            </Text>
-          </View>
 
           {directionsInfo.length > 0 && (
             <View style={styles.filterSection}>
@@ -218,12 +198,6 @@ export default function TrainSearchScreen() {
                       </Text>
                       
                       <View style={styles.directionCardContent}>
-                        <Text style={[
-                          styles.destinationsLabel,
-                          isSelected && styles.destinationsLabelActive
-                        ]}>
-                          Destinations:
-                        </Text>
                         {directionInfo.headsigns.map((headsign) => (
                           <Text 
                             key={headsign} 
@@ -322,34 +296,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  header: {
-    padding: 20,
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
-  },
-  routeIndicator: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 15,
-  },
-  routeCode: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-  },
   content: {
     flex: 1,
   },
@@ -357,8 +303,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    marginBottom: 20,
   },
   filterTitle: {
     fontSize: 16,
@@ -396,17 +341,6 @@ const styles = StyleSheet.create({
   },
   directionCardContent: {
     alignItems: 'center',
-  },
-  destinationsLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#666',
-    marginBottom: 6,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  destinationsLabelActive: {
-    color: '#0056b3',
   },
   destinationText: {
     fontSize: 13,

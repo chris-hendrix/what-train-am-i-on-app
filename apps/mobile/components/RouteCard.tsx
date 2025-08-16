@@ -13,7 +13,7 @@ export function RouteCard({ route, widthPercent }: RouteCardProps) {
   
   const handlePress = () => {
     // Navigate to train search using the route's shortName (lineCode)
-    router.push(`/trains/${route.shortName}`);
+    router.push(`/${route.shortName}`);
   };
   return (
     <TouchableOpacity
