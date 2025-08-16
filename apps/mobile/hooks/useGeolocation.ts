@@ -28,6 +28,10 @@ export function useGeolocation(): UseGeolocationReturn {
       
       if (result.success) {
         setLocation(result.location || null);
+        // Set error message if this is fallback location (but still successful)
+        if (result.error) {
+          setError(result.error);
+        }
       } else {
         setError(result.error || 'Failed to get location');
         setLocation(null);

@@ -13,9 +13,10 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@what-train/shared": "*",
-    "expo": "~53.0.20",
-    "expo-location": "~17.0.1",
+    "expo": "^53.0.20",
+    "expo-location": "~18.1.6",
     "expo-router": "^5.1.4",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",

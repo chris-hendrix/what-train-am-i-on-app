@@ -1,150 +1,172 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { useEffect, useState } from 'react';
-import {
-  Route,
-  SuccessResponse,
-  ErrorResponse
-} from '@what-train/shared';
-import { LocationButton } from '../components/LocationButton';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { useAppContext } from '../context/AppContext';
+import { ContentContainer } from '../components/ContentContainer';
+import { RouteCard } from '../components/RouteCard';
+import { useResponsive } from '../hooks/useResponsive';
 
-export default function HomeScreen() {
-  const [routes, setRoutes] = useState<Route[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default function TrainSelectionScreen() {
+  const { filteredRoutes, routesLoading, routesError, refreshRoutes, searchQuery, setSearchQuery } = useAppContext();
+  const { isMobile, isTablet } = useResponsive();
 
-  useEffect(() => {
-    const fetchRoutes = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/routes');
-        const data: SuccessResponse<{ routes: Route[] }> | ErrorResponse = await response.json();
+  // Calculate responsive grid columns and card width
+  const getGridColumns = () => {
+    if (isMobile) return 2;
+    if (isTablet) return 3;
+    return 4; // desktop
+  };
 
-        if (data.success && 'data' in data) {
-          setRoutes(data.data.routes);
-        } else {
-          setError(data.error || 'Failed to load route data');
-        }
-      } catch {
-        setError('Failed to connect to API');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const columns = getGridColumns();
+  // Calculate card width as percentage for space-between layout
+  // Account for space between items
+  const cardWidthPercent = columns === 2 ? 48.5 : columns === 3 ? 32 : 24;
 
-    fetchRoutes();
-  }, []);
 
-  if (loading) {
+  if (routesLoading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>Loading...</Text>
         <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.message}>Loading train lines...</Text>
+          </View>
+        </ContentContainer>
       </View>
     );
   }
 
-  if (error) {
+  if (routesError) {
     return (
       <View style={styles.container}>
-        <Text style={styles.error}>{error}</Text>
         <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.error}>{routesError}</Text>
+            <TouchableOpacity
+              style={styles.retryButton}
+              onPress={refreshRoutes}
+            >
+              <Text style={styles.retryButtonText}>Retry</Text>
+            </TouchableOpacity>
+          </View>
+        </ContentContainer>
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
-      <Text style={styles.title}>What Train Am I On?</Text>
-      
-      <LocationButton />
-      
-      <Text style={styles.sectionTitle}>NYC Subway Routes</Text>
-      {routes.map((route) => (
-        <View key={route.id} style={styles.routeContainer}>
-          <View style={[styles.routeIndicator, { backgroundColor: route.color ? `#${route.color}` : '#666' }]}>
-            <Text style={[styles.routeCode, { color: route.textColor ? `#${route.textColor}` : 'white' }]}>
-              {route.shortName}
-            </Text>
-          </View>
-          <View style={styles.routeInfo}>
-            <Text style={styles.routeName}>{route.longName}</Text>
-            <Text style={styles.routeType}>SUBWAY</Text>
-          </View>
-        </View>
-      ))}
+    <View style={styles.container}>
       <StatusBar style="auto" />
-    </ScrollView>
+
+      <ContentContainer>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.routesContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.header}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search train lines..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              autoCapitalize="characters"
+              autoCorrect={false}
+            />
+          </View>
+
+          {filteredRoutes.length === 0 ? (
+            <View style={styles.noResultsContainer}>
+              <Text style={styles.noResultsText}>
+                {searchQuery ? 'No train lines found matching your search' : 'No train lines available'}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.routesGrid}>
+              {filteredRoutes.map((route) => (
+                <RouteCard
+                  key={route.id}
+                  route={route}
+                  widthPercent={cardWidthPercent}
+                />
+              ))}
+            </View>
+          )}
+        </ScrollView>
+      </ContentContainer>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
+  container: {
     flex: 1,
     backgroundColor: '#fff',
   },
-  container: {
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    minHeight: '100%',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 30,
-    color: '#333',
-    textAlign: 'center',
+  header: {
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    backgroundColor: '#fff',
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginTop: 30,
-    marginBottom: 20,
-    color: '#333',
+  searchInput: {
+    height: 45,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    backgroundColor: '#f8f9fa',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  routesContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  routesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   message: {
     fontSize: 18,
-    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
   },
   error: {
     fontSize: 16,
-    color: 'red',
+    color: '#d32f2f',
     textAlign: 'center',
+    marginBottom: 20,
   },
-  routeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    marginBottom: 15,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    width: '100%',
-    maxWidth: 300,
+  retryButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
   },
-  routeIndicator: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  noResultsContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 15,
+    paddingVertical: 40,
   },
-  routeCode: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  routeInfo: {
-    flex: 1,
-  },
-  routeName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
-  },
-  routeType: {
-    fontSize: 12,
+  noResultsText: {
+    fontSize: 16,
     color: '#666',
-    fontWeight: '500',
+    textAlign: 'center',
   },
 });

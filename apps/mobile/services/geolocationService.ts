@@ -8,6 +8,7 @@ export interface GeolocationResult {
     accuracy: number | null;
   };
   error?: string;
+  isLocationData?: 'user' | 'fallback';
 }
 
 export interface GeolocationOptions {
@@ -18,6 +19,13 @@ export interface GeolocationOptions {
 const DEFAULT_OPTIONS: Required<GeolocationOptions> = {
   accuracy: Location.Accuracy.High,
   minAccuracy: 100,
+};
+
+// Default NYC location (Times Square) for fallback
+const NYC_DEFAULT_LOCATION = {
+  latitude: 40.7580,
+  longitude: -73.9855,
+  accuracy: null,
 };
 
 /**
@@ -96,15 +104,19 @@ export class GeolocationService {
           ...this.mockLocation,
           accuracy: 5,
         },
+        isLocationData: 'user',
       };
     }
 
     // Request permissions if not already granted
     const permissionResult = await this.requestPermissions();
     if (!permissionResult.granted) {
+      // If permission denied, fallback to NYC location
       return {
-        success: false,
-        error: permissionResult.error,
+        success: true,
+        location: NYC_DEFAULT_LOCATION,
+        error: `${permissionResult.error} Using default NYC location.`,
+        isLocationData: 'fallback',
       };
     }
 
@@ -115,9 +127,12 @@ export class GeolocationService {
 
       // Check if location accuracy meets requirements
       if (location.coords.accuracy && location.coords.accuracy > mergedOptions.minAccuracy) {
+        // If accuracy is too low, fallback to NYC location
         return {
-          success: false,
-          error: `Location accuracy too low (${Math.round(location.coords.accuracy)}m). Please try again in an area with better GPS signal.`,
+          success: true,
+          location: NYC_DEFAULT_LOCATION,
+          error: `Location accuracy too low (${Math.round(location.coords.accuracy)}m). Using default NYC location.`,
+          isLocationData: 'fallback',
         };
       }
 
@@ -128,11 +143,15 @@ export class GeolocationService {
           longitude: location.coords.longitude,
           accuracy: location.coords.accuracy,
         },
+        isLocationData: 'user',
       };
     } catch (error) {
+      // If any error occurs, fallback to NYC location
       return {
-        success: false,
-        error: `Failed to get location: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        success: true,
+        location: NYC_DEFAULT_LOCATION,
+        error: `Failed to get location: ${error instanceof Error ? error.message : 'Unknown error'}. Using default NYC location.`,
+        isLocationData: 'fallback',
       };
     }
   }

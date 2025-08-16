@@ -19,6 +19,8 @@ web-build/
 # Expo
 .expo/
 .expo-shared/
+.expo-backup/
+.expo-cache/
 expo-env.d.ts
 
 # Native mobile files
