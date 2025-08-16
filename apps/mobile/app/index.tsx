@@ -17,9 +17,9 @@ export default function TrainSelectionScreen() {
   };
 
   const columns = getGridColumns();
-  // Calculate card width as percentage (ensuring we never go below 2 columns)
-  // Use slightly smaller percentages to ensure proper wrapping
-  const cardWidthPercent = columns === 2 ? 47 : columns === 3 ? 31 : 23;
+  // Calculate card width as percentage for space-between layout
+  // Account for space between items
+  const cardWidthPercent = columns === 2 ? 48.5 : columns === 3 ? 32 : 24;
 
 
   if (routesLoading) {
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   routesGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12, // Modern gap property for consistent spacing
+    justifyContent: 'space-between',
   },
   message: {
     fontSize: 18,
