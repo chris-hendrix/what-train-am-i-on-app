@@ -5,6 +5,7 @@ import {
   ErrorResponse
 } from '@what-train/shared';
 import { RouteCacheService } from '../services/routeCache';
+import { API_CONFIG } from '../constants/api';
 
 interface UseRoutesReturn {
   routes: Route[];
@@ -42,7 +43,7 @@ export function useRoutes(): UseRoutesReturn {
 
   const fetchFromAPI = async (): Promise<Route[] | null> => {
     try {
-      const response = await fetch('http://localhost:3000/routes');
+      const response = await fetch(`${API_CONFIG.BASE_URL}/routes`);
       const data: SuccessResponse<{ routes: Route[] }> | ErrorResponse = await response.json();
 
       if (data.success && 'data' in data) {

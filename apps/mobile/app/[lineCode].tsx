@@ -6,6 +6,7 @@ import { useAppContext } from '../context/AppContext';
 import { useFindNearestTrains } from '../hooks/useFindNearestTrains';
 import { Route, TrainData, NextStop } from '@what-train/shared';
 import { ContentContainer } from '../components/ContentContainer';
+import { API_CONFIG, formatRadius } from '../constants/api';
 
 interface DirectionInfo {
   direction: number;
@@ -118,7 +119,7 @@ export default function TrainSearchScreen() {
         <StatusBar style="auto" />
         <ContentContainer>
           <View style={styles.loadingContainer}>
-            <Text style={styles.message}>Searching for nearby trains...</Text>
+            <Text style={styles.message}>Searching for trains within {formatRadius(API_CONFIG.DEFAULT_SEARCH_RADIUS_METERS)}...</Text>
             <Text style={styles.subMessage}>This may take a few seconds</Text>
           </View>
         </ContentContainer>
@@ -133,7 +134,7 @@ export default function TrainSearchScreen() {
         <ContentContainer>
           <View style={styles.loadingContainer}>
             <Text style={styles.message}>Waiting for location...</Text>
-            <Text style={styles.subMessage}>Location is required to find nearby trains</Text>
+            <Text style={styles.subMessage}>Location is required to find trains within {formatRadius(API_CONFIG.DEFAULT_SEARCH_RADIUS_METERS)}</Text>
           </View>
         </ContentContainer>
       </View>
@@ -272,8 +273,8 @@ export default function TrainSearchScreen() {
             </Text>
             <Text style={styles.noResultsText}>
               {results && results.trains && results.trains.length > 0 && selectedDirection
-                ? `No ${route?.shortName || params.lineCode} trains going ${selectedDirection} are currently nearby. Try changing the filter or pull down to refresh.`
-                : `No ${route?.shortName || params.lineCode} trains are currently nearby. Pull down to refresh or try again in a few minutes.`
+                ? `No ${route?.shortName || params.lineCode} trains going ${selectedDirection} are currently within ${formatRadius(API_CONFIG.DEFAULT_SEARCH_RADIUS_METERS)}. Try changing the filter or pull down to refresh.`
+                : `No ${route?.shortName || params.lineCode} trains are currently within ${formatRadius(API_CONFIG.DEFAULT_SEARCH_RADIUS_METERS)}. Pull down to refresh or try again in a few minutes.`
               }
             </Text>
           </View>

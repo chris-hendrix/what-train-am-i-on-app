@@ -5,6 +5,7 @@ import {
   SuccessResponse,
   ErrorResponse
 } from '@what-train/shared';
+import { API_CONFIG } from '../constants/api';
 
 interface UseFindNearestTrainsReturn {
   findNearestTrains: (params: NearestTrainsRequest) => Promise<NearestTrainsResponse | null>;
@@ -24,12 +25,17 @@ export function useFindNearestTrains(): UseFindNearestTrainsReturn {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:3000/trains/nearest', {
+      const requestBody = {
+        ...params,
+        radiusMeters: params.radiusMeters || API_CONFIG.DEFAULT_SEARCH_RADIUS_METERS
+      };
+
+      const response = await fetch(`${API_CONFIG.BASE_URL}/trains/nearest`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify(requestBody),
       });
 
       const data: SuccessResponse<NearestTrainsResponse> | ErrorResponse = await response.json();
@@ -38,7 +44,7 @@ export function useFindNearestTrains(): UseFindNearestTrainsReturn {
         setResults(data.data);
         return data.data;
       } else {
-        setError(data.error || 'Failed to find nearby trains');
+        setError(data.error || `Failed to find trains within ${API_CONFIG.DEFAULT_SEARCH_RADIUS_METERS}m`);
         setResults(null);
         return null;
       }

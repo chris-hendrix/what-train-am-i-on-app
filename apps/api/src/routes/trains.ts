@@ -11,7 +11,7 @@ import { GTFSService } from '../services/gtfs-service/index.js';
 import { TrainFinderService } from '../services/train-finder-service/index.js';
 import { validateNearestTrainsRequest } from '../middleware/validation.js';
 import { requestLogger } from '../middleware/logging.js';
-import { asyncHandler, MtaApiError, NoTrainsFoundError, RequestTimeoutError } from '../middleware/error.js';
+import { asyncHandler, MtaApiError, RequestTimeoutError } from '../middleware/error.js';
 import { GTFSRTError, GTFSRTTimeoutError, GTFSRTUnavailableError } from '../services/gtfs-rt-service/errors.js';
 
 const router = Router();
@@ -59,10 +59,8 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
       radiusMeters: radiusMeters
     });
 
-    // Handle case where no trains are found
-    if (trainCandidates.length === 0) {
-      throw new NoTrainsFoundError(`No trains found for line ${lineCode} in the specified area. This could be due to service disruptions, trains not currently running, or being outside the service area.`);
-    }
+    // Handle case where no trains are found - let empty array flow through to response
+    // (Frontend will handle empty results gracefully)
 
     const trains: TrainData[] = trainCandidates.map(train => {
       let currentStationName = 'Unknown Station';
