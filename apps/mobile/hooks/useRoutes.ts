@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   Route,
   SuccessResponse,
@@ -8,9 +8,12 @@ import { RouteCacheService } from '../services/routeCache';
 
 interface UseRoutesReturn {
   routes: Route[];
+  filteredRoutes: Route[];
   loading: boolean;
   error: string | null;
   fromCache: boolean;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   refetch: () => Promise<void>;
 }
 
@@ -19,6 +22,7 @@ export function useRoutes(): UseRoutesReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [fromCache, setFromCache] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const sortRoutes = (routes: Route[]): Route[] => {
     return routes.sort((a, b) => {
@@ -113,15 +117,32 @@ export function useRoutes(): UseRoutesReturn {
     }
   };
 
+  // Filter routes by lineCode (shortName) only
+  const filteredRoutes = useMemo(() => {
+    if (searchQuery.trim() === '') {
+      return routes;
+    }
+    
+    const filtered = routes.filter(route =>
+      route.shortName.toLowerCase().includes(searchQuery.toLowerCase().trim())
+    );
+    
+    // Ensure filtered results maintain sort order
+    return sortRoutes(filtered);
+  }, [routes, searchQuery]);
+
   useEffect(() => {
     loadRoutes();
   }, []);
 
   return {
     routes,
+    filteredRoutes,
     loading,
     error,
     fromCache,
+    searchQuery,
+    setSearchQuery,
     refetch: () => loadRoutes(true)
   };
 }

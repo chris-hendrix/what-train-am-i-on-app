@@ -5,6 +5,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useAppContext } from '../../context/AppContext';
 import { useFindNearestTrains } from '../../hooks/useFindNearestTrains';
 import { Route, TrainData, NextStop } from '@what-train/shared';
+import { ContentContainer } from '../../components/ContentContainer';
 
 interface DirectionInfo {
   direction: number;
@@ -113,30 +114,42 @@ export default function TrainSearchScreen() {
 
   if (searchingTrains) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.message}>Searching for nearby trains...</Text>
-        <Text style={styles.subMessage}>This may take a few seconds</Text>
+      <View style={styles.container}>
         <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.message}>Searching for nearby trains...</Text>
+            <Text style={styles.subMessage}>This may take a few seconds</Text>
+          </View>
+        </ContentContainer>
       </View>
     );
   }
 
   if (!location) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.message}>Waiting for location...</Text>
-        <Text style={styles.subMessage}>Location is required to find nearby trains</Text>
+      <View style={styles.container}>
         <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.message}>Waiting for location...</Text>
+            <Text style={styles.subMessage}>Location is required to find nearby trains</Text>
+          </View>
+        </ContentContainer>
       </View>
     );
   }
 
   if (searchError) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.error}>Search Error</Text>
-        <Text style={styles.errorMessage}>{searchError}</Text>
+      <View style={styles.container}>
         <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.error}>Search Error</Text>
+            <Text style={styles.errorMessage}>{searchError}</Text>
+          </View>
+        </ContentContainer>
       </View>
     );
   }
@@ -146,7 +159,8 @@ export default function TrainSearchScreen() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       
-      <View style={styles.header}>
+      <ContentContainer>
+        <View style={styles.header}>
         <View style={[
           styles.routeIndicator,
           { backgroundColor: route?.color ? `#${route.color}` : '#666' }
@@ -296,7 +310,8 @@ export default function TrainSearchScreen() {
             )}
           </View>
         ) : null}
-      </ScrollView>
+        </ScrollView>
+      </ContentContainer>
     </View>
   );
 }

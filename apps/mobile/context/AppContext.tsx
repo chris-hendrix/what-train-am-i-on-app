@@ -6,10 +6,13 @@ import { useGeolocation, UseGeolocationReturn } from '../hooks/useGeolocation';
 interface AppContextType {
   // Routes
   routes: Route[];
+  filteredRoutes: Route[];
   routesLoading: boolean;
   routesError: string | null;
   routesFromCache: boolean;
   refreshRoutes: () => Promise<void>;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   
   // Location
   location: UseGeolocationReturn['location'];
@@ -34,11 +37,14 @@ interface AppProviderProps {
 export function AppProvider({ children }: AppProviderProps) {
   // Use existing hooks instead of duplicating logic
   const { 
-    routes, 
+    routes,
+    filteredRoutes,
     loading: routesLoading, 
     error: routesError, 
     fromCache: routesFromCache, 
-    refetch: refreshRoutes 
+    refetch: refreshRoutes,
+    searchQuery,
+    setSearchQuery
   } = useRoutes();
   
   const {
@@ -68,10 +74,13 @@ export function AppProvider({ children }: AppProviderProps) {
   const contextValue: AppContextType = {
     // Routes
     routes,
+    filteredRoutes,
     routesLoading,
     routesError,
     routesFromCache,
     refreshRoutes,
+    searchQuery,
+    setSearchQuery,
     
     // Location
     location,

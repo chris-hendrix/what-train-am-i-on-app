@@ -1,27 +1,111 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Route } from '@what-train/shared';
 import { useAppContext } from '../../context/AppContext';
+import { ContentContainer } from '../../components/ContentContainer';
+import { useResponsive } from '../../hooks/useResponsive';
+
+interface RouteCardProps {
+  route: Route;
+  widthPercent: number;
+  onPress: (route: Route) => void;
+}
+
+function RouteCard({ route, widthPercent, onPress }: RouteCardProps) {
+  return (
+    <TouchableOpacity
+      style={[routeCardStyles.card, { width: `${widthPercent}%` }]}
+      onPress={() => onPress(route)}
+      activeOpacity={0.7}
+    >
+      <View style={[
+        routeCardStyles.indicator,
+        { backgroundColor: route.color ? `#${route.color}` : '#666' }
+      ]}>
+        <Text style={[
+          routeCardStyles.code,
+          { color: route.textColor ? `#${route.textColor}` : 'white' }
+        ]}>
+          {route.shortName}
+        </Text>
+      </View>
+      <View style={routeCardStyles.info}>
+        <Text style={routeCardStyles.name} numberOfLines={2}>
+          {route.longName}
+        </Text>
+        <Text style={routeCardStyles.type}>SUBWAY</Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+const routeCardStyles = StyleSheet.create({
+  card: {
+    minHeight: 120,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 16,
+    padding: 15,
+    marginBottom: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  indicator: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  code: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  info: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+  },
+  name: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 4,
+    lineHeight: 18,
+  },
+  type: {
+    fontSize: 11,
+    color: '#666',
+    fontWeight: '500',
+  },
+});
 
 export default function TrainSelectionScreen() {
   const router = useRouter();
-  const { routes, routesLoading, routesError, refreshRoutes } = useAppContext();
-  const [filteredRoutes, setFilteredRoutes] = useState<Route[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const { filteredRoutes, routesLoading, routesError, refreshRoutes, searchQuery, setSearchQuery } = useAppContext();
+  const { isMobile, isTablet } = useResponsive();
 
-  useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredRoutes(routes);
-    } else {
-      const filtered = routes.filter(route =>
-        route.shortName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        route.longName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredRoutes(filtered);
-    }
-  }, [searchQuery, routes]);
+  // Calculate responsive grid columns and card width
+  const getGridColumns = () => {
+    if (isMobile) return 2;
+    if (isTablet) return 3;
+    return 4; // desktop
+  };
+
+  const columns = getGridColumns();
+  // Calculate card width as percentage (ensuring we never go below 2 columns)
+  // Use slightly smaller percentages to ensure proper wrapping
+  const cardWidthPercent = columns === 2 ? 47 : columns === 3 ? 31 : 23;
 
   const handleRouteSelect = (route: Route) => {
     // Navigate to direction selection using the new route structure
@@ -30,24 +114,32 @@ export default function TrainSelectionScreen() {
 
   if (routesLoading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.message}>Loading train lines...</Text>
+      <View style={styles.container}>
         <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.message}>Loading train lines...</Text>
+          </View>
+        </ContentContainer>
       </View>
     );
   }
 
   if (routesError) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.error}>{routesError}</Text>
-        <TouchableOpacity 
-          style={styles.retryButton}
-          onPress={refreshRoutes}
-        >
-          <Text style={styles.retryButtonText}>Retry</Text>
-        </TouchableOpacity>
+      <View style={styles.container}>
         <StatusBar style="auto" />
+        <ContentContainer>
+          <View style={styles.loadingContainer}>
+            <Text style={styles.error}>{routesError}</Text>
+            <TouchableOpacity
+              style={styles.retryButton}
+              onPress={refreshRoutes}
+            >
+              <Text style={styles.retryButtonText}>Retry</Text>
+            </TouchableOpacity>
+          </View>
+        </ContentContainer>
       </View>
     );
   }
@@ -55,61 +147,45 @@ export default function TrainSelectionScreen() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      
-      <View style={styles.header}>
-        <Text style={styles.title}>Select Your Train Line</Text>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search train lines..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          autoCapitalize="characters"
-          autoCorrect={false}
-        />
-      </View>
 
-      <ScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={styles.routesContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        {filteredRoutes.length === 0 ? (
-          <View style={styles.noResultsContainer}>
-            <Text style={styles.noResultsText}>
-              {searchQuery ? 'No train lines found matching your search' : 'No train lines available'}
-            </Text>
-          </View>
-        ) : (
-          <View style={styles.routesGrid}>
-            {filteredRoutes.map((route) => (
-              <TouchableOpacity
-                key={route.id}
-                style={styles.routeCard}
-                onPress={() => handleRouteSelect(route)}
-                activeOpacity={0.7}
-              >
-                <View style={[
-                  styles.routeIndicator,
-                  { backgroundColor: route.color ? `#${route.color}` : '#666' }
-                ]}>
-                  <Text style={[
-                    styles.routeCode,
-                    { color: route.textColor ? `#${route.textColor}` : 'white' }
-                  ]}>
-                    {route.shortName}
-                  </Text>
-                </View>
-                <View style={styles.routeInfo}>
-                  <Text style={styles.routeName} numberOfLines={2}>
-                    {route.longName}
-                  </Text>
-                  <Text style={styles.routeType}>SUBWAY</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
-      </ScrollView>
+      <ContentContainer>
+        <View style={styles.header}>
+          <Text style={styles.title}>Select Your Train Line</Text>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search train lines..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            autoCapitalize="characters"
+            autoCorrect={false}
+          />
+        </View>
+
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.routesContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {filteredRoutes.length === 0 ? (
+            <View style={styles.noResultsContainer}>
+              <Text style={styles.noResultsText}>
+                {searchQuery ? 'No train lines found matching your search' : 'No train lines available'}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.routesGrid}>
+              {filteredRoutes.map((route) => (
+                <RouteCard
+                  key={route.id}
+                  route={route}
+                  widthPercent={cardWidthPercent}
+                  onPress={handleRouteSelect}
+                />
+              ))}
+            </View>
+          )}
+        </ScrollView>
+      </ContentContainer>
     </View>
   );
 }
@@ -159,54 +235,7 @@ const styles = StyleSheet.create({
   routesGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  routeCard: {
-    width: '48%',
-    aspectRatio: 1,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 16,
-    padding: 15,
-    marginBottom: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  routeIndicator: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
-  },
-  routeCode: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  routeInfo: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  routeName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-    marginBottom: 4,
-    lineHeight: 18,
-  },
-  routeType: {
-    fontSize: 11,
-    color: '#666',
-    fontWeight: '500',
+    gap: 12, // Modern gap property for consistent spacing
   },
   message: {
     fontSize: 18,

@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAppContext } from '../context/AppContext';
+import { ContentContainer } from '../components/ContentContainer';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -17,7 +18,8 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       
-      <View style={styles.header}>
+      <ContentContainer>
+        <View style={styles.header}>
         <Text style={styles.title}>What Train Am I On?</Text>
         <Text style={styles.subtitle}>
           Find your exact train and see upcoming stops in real-time
@@ -77,7 +79,8 @@ export default function HomeScreen() {
             <Text style={styles.stepText}>Get real-time train information</Text>
           </View>
         </View>
-      </View>
+        </View>
+      </ContentContainer>
     </View>
   );
 }
