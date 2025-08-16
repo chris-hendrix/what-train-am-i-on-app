@@ -1,97 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Route } from '@what-train/shared';
 import { useAppContext } from '../../context/AppContext';
 import { ContentContainer } from '../../components/ContentContainer';
+import { RouteCard } from '../../components/RouteCard';
 import { useResponsive } from '../../hooks/useResponsive';
 
-interface RouteCardProps {
-  route: Route;
-  widthPercent: number;
-  onPress: (route: Route) => void;
-}
-
-function RouteCard({ route, widthPercent, onPress }: RouteCardProps) {
-  return (
-    <TouchableOpacity
-      style={[routeCardStyles.card, { width: `${widthPercent}%` }]}
-      onPress={() => onPress(route)}
-      activeOpacity={0.7}
-    >
-      <View style={[
-        routeCardStyles.indicator,
-        { backgroundColor: route.color ? `#${route.color}` : '#666' }
-      ]}>
-        <Text style={[
-          routeCardStyles.code,
-          { color: route.textColor ? `#${route.textColor}` : 'white' }
-        ]}>
-          {route.shortName}
-        </Text>
-      </View>
-      <View style={routeCardStyles.info}>
-        <Text style={routeCardStyles.name} numberOfLines={2}>
-          {route.longName}
-        </Text>
-        <Text style={routeCardStyles.type}>SUBWAY</Text>
-      </View>
-    </TouchableOpacity>
-  );
-}
-
-const routeCardStyles = StyleSheet.create({
-  card: {
-    minHeight: 120,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 16,
-    padding: 15,
-    marginBottom: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  indicator: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
-  },
-  code: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  info: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 8,
-  },
-  name: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-    marginBottom: 4,
-    lineHeight: 18,
-  },
-  type: {
-    fontSize: 11,
-    color: '#666',
-    fontWeight: '500',
-  },
-});
-
 export default function TrainSelectionScreen() {
-  const router = useRouter();
   const { filteredRoutes, routesLoading, routesError, refreshRoutes, searchQuery, setSearchQuery } = useAppContext();
   const { isMobile, isTablet } = useResponsive();
 
@@ -107,10 +21,6 @@ export default function TrainSelectionScreen() {
   // Use slightly smaller percentages to ensure proper wrapping
   const cardWidthPercent = columns === 2 ? 47 : columns === 3 ? 31 : 23;
 
-  const handleRouteSelect = (route: Route) => {
-    // Navigate to direction selection using the new route structure
-    router.push(`/trains/${route.shortName}`);
-  };
 
   if (routesLoading) {
     return (
@@ -179,7 +89,6 @@ export default function TrainSelectionScreen() {
                   key={route.id}
                   route={route}
                   widthPercent={cardWidthPercent}
-                  onPress={handleRouteSelect}
                 />
               ))}
             </View>
