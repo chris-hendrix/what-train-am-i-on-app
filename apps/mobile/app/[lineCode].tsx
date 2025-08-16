@@ -190,6 +190,7 @@ export default function TrainSearchScreen() {
                         isSelected && styles.directionCardActive
                       ]}
                       onPress={() => handleDirectionFilter(directionKey)}
+                      testID={`direction-filter-${directionKey}`}
                     >
                       <Text style={[
                         styles.directionCardLabel,
@@ -220,7 +221,7 @@ export default function TrainSearchScreen() {
         {filteredTrains.length > 0 ? (
           <View style={styles.resultsSection}>
             {filteredTrains.map((train: TrainData, index: number) => (
-              <View key={`${train.trainId}-${index}`} style={styles.trainCard}>
+              <View key={`${train.trainId}-${index}`} style={styles.trainCard} testID="train-card">
                 <View style={styles.trainHeader}>
                   <View style={[
                     styles.trainIndicator,
