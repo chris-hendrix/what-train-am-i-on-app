@@ -9,9 +9,9 @@ const service = TrainIdentifierService.getInstance();
 // Test with future timestamp to see trainsBefore populated
 const result = await service.identifyTrain({
   lineCode: 'N',
-  direction: 1, 
-  stopId: 'R08S',
-  limit: 3
+  direction: 0, 
+  stopId: 'R08N',
+  limit: 2
 });
 
 console.log(JSON.stringify(result, null, 2));

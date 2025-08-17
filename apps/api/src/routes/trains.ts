@@ -58,7 +58,7 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
       userLatitude: latitude,
       userLongitude: longitude,
       lineCode: lineCode,
-      direction: resolvedDirection,
+      direction: resolvedDirection as 0 | 1 | undefined,
       radiusMeters: radiusMeters
     });
 
@@ -67,8 +67,8 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
 
     const trains: TrainData[] = trainCandidates.map(train => {
       let currentStationName = 'Unknown Station';
-      if (train.currentStopId) {
-        const station = gtfsService.getStop(train.currentStopId);
+      if (train.currentStop?.stopId) {
+        const station = gtfsService.getStop(train.currentStop.stopId);
         if (station) {
           currentStationName = station.stopName;
         }
@@ -99,9 +99,7 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
         nextStops: nextStops,
         serviceType: serviceType,
         distanceMeters: Math.round(train.distanceToUser),
-        lastUpdated: train.timestamp 
-          ? new Date(train.timestamp * 1000).toISOString() 
-          : new Date().toISOString()
+        lastUpdated: train.timestamp || new Date().toISOString()
       };
 
       // Add raw GTFS data for debugging if requested

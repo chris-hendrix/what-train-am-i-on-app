@@ -5,6 +5,8 @@
  * Used for request/response structures and internal analysis
  */
 
+import { TrainInfo } from '../../train-builder-service/index.js';
+
 /**
  * Input request for train identification
  */
@@ -29,16 +31,7 @@ export interface TrainFinderRequest {
 /**
  * Train candidate with position information
  */
-export interface TrainCandidate {
-  /** Vehicle ID from GTFS-RT feed */
-  vehicleId: string;
-  
-  /** Trip ID from GTFS-RT (may be null) */
-  tripId: string | null;
-  
-  /** Route ID (line code) */
-  routeId: string;
-  
+export interface TrainCandidate extends TrainInfo {
   /** Train label/number (may be null) */
   label: string | null;
   
@@ -49,18 +42,6 @@ export interface TrainCandidate {
     bearing?: number;
     speed?: number;
   };
-  
-  /** Current stop ID the train is at/approaching */
-  currentStopId: string | null;
-  
-  /** Current stop sequence number */
-  currentStopSequence: number | null;
-  
-  /** Current status of the train */
-  currentStatus: string | null;
-  
-  /** Direction ID (0 or 1 typically) */
-  direction: number | null;
   
   /** Distance from user location to train (meters) */
   distanceToUser: number;

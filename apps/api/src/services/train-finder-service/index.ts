@@ -1,7 +1,7 @@
 import { GTFSRTService } from '../gtfs-rt-service/index.js';
 import { GTFSService } from '../gtfs-service/index.js';
+import { TrainBuilderService } from '../train-builder-service/index.js';
 import { VehiclePositionWithFeed } from '../gtfs-rt-service/types/index.js';
-import { convertTimestamp } from '../train-identifier-service/utils.js';
 import { 
   TrainFinderRequest,
   TrainCandidate
@@ -45,6 +45,7 @@ export class TrainFinderService {
   
   private readonly gtfsRTService: GTFSRTService;
   private readonly gtfsService: GTFSService;
+  private readonly trainBuilderService: TrainBuilderService;
   
   /** Default maximum distance from train for consideration (meters) */
   private readonly defaultMaxProximityDistance = 500;
@@ -52,6 +53,7 @@ export class TrainFinderService {
   private constructor() {
     this.gtfsRTService = GTFSRTService.getInstance();
     this.gtfsService = GTFSService.getInstance();
+    this.trainBuilderService = TrainBuilderService.getInstance();
   }
 
   /**
@@ -80,7 +82,7 @@ export class TrainFinderService {
     const vehicles = await this.gtfsRTService.getVehiclePositions(request.lineCode);
     
     // Find and return all nearby trains sorted by distance
-    const nearbyTrains = this.findNearbyTrains(request, vehicles);
+    const nearbyTrains = await this.findNearbyTrains(request, vehicles);
     
     return nearbyTrains;
   }
@@ -122,10 +124,10 @@ export class TrainFinderService {
    * @returns Array of trains sorted by distance (nearest first)
    * @private
    */
-  private findNearbyTrains(
+  private async findNearbyTrains(
     request: TrainFinderRequest, 
     vehicles: VehiclePositionWithFeed[]
-  ): TrainCandidate[] {
+  ): Promise<TrainCandidate[]> {
     const nearbyTrains: TrainCandidate[] = [];
     const maxProximityDistance = request.radiusMeters || this.defaultMaxProximityDistance;
     
@@ -166,7 +168,10 @@ export class TrainFinderService {
         );
         
         if (distance <= maxProximityDistance) {
-          nearbyTrains.push(this.createTrainCandidate(vehicle, request, distance));
+          const candidate = await this.createTrainCandidate(vehicle, request, distance);
+          if (candidate) {
+            nearbyTrains.push(candidate);
+          }
         }
         continue;
       }
@@ -185,12 +190,14 @@ export class TrainFinderService {
           
           if (distance <= maxProximityDistance) {
             // Create train candidate with stop coordinates
-            const trainCandidate = this.createTrainCandidate(vehicle, request, distance);
-            // Override position with stop coordinates
-            trainCandidate.position.latitude = stop.stopLat;
-            trainCandidate.position.longitude = stop.stopLon;
-            
-            nearbyTrains.push(trainCandidate);
+            const trainCandidate = await this.createTrainCandidate(vehicle, request, distance);
+            if (trainCandidate) {
+              // Override position with stop coordinates
+              trainCandidate.position.latitude = stop.stopLat;
+              trainCandidate.position.longitude = stop.stopLon;
+              
+              nearbyTrains.push(trainCandidate);
+            }
           }
         }
       }
@@ -204,25 +211,32 @@ export class TrainFinderService {
    * Create a TrainCandidate from vehicle data
    * @private
    */
-  private createTrainCandidate(vehicle: VehiclePositionWithFeed, request: TrainFinderRequest, distance: number): TrainCandidate {
-    return {
-      vehicleId: vehicle.id,
-      tripId: vehicle.vehicle.trip?.tripId || null,
-      routeId: vehicle.vehicle.trip?.routeId || request.lineCode,
-      label: vehicle.vehicle.label || null,
-      position: {
-        latitude: vehicle.vehicle.position?.latitude || 0,
-        longitude: vehicle.vehicle.position?.longitude || 0,
-        bearing: vehicle.vehicle.position?.bearing,
-        speed: vehicle.vehicle.position?.speed
-      },
-      currentStopId: vehicle.vehicle.stopId || null,
-      currentStopSequence: vehicle.vehicle.currentStopSequence || null,
-      currentStatus: vehicle.vehicle.currentStatus || null,
-      direction: vehicle.vehicle.trip?.directionId ?? null,
-      distanceToUser: distance,
-      timestamp: convertTimestamp(vehicle.vehicle.timestamp) || new Date().toISOString()
-    };
+  private async createTrainCandidate(vehicle: VehiclePositionWithFeed, request: TrainFinderRequest, distance: number): Promise<TrainCandidate | null> {
+    try {
+      // Build the train using TrainBuilderService
+      const trainInfo = await this.trainBuilderService.buildTrainFromVehicleId(vehicle.id, request.lineCode);
+      
+      if (!trainInfo) {
+        return null;
+      }
+      
+      // Extend TrainInfo with TrainCandidate-specific fields
+      return {
+        ...trainInfo,
+        label: vehicle.vehicle.label || null,
+        position: {
+          latitude: vehicle.vehicle.position?.latitude || 0,
+          longitude: vehicle.vehicle.position?.longitude || 0,
+          bearing: vehicle.vehicle.position?.bearing,
+          speed: vehicle.vehicle.position?.speed
+        },
+        distanceToUser: distance,
+        timestamp: new Date().toISOString()
+      };
+    } catch (error) {
+      console.warn(`Failed to create train candidate for vehicle ${vehicle.id}:`, error);
+      return null;
+    }
   }
 
 
