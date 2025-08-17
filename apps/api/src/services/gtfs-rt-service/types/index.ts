@@ -6,6 +6,16 @@
  */
 
 /**
+ * Protobuf Long integer representation
+ * Used by protobuf for 64-bit integers like timestamps
+ */
+export interface ProtobufLong {
+  low: number;
+  high: number;
+  unsigned: boolean;
+}
+
+/**
  * Raw GTFS-RT Feed Message structure
  */
 export interface GTFSRTFeedMessage {
@@ -15,8 +25,8 @@ export interface GTFSRTFeedMessage {
     gtfsRealtimeVersion: string;
     /** Determines if dataset is FULL_DATASET (0) or DIFFERENTIAL (1) */
     incrementality?: number;
-    /** Unix timestamp when feed was created (as string) */
-    timestamp?: string;
+    /** Unix timestamp when feed was created */
+    timestamp?: ProtobufLong;
   };
   /** Array of entities containing vehicle or trip update data */
   entity: GTFSRTFeedEntity[];
@@ -68,8 +78,8 @@ export interface GTFSRTVehiclePosition {
   currentStopSequence?: number;
   /** Current status: "INCOMING_AT", "STOPPED_AT", "IN_TRANSIT_TO" */
   currentStatus?: string;
-  /** Unix timestamp when vehicle position was measured (as string) */
-  timestamp?: string;
+  /** Unix timestamp when vehicle position was measured */
+  timestamp?: ProtobufLong;
   /** ID of stop vehicle is currently at or approaching */
   stopId?: string;
   /** User-visible label for the vehicle (train car number, etc.) */
@@ -95,8 +105,8 @@ export interface GTFSRTTripUpdate {
   };
   /** Array of stop time updates for this trip */
   stopTimeUpdate: GTFSRTStopTimeUpdate[];
-  /** Unix timestamp when this trip update was generated (as string) */
-  timestamp?: string;
+  /** Unix timestamp when this trip update was generated */
+  timestamp?: ProtobufLong;
   /** Current delay of the trip in seconds (positive = late, negative = early) */
   delay?: number;
 }
@@ -113,8 +123,8 @@ export interface GTFSRTStopTimeUpdate {
   arrival?: {
     /** Delay in seconds from scheduled arrival (positive = late) */
     delay?: number;
-    /** Absolute arrival time as Unix timestamp (as string) */
-    time?: string;
+    /** Absolute arrival time as Unix timestamp */
+    time?: ProtobufLong;
     /** Uncertainty of prediction in seconds */
     uncertainty?: number;
   };
@@ -122,8 +132,8 @@ export interface GTFSRTStopTimeUpdate {
   departure?: {
     /** Delay in seconds from scheduled departure (positive = late) */
     delay?: number;
-    /** Absolute departure time as Unix timestamp (as string) */
-    time?: string;
+    /** Absolute departure time as Unix timestamp */
+    time?: ProtobufLong;
     /** Uncertainty of prediction in seconds */
     uncertainty?: number;
   };
@@ -142,8 +152,8 @@ export interface VehiclePositionWithFeed {
   vehicle: GTFSRTVehiclePosition;
   /** Comma-separated list of train lines this feed covers */
   feedLines: string;
-  /** Unix timestamp when this data was processed (as string) */
-  timestamp?: string;
+  /** Unix timestamp when this data was processed */
+  timestamp?: ProtobufLong;
 }
 
 /**
@@ -156,8 +166,8 @@ export interface TripUpdateWithFeed {
   tripUpdate: GTFSRTTripUpdate;
   /** Comma-separated list of train lines this feed covers */
   feedLines: string;
-  /** Unix timestamp when this data was processed (as string) */
-  timestamp?: string;
+  /** Unix timestamp when this data was processed */
+  timestamp?: ProtobufLong;
 }
 
 

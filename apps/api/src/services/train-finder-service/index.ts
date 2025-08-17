@@ -1,6 +1,7 @@
 import { GTFSRTService } from '../gtfs-rt-service/index.js';
 import { GTFSService } from '../gtfs-service/index.js';
 import { VehiclePositionWithFeed } from '../gtfs-rt-service/types/index.js';
+import { convertTimestamp } from '../train-identifier-service/utils.js';
 import { 
   TrainFinderRequest,
   TrainCandidate
@@ -220,7 +221,7 @@ export class TrainFinderService {
       currentStatus: vehicle.vehicle.currentStatus || null,
       direction: vehicle.vehicle.trip?.directionId ?? null,
       distanceToUser: distance,
-      timestamp: vehicle.vehicle.timestamp || Date.now()
+      timestamp: convertTimestamp(vehicle.vehicle.timestamp) || new Date().toISOString()
     };
   }
 

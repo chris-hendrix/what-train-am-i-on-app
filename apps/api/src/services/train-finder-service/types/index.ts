@@ -18,8 +18,8 @@ export interface TrainFinderRequest {
   /** NYC subway line code (e.g., '6', 'N', 'Q', 'A', etc.) */
   lineCode: string;
   
-  /** Train direction (0 = typically uptown/north, 1 = typically downtown/south). Optional - if not provided, searches all directions */
-  direction?: number;
+  /** Train direction (0 = uptown/north, 1 = downtown/south). Optional - if not provided, searches all directions */
+  direction?: 0 | 1;
   
   /** Optional search radius in meters (default: 500) */
   radiusMeters?: number;
@@ -57,7 +57,7 @@ export interface TrainCandidate {
   currentStopSequence: number | null;
   
   /** Current status of the train */
-  currentStatus: number | null;
+  currentStatus: string | null;
   
   /** Direction ID (0 or 1 typically) */
   direction: number | null;
@@ -65,7 +65,7 @@ export interface TrainCandidate {
   /** Distance from user location to train (meters) */
   distanceToUser: number;
   
-  /** Timestamp of the train position data */
-  timestamp: number;
+  /** Timestamp of the train position data (ISO format) */
+  timestamp: string;
 }
 
