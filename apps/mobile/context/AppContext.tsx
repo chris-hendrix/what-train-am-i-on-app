@@ -22,6 +22,7 @@ interface AppContextType {
   clearLocationError: () => void;
   setMockLocation: (latitude: number, longitude: number) => void;
   clearMockLocation: () => void;
+  setManualLocation: (latitude: number, longitude: number) => void;
   
   // Helper methods
   getRouteByLineCode: (lineCode: string) => Route | undefined;
@@ -55,6 +56,7 @@ export function AppProvider({ children }: AppProviderProps) {
     clearError: clearLocationError,
     setMockLocation,
     clearMockLocation,
+    setManualLocation,
   } = useGeolocation();
 
   // Helper methods
@@ -90,6 +92,7 @@ export function AppProvider({ children }: AppProviderProps) {
     clearLocationError,
     setMockLocation,
     clearMockLocation,
+    setManualLocation,
     
     // Helper methods
     getRouteByLineCode,

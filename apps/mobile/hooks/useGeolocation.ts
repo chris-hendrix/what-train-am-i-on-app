@@ -9,6 +9,7 @@ export interface UseGeolocationReturn {
   clearError: () => void;
   setMockLocation: (latitude: number, longitude: number) => void;
   clearMockLocation: () => void;
+  setManualLocation: (latitude: number, longitude: number) => void;
 }
 
 /**
@@ -56,6 +57,15 @@ export function useGeolocation(): UseGeolocationReturn {
     geolocationService.clearMockLocation();
   }, []);
 
+  const setManualLocation = useCallback((latitude: number, longitude: number) => {
+    setLocation({
+      latitude,
+      longitude,
+      accuracy: null, // Manual location has no GPS accuracy
+    });
+    setError(null); // Clear any previous errors
+  }, []);
+
   return {
     location,
     loading,
@@ -64,5 +74,6 @@ export function useGeolocation(): UseGeolocationReturn {
     clearError,
     setMockLocation,
     clearMockLocation,
+    setManualLocation,
   };
 }

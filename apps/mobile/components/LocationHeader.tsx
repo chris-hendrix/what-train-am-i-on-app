@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useAppContext } from '../context/AppContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LocationPickerModal } from './LocationPickerModal';
 
 interface LocationHeaderProps {
   title: string | React.ReactNode;
@@ -17,10 +18,10 @@ export function LocationHeader({ title, showBackButton = false, backAction }: Lo
     locationError,
   } = useAppContext();
   
-
+  const [showMapModal, setShowMapModal] = useState(false);
 
   const handleLocationDisplayPress = () => {
-    console.log('TODO: Location display clicked');
+    setShowMapModal(true);
   };
 
   return (
@@ -66,6 +67,11 @@ export function LocationHeader({ title, showBackButton = false, backAction }: Lo
         )}
         
       </View>
+      
+      <LocationPickerModal
+        visible={showMapModal}
+        onClose={() => setShowMapModal(false)}
+      />
     </View>
   );
 }
