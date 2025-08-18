@@ -58,6 +58,8 @@ export interface TrainInfo {
   routeId: string;
   /** Direction ID (0=uptown, 1=downtown) */
   directionId: number;
+  /** Human-readable direction name */
+  directionName: string;
   /** Estimated arrival time at the stop (ISO format) */
   arrivalTime: string;
   /** Vehicle entity ID from GTFS-RT feed */
@@ -100,8 +102,6 @@ export interface TrainIdentificationResponse {
   request: TrainIdentificationRequest;
   /** Timestamp when identification was performed */
   processedAt: string;
-  /** Number of vehicles considered during matching */
-  vehiclesConsidered: number;
 }
 
 /**
@@ -116,43 +116,3 @@ export enum TrainIdentificationError {
   SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE'
 }
 
-/**
- * Request for building a train from GTFS-RT data
- */
-export interface TrainBuildRequest {
-  /** GTFS-RT vehicle data */
-  vehicle: {
-    trip?: {
-      tripId?: string;
-      routeId?: string;
-    };
-    stopId?: string;
-    currentStatus?: number | string;
-    currentStopSequence?: number;
-  };
-  /** GTFS-RT trip update data */
-  tripUpdate: {
-    trip?: {
-      tripId?: string;
-      routeId?: string;
-    };
-    stopTimeUpdate?: Array<{
-      stopId?: string;
-      stopSequence?: number;
-      arrival?: {
-        time?: ProtobufLong;
-        delay?: number;
-      };
-      departure?: {
-        time?: ProtobufLong;
-        delay?: number;
-      };
-    }>;
-  };
-  /** Vehicle entity ID */
-  vehicleId: string;
-  /** Line code for route lookup */
-  lineCode: string;
-  /** Direction (0=uptown, 1=downtown) */
-  direction: number;
-}
