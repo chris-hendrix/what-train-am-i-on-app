@@ -5,10 +5,13 @@ import {
   NearestTrainsRequest,
   NearestTrainsResponse,
   TrainData,
-  NextStop
+  NextStop,
+  TrainIdentificationRequest,
+  TrainIdentificationResponse
 } from '@what-train/shared';
 import { GTFSService } from '../services/gtfs-service/index.js';
 import { TrainFinderService } from '../services/train-finder-service/index.js';
+import { TrainIdentifierService } from '../services/train-identifier-service/index.js';
 import { validateNearestTrainsRequest } from '../middleware/validation.js';
 import { requestLogger } from '../middleware/logging.js';
 import { asyncHandler, MtaApiError, RequestTimeoutError } from '../middleware/error.js';
@@ -18,6 +21,7 @@ import { DEBUG_CONFIG } from '../config/debug.js';
 const router = Router();
 const gtfsService = GTFSService.getInstance();
 const trainFinderService = TrainFinderService.getInstance();
+const trainIdentifierService = TrainIdentifierService.getInstance();
 
 router.use(requestLogger);
 
@@ -125,6 +129,74 @@ router.post('/trains/nearest', validateNearestTrainsRequest, asyncHandler(async 
     res.json(response);
   } catch (error) {
     // Handle service-specific errors and convert to appropriate API errors
+    if (error instanceof GTFSRTTimeoutError) {
+      throw new RequestTimeoutError('MTA real-time data request timed out. Please try again.');
+    }
+    if (error instanceof GTFSRTUnavailableError || error instanceof GTFSRTError) {
+      throw new MtaApiError('MTA real-time data service is temporarily unavailable. Please try again later.');
+    }
+    if (error instanceof Error && error.message.includes('GTFS data not loaded')) {
+      throw new Error('Service temporarily unavailable - data is loading');
+    }
+    
+    // Re-throw to let error middleware handle it
+    throw error;
+  }
+}));
+
+/**
+ * Identify specific trains at a stop
+ * Takes line code, direction, and stop ID to identify trains with detailed timing information
+ * Returns train information with stops away calculation and timing data
+ */
+router.post('/trains/identify', asyncHandler(async (req: Request, res: Response, _next: NextFunction) => {
+  const { lineCode, direction, stopId, limit } = req.body as TrainIdentificationRequest;
+
+  // Validate required parameters
+  if (!lineCode) {
+    res.status(400).json({
+      success: false,
+      error: 'lineCode is required',
+      timestamp: new Date().toISOString()
+    });
+    return;
+  }
+
+  if (direction === undefined || ![0, 1].includes(direction)) {
+    res.status(400).json({
+      success: false,
+      error: 'direction must be 0 (uptown) or 1 (downtown)',
+      timestamp: new Date().toISOString()
+    });
+    return;
+  }
+
+  if (!stopId) {
+    res.status(400).json({
+      success: false,
+      error: 'stopId is required',
+      timestamp: new Date().toISOString()
+    });
+    return;
+  }
+
+  try {
+    const result = await trainIdentifierService.identifyTrain({
+      lineCode,
+      direction,
+      stopId,
+      limit
+    });
+
+    const response: SuccessResponse<TrainIdentificationResponse> = {
+      success: true,
+      data: result,
+      timestamp: new Date().toISOString()
+    };
+
+    res.json(response);
+  } catch (error) {
+    // Handle service-specific errors
     if (error instanceof GTFSRTTimeoutError) {
       throw new RequestTimeoutError('MTA real-time data request timed out. Please try again.');
     }
