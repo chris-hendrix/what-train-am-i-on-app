@@ -49,7 +49,7 @@ export class TrainBuilderService {
     if (!tripId) return null;
 
     // Determine direction from trip ID
-    const direction = tripId.includes('..N') || tripId.includes('.N') ? 0 : 1;
+    const direction = this.gtfsRTService.getDirectionFromTripId(tripId);
 
     // Find any stop in the trip update for arrival time
     const stopUpdate = tripUpdate.stopTimeUpdate?.find(stu => 
@@ -68,7 +68,7 @@ export class TrainBuilderService {
     const currentStopSequence = vehicle.currentStopSequence || 0;
 
     // Extract direction from trip ID for response
-    const directionId = tripId.includes('.N') ? 0 : 1;
+    const directionId = this.gtfsRTService.getDirectionFromTripId(tripId);
 
     // Build real-time stop schedule from trip updates
     const realtimeStops = this.buildRealtimeStopSchedule(tripUpdate, currentStopSequence, directionSequence, vehicle.stopId);
@@ -109,7 +109,7 @@ export class TrainBuilderService {
     
     // Extract direction from trip ID
     const tripId = tripUpdate.trip?.tripId;
-    const direction = tripId && (tripId.includes('..N') || tripId.includes('.N')) ? 0 : 1;
+    const direction = this.gtfsRTService.getDirectionFromTripId(tripId);
     
     // Track which stops we've added from trip updates
     const addedStopIds = new Set<string>();
@@ -160,6 +160,7 @@ export class TrainBuilderService {
     // Sort by stop sequence
     return stops.sort((a, b) => a.stopSequence - b.stopSequence);
   }
+
 
 
   /**

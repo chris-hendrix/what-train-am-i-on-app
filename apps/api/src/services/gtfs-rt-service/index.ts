@@ -209,7 +209,7 @@ export class GTFSRTService {
   /**
    * Extract direction from trip ID
    */
-  private getDirectionFromTripId(tripId: string | undefined): number {
+  public getDirectionFromTripId(tripId: string | undefined): number {
     if (!tripId) return -1;
     
     if (tripId.includes('..N') || tripId.includes('.N')) return 0;
