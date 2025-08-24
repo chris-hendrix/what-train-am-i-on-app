@@ -9,7 +9,7 @@ import { GTFSRTService } from '../gtfs-rt-service/index.js';
 import { GTFSService } from '../gtfs-service/index.js';
 import { TrainInfo, StopWithTiming } from './types.js';
 import type { ProtobufLong, GTFSRTTripUpdate } from '../gtfs-rt-service/types/index.js';
-import type { StopSequence } from '../gtfs-service/types/index.js';
+import type { StopSequence, GTFSStopTime } from '../gtfs-service/types/index.js';
 
 export class TrainBuilderService {
   private static instance: TrainBuilderService;
@@ -70,8 +70,11 @@ export class TrainBuilderService {
     // Extract direction from trip ID for response
     const directionId = tripId.includes('.N') ? 0 : 1;
 
-    // Build complete stop schedule for this trip
-    const stops = this.buildStopSchedule(tripUpdate, currentStopSequence, directionSequence);
+    // Build real-time stop schedule from trip updates
+    const realtimeStops = this.buildRealtimeStopSchedule(tripUpdate, currentStopSequence, directionSequence, vehicle.stopId);
+
+    // Get complete schedule
+    const staticStops = this.buildCompleteStopSchedule(tripId, currentStopSequence, direction);
 
     const train: TrainInfo = {
       tripId,
@@ -81,6 +84,7 @@ export class TrainBuilderService {
       arrivalTime,
       vehicleId,
       delay: stopUpdate.arrival?.delay || stopUpdate.departure?.delay,
+      stopsAway: 0, // Will be set by the train identifier service
       currentStop: vehicle.stopId ? {
         stopId: vehicle.stopId,
         stopName: this.gtfsService.getStop(vehicle.stopId)?.stopName || vehicle.stopId,
@@ -88,7 +92,8 @@ export class TrainBuilderService {
         status: vehicle.currentStatus,
         statusName: this.getStatusName(vehicle.currentStatus)
       } : undefined,
-      stops
+      realtimeStops,
+      staticStops
     };
 
     return train;
@@ -97,10 +102,14 @@ export class TrainBuilderService {
   /**
    * Build complete stop schedule from trip update data
    */
-  private buildStopSchedule(tripUpdate: GTFSRTTripUpdate, currentStopSequence: number, directionSequence?: StopSequence): StopWithTiming[] {
+  private buildRealtimeStopSchedule(tripUpdate: GTFSRTTripUpdate, currentStopSequence: number, directionSequence?: StopSequence, vehicleCurrentStopId?: string): StopWithTiming[] {
     const stops: StopWithTiming[] = [];
     
     if (!tripUpdate.stopTimeUpdate) return stops;
+    
+    // Extract direction from trip ID
+    const tripId = tripUpdate.trip?.tripId;
+    const direction = tripId && (tripId.includes('..N') || tripId.includes('.N')) ? 0 : 1;
     
     // Track which stops we've added from trip updates
     const addedStopIds = new Set<string>();
@@ -121,13 +130,18 @@ export class TrainBuilderService {
       }
       
       // Determine status based on current train position
+      // For real-time data, compare by stopId since sequences may differ between systems
       let status: 'past' | 'current' | 'future';
-      if (stopSequence < currentStopSequence) {
-        status = 'past';
-      } else if (stopSequence === currentStopSequence) {
+      
+      if (vehicleCurrentStopId && stopTimeUpdate.stopId === vehicleCurrentStopId) {
         status = 'current';
       } else {
-        status = 'future';
+        // Direction-aware status logic
+        if (direction === 0) { // Uptown - sequences increase
+          status = stopSequence < currentStopSequence ? 'past' : 'future';
+        } else { // Downtown - sequences decrease  
+          status = stopSequence > currentStopSequence ? 'past' : 'future';
+        }
       }
       
       stops.push({
@@ -169,6 +183,79 @@ export class TrainBuilderService {
       case 2: return 'in_transit';
       default: return 'unknown';
     }
+  }
+
+  /**
+   * Build complete stop schedule from GTFS data with status based on current position
+   */
+  private buildCompleteStopSchedule(realtimeTripId: string, currentStopSequence: number, direction: number): StopWithTiming[] {
+    const staticSchedule = this.getCompleteStopSchedule(realtimeTripId);
+    if (!staticSchedule) return [];
+
+    return staticSchedule.map(gtfsStop => {
+      // Determine status based on current train position and direction
+      let status: 'past' | 'current' | 'future';
+      if (gtfsStop.stopSequence === currentStopSequence) {
+        status = 'current';
+      } else {
+        // Direction-aware status logic
+        if (direction === 0) { // Uptown - sequences increase
+          status = gtfsStop.stopSequence < currentStopSequence ? 'past' : 'future';
+        } else { // Downtown - sequences decrease  
+          status = gtfsStop.stopSequence > currentStopSequence ? 'past' : 'future';
+        }
+      }
+
+      return {
+        stopId: gtfsStop.stopId,
+        stopName: this.gtfsService.getStop(gtfsStop.stopId)?.stopName || gtfsStop.stopId,
+        stopSequence: gtfsStop.stopSequence,
+        arrivalTime: gtfsStop.arrivalTime,
+        departureTime: gtfsStop.departureTime,
+        delay: 0, // Static schedule has no delay info
+        status
+      };
+    });
+  }
+
+  /**
+   * Get complete stop schedule for a trip based on real-time trip ID
+   * 
+   * Real-time trip IDs (e.g., "080500_N..N34R") need to be matched with
+   * GTFS static trip IDs which have service prefixes (e.g., "L0S2-N-2057-S05_080500_N..N34R")
+   * 
+   * @param realtimeTripId - Trip ID from real-time GTFS-RT feed
+   * @returns Array of stop times for the trip, sorted by stop sequence, or null if not found
+   * 
+   * @example
+   * ```typescript
+   * const schedule = trainBuilderService.getCompleteStopSchedule("080500_N..N34R");
+   * if (schedule) {
+   *   console.log(`Trip has ${schedule.length} stops`);
+   *   schedule.forEach(stop => console.log(`${stop.stopId} at ${stop.arrivalTime}`));
+   * }
+   * ```
+   */
+  public getCompleteStopSchedule(realtimeTripId: string): GTFSStopTime[] | null {
+    // Find the matching trip ID with prefix
+    // Real-time: "080500_N..N34R"  
+    // GTFS: "L0S2-N-2057-S05_080500_N..N34R" (or similar prefix)
+    let matchingTripId: string | null = null;
+    
+    for (const tripId of this.gtfsService.getAllTripIds()) {
+      if (tripId.endsWith(realtimeTripId)) {
+        matchingTripId = tripId;
+        break;
+      }
+    }
+
+    if (!matchingTripId) {
+      return null;
+    }
+
+    // Get stop times for this trip and sort by stop sequence
+    const stopTimes = this.gtfsService.getStopTimesForTrip(matchingTripId);
+    return stopTimes.sort((a, b) => a.stopSequence - b.stopSequence);
   }
 
   /**

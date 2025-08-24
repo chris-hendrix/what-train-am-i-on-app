@@ -14,6 +14,7 @@ import {
   TrainIdentificationResponse,
   TrainInfo,
   StopInfo,
+  StopWithTiming,
   TrainIdentificationError,
 } from '../train-builder-service/index.js';
 
@@ -56,27 +57,30 @@ export class TrainIdentifierService {
 
     const limit = request.limit ?? 2;
 
-    // Find vehicles around user stop
-    const { vehiclesBefore, vehiclesAfter } = this.findVehiclesNearStop(
+    // Find all valid vehicles
+    const validVehicles = this.findValidVehicles(
       vehicles,
-      userStopInfo.stopSequence!,
-      limit
+      limit * 2 // Get more vehicles to have options on both sides
     );
 
-    // Map vehicles to trains using simplified API
-    const trainsBeforePromises = vehiclesBefore.map(vehicleWithFeed => 
-      this.trainBuilderService.buildTrainFromVehicleId(vehicleWithFeed.id, request.lineCode)
-    );
-    const trainsBefore: TrainInfo[] = (await Promise.all(trainsBeforePromises)).filter(train => train !== null) as TrainInfo[];
+    // Map vehicles to trains and calculate stopsAway
+    const trainPromises = validVehicles.map(async (vehicleWithFeed) => {
+      const train = await this.trainBuilderService.buildTrainFromVehicleId(vehicleWithFeed.id, request.lineCode);
+      if (train) {
+        // Calculate stopsAway
+        train.stopsAway = this.calculateStopsAway(train.staticStops, request.stopId);
+      }
+      return train;
+    });
+    
+    const trains: TrainInfo[] = (await Promise.all(trainPromises))
+      .filter(train => train !== null) as TrainInfo[];
 
-    const trainsAfterPromises = vehiclesAfter.map(vehicleWithFeed => 
-      this.trainBuilderService.buildTrainFromVehicleId(vehicleWithFeed.id, request.lineCode)
-    );
-    const trainsAfter: TrainInfo[] = (await Promise.all(trainsAfterPromises)).filter(train => train !== null) as TrainInfo[];
+    // Sort by stopsAway (closest approaching trains first, then passed trains)
+    trains.sort((a, b) => a.stopsAway - b.stopsAway);
 
     return {
-      trainsBefore,
-      trainsAfter,
+      trains,
       userStop: userStopInfo,
       request,
       processedAt: new Date().toISOString()
@@ -87,34 +91,45 @@ export class TrainIdentifierService {
 
 
   /**
-   * Find vehicles near the user's stop position
+   * Find and filter valid vehicles
    */
-  private findVehiclesNearStop(
+  private findValidVehicles(
     vehicles: VehiclePositionWithFeed[],
-    userStopSequence: number,
     limit: number
-  ): { vehiclesBefore: VehiclePositionWithFeed[], vehiclesAfter: VehiclePositionWithFeed[] } {
-    // Filter vehicles with valid data and sort by sequence once
-    const validVehicles = vehicles
-      .filter(vehicleWithFeed => 
-        vehicleWithFeed.vehicle.trip?.tripId && 
-        vehicleWithFeed.vehicle.currentStopSequence
-      )
-      .sort((a, b) => (a.vehicle.currentStopSequence || 0) - (b.vehicle.currentStopSequence || 0));
+  ): VehiclePositionWithFeed[] {
+    // Filter vehicles with valid data
+    const validVehicles = vehicles.filter(vehicleWithFeed => 
+      vehicleWithFeed.vehicle.trip?.tripId && 
+      vehicleWithFeed.vehicle.currentStopSequence
+    );
 
-    // Split into before/after and apply limits
-    const vehiclesBefore = validVehicles
-      .filter(v => (v.vehicle.currentStopSequence || 0) <= userStopSequence)
-      .reverse() // Reverse to get closest first for before
-      .slice(0, limit);
-
-    const vehiclesAfter = validVehicles
-      .filter(v => (v.vehicle.currentStopSequence || 0) > userStopSequence)
-      .slice(0, limit);
-
-    return { vehiclesBefore, vehiclesAfter };
+    return validVehicles.slice(0, limit);
   }
 
+
+
+
+  /**
+   * Calculate stopsAway using stop schedule data
+   * 
+   * @param stops Array of stops from the train
+   * @param userStopId The user's stop ID
+   * @returns Number of stops away (negative = approaching, positive = passed)
+   */
+  private calculateStopsAway(stops: StopWithTiming[], userStopId: string): number {
+    if (!stops || stops.length === 0) return 0;
+    
+    // Find the current stop (marked as 'current' status) 
+    const currentStopIndex = stops.findIndex(stop => stop.status === 'current');
+    if (currentStopIndex === -1) return 0;
+    
+    // Find user stop in the schedule
+    const userStopIndex = stops.findIndex(stop => stop.stopId === userStopId);
+    if (userStopIndex === -1) return 0;
+    
+    // Simple difference: negative = approaching, positive = passed
+    return currentStopIndex - userStopIndex;
+  }
 
   /**
    * Get user's stop information including sequence data

@@ -10,7 +10,7 @@ const service = TrainIdentifierService.getInstance();
 const result = await service.identifyTrain({
   lineCode: 'N',
   direction: 0, 
-  stopId: 'R08N',
+  stopId: 'R17N',
   limit: 2
 });
 

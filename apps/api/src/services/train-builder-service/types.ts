@@ -66,10 +66,14 @@ export interface TrainInfo {
   vehicleId: string;
   /** Current delay in seconds (positive = late) */
   delay?: number;
+  /** Number of stops away (negative = approaching, positive = passed) */
+  stopsAway: number;
   /** Current stop information */
   currentStop?: StopInfo;
-  /** Complete stop schedule for this trip */
-  stops: StopWithTiming[];
+  /** Real-time stop updates (limited) */
+  realtimeStops: StopWithTiming[];
+  /** Complete static schedule (all stops) */
+  staticStops: StopWithTiming[];
 }
 
 /**
@@ -92,10 +96,8 @@ export interface TrainIdentificationRequest {
  * Response from train identification service
  */
 export interface TrainIdentificationResponse {
-  /** Trains that are at or behind the user's stop (closest first) */
-  trainsBefore: TrainInfo[];
-  /** Trains that are ahead of the user's stop (closest first) */
-  trainsAfter: TrainInfo[];
+  /** All trains with their relative positions (sorted by stopsAway) */
+  trains: TrainInfo[];
   /** Information about the user's current stop */
   userStop: StopInfo;
   /** Request parameters that were used */
