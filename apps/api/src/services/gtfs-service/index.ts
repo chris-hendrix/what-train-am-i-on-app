@@ -566,6 +566,36 @@ export class GTFSService {
   }
 
   /**
+   * Get all trip IDs (for iteration/searching)
+   * 
+   * @returns Iterable of all trip IDs
+   * @throws {Error} If GTFS data has not been loaded
+   */
+  public getAllTripIds(): IterableIterator<string> {
+    if (!this.isLoaded) {
+      throw new Error('GTFS data not loaded. Call loadData() first.');
+    }
+
+    return this.trips.keys();
+  }
+
+  /**
+   * Get stop times for a specific trip
+   * 
+   * @param tripId - GTFS trip ID
+   * @returns Array of stop times for the trip, or empty array if not found
+   * @throws {Error} If GTFS data has not been loaded
+   */
+  public getStopTimesForTrip(tripId: string): GTFSStopTime[] {
+    if (!this.isLoaded) {
+      throw new Error('GTFS data not loaded. Call loadData() first.');
+    }
+
+    return this.stopTimes.get(tripId) || [];
+  }
+
+
+  /**
    * Get statistics about the loaded GTFS data
    * 
    * @returns Object containing counts of stops, routes, trips, and stop times

@@ -154,18 +154,19 @@ export class GTFSRTService {
    * Returns an array of vehicle entities with position information.
    * 
    * @param lineCode - NYC subway line code (e.g., '6', 'N', 'Q')
+   * @param direction - Optional direction filter (0 = uptown, 1 = downtown)
    * @returns Array of vehicle position entities for the specified line
    * @throws {Error} If line code is invalid or no data could be fetched
    * 
    * @example
    * ```typescript
-   * const vehicles = await gtfsRTService.getVehiclePositions('6');
+   * const vehicles = await gtfsRTService.getVehiclePositions('6', 1);
    * vehicles.forEach(vehicle => {
    *   console.log(`Train ${vehicle.vehicle.label} at stop ${vehicle.vehicle.stopId}`);
    * });
    * ```
    */
-  public async getVehiclePositions(lineCode: string): Promise<VehiclePositionWithFeed[]> {
+  public async getVehiclePositions(lineCode: string, direction?: number): Promise<VehiclePositionWithFeed[]> {
     const vehiclePositions: VehiclePositionWithFeed[] = [];
     
     // Get the feed URL for this specific line
@@ -178,7 +179,13 @@ export class GTFSRTService {
       const feed = await this.fetchFeed(url);
       if (feed && feed.entity) {
         feed.entity.forEach((entity: GTFSRTFeedEntity) => {
-          if (entity.vehicle) {
+          if (entity.vehicle && entity.vehicle.trip?.routeId === lineCode) {
+            // If direction filter is specified, check it
+            if (direction !== undefined) {
+              const vehicleDirection = this.getDirectionFromTripId(entity.vehicle.trip?.tripId);
+              if (vehicleDirection !== direction) return;
+            }
+            
             vehiclePositions.push({
               id: entity.id,
               vehicle: entity.vehicle,
@@ -197,6 +204,18 @@ export class GTFSRTService {
     }
 
     return vehiclePositions;
+  }
+
+  /**
+   * Extract direction from trip ID
+   */
+  public getDirectionFromTripId(tripId: string | undefined): number {
+    if (!tripId) return -1;
+    
+    if (tripId.includes('..N') || tripId.includes('.N')) return 0;
+    if (tripId.includes('..S') || tripId.includes('.S')) return 1;
+    
+    return -1;
   }
 
   /**

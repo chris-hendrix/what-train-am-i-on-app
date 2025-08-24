@@ -1,69 +1,15 @@
 /**
- * Nearest trains request payload
+ * Train Builder Service Types
+ * 
+ * Type definitions for train building and identification
  */
-export interface NearestTrainsRequest {
-  latitude: number;
-  longitude: number;
-  lineCode: string;
-  /** Optional direction filter (0 or 1). If not provided, searches all directions */
-  direction?: number;
-  /** Optional headsign filter. If provided, overrides direction */
-  headsign?: string;
-  /** Optional search radius in meters (default: 500) */
-  radiusMeters?: number;
-}
+
 
 /**
- * Individual train data in the response
+ * Direction of travel on the subway line
+ * 0 = uptown (northbound), 1 = downtown (southbound)
  */
-export interface TrainData {
-  trainId: string;
-  line: {
-    code: string;
-    name: string;
-    color: string;
-  };
-  direction: string;
-  currentStation: string;
-  nextStops: NextStop[];
-  serviceType: string;
-  distanceMeters: number;
-  lastUpdated: string;
-}
-
-/**
- * Nearest trains response data
- */
-export interface NearestTrainsResponse {
-  trains: TrainData[];
-  totalFound: number;
-}
-
-/**
- * Next stop information
- */
-export interface NextStop {
-  stationId: string;
-  stationName: string;
-  etaMinutes: number;
-  etaTimestamp: string;
-}
-
-/**
- * Train identification request payload
- */
-export interface TrainIdentificationRequest {
-  /** Subway line code (e.g., "6", "L", "N") */
-  lineCode: string;
-  /** Direction of travel (0 = uptown, 1 = downtown) */
-  direction: 0 | 1;
-  /** Stop ID where the user is located */
-  stopId: string;
-  /** Number of trains to find in each direction (default: 2) */
-  limit?: number;
-  /** Reference timestamp for before/after comparison (ISO format, defaults to now) */
-  timestamp?: string;
-}
+export type Direction = 0 | 1;
 
 /**
  * Stop information with sequence data
@@ -130,6 +76,22 @@ export interface TrainInfo {
 }
 
 /**
+ * Input parameters for train identification
+ */
+export interface TrainIdentificationRequest {
+  /** Subway line code (e.g., "6", "L", "N") */
+  lineCode: string;
+  /** Direction of travel (0 = uptown, 1 = downtown) */
+  direction: Direction;
+  /** Stop ID where the user is located */
+  stopId: string;
+  /** Number of trains to find in each direction (default: 2) */
+  limit?: number;
+  /** Reference timestamp for before/after comparison (ISO format, defaults to now) */
+  timestamp?: string;
+}
+
+/**
  * Response from train identification service
  */
 export interface TrainIdentificationResponse {
@@ -142,3 +104,16 @@ export interface TrainIdentificationResponse {
   /** Timestamp when identification was performed */
   processedAt: string;
 }
+
+/**
+ * Error types for train identification failures
+ */
+export enum TrainIdentificationError {
+  INVALID_LINE_CODE = 'INVALID_LINE_CODE',
+  INVALID_DIRECTION = 'INVALID_DIRECTION', 
+  INVALID_STOP_ID = 'INVALID_STOP_ID',
+  NO_REAL_TIME_DATA = 'NO_REAL_TIME_DATA',
+  NO_MATCHING_TRAINS = 'NO_MATCHING_TRAINS',
+  SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE'
+}
+

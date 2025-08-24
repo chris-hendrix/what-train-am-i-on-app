@@ -20,7 +20,7 @@ export function LocationHeader({ title, showBackButton = false, backAction }: Lo
 
 
   const handleLocationDisplayPress = () => {
-    console.log('TODO: Location display clicked');
+    // TODO: Location display clicked
   };
 
   return (

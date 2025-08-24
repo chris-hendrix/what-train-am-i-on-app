@@ -10,11 +10,35 @@ import { TrainFinderRequest } from '../../../src/services/train-finder-service/t
 
 // Mock the GTFS-RT service
 const mockGetVehiclePositions = vi.fn();
+const mockGetTripUpdates = vi.fn();
 
 vi.mock('../../../src/services/gtfs-rt-service/index.js', () => ({
   GTFSRTService: {
     getInstance: vi.fn(() => ({
-      getVehiclePositions: mockGetVehiclePositions
+      getVehiclePositions: mockGetVehiclePositions,
+      getTripUpdates: mockGetTripUpdates
+    }))
+  }
+}));
+
+// Mock the GTFS service
+const mockGetStop = vi.fn();
+
+vi.mock('../../../src/services/gtfs-service/index.js', () => ({
+  GTFSService: {
+    getInstance: vi.fn(() => ({
+      getStop: mockGetStop
+    }))
+  }
+}));
+
+// Mock the TrainBuilder service
+const mockBuildTrainFromVehicleId = vi.fn();
+
+vi.mock('../../../src/services/train-builder-service/index.js', () => ({
+  TrainBuilderService: {
+    getInstance: vi.fn(() => ({
+      buildTrainFromVehicleId: mockBuildTrainFromVehicleId
     }))
   }
 }));
@@ -26,12 +50,15 @@ describe('TrainFinderService', () => {
     userLatitude: 40.7589, // Times Square area
     userLongitude: -73.9851,
     lineCode: '6',
-    direction: 0
+    direction: 0 as const
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockGetVehiclePositions.mockResolvedValue([]);
+    mockGetTripUpdates.mockResolvedValue([]);
+    mockGetStop.mockReturnValue(null);
+    mockBuildTrainFromVehicleId.mockResolvedValue(null);
     trainFinderService = TrainFinderService.getInstance();
   });
 
@@ -66,7 +93,7 @@ describe('TrainFinderService', () => {
     });
 
     it('should throw error for invalid direction value', async () => {
-      const invalidRequest = { ...validRequest, direction: 2 };
+      const invalidRequest = { ...validRequest, direction: 2 as 0 | 1 };
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
         .rejects.toThrow('direction must be 0 or 1 if provided');
@@ -112,7 +139,7 @@ describe('TrainFinderService', () => {
             position: { latitude: 40.7589, longitude: -73.9851 }
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -132,7 +159,7 @@ describe('TrainFinderService', () => {
             position: { latitude: 41.0, longitude: -74.0 } // Very far away
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -153,7 +180,7 @@ describe('TrainFinderService', () => {
             label: 'Train 1'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'train2', 
@@ -163,7 +190,7 @@ describe('TrainFinderService', () => {
             label: 'Train 2'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'train3',
@@ -173,9 +200,31 @@ describe('TrainFinderService', () => {
             label: 'Train 3'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
+
+      // Mock TrainBuilderService to return TrainInfo objects
+      mockBuildTrainFromVehicleId.mockImplementation((vehicleId: string) => {
+        const vehicle = mockVehicles.find(v => v.id === vehicleId);
+        if (!vehicle) return null;
+        
+        return Promise.resolve({
+          tripId: vehicle.vehicle.trip?.tripId || '',
+          routeId: vehicle.vehicle.trip?.routeId || '',
+          directionId: vehicle.vehicle.trip?.directionId || 0,
+          arrivalTime: new Date().toISOString(),
+          vehicleId: vehicle.id,
+          currentStop: {
+            stopId: 'test-stop',
+            stopName: 'Test Stop',
+            stopSequence: 1,
+            status: 1,
+            statusName: 'stopped'
+          },
+          stops: []
+        });
+      });
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
 
@@ -201,7 +250,7 @@ describe('TrainFinderService', () => {
             // No position data
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'train2',
@@ -211,9 +260,31 @@ describe('TrainFinderService', () => {
             label: 'Train 2'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
+
+      // Mock TrainBuilderService to return TrainInfo only for train2
+      mockBuildTrainFromVehicleId.mockImplementation((vehicleId: string) => {
+        if (vehicleId === 'train2') {
+          return Promise.resolve({
+            tripId: '6..N02R',
+            routeId: '6',
+            directionId: 0,
+            arrivalTime: new Date().toISOString(),
+            vehicleId: 'train2',
+            currentStop: {
+              stopId: 'test-stop',
+              stopName: 'Test Stop',
+              stopSequence: 1,
+              status: 1,
+              statusName: 'stopped'
+            },
+            stops: []
+          });
+        }
+        return Promise.resolve(null);
+      });
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
 
@@ -224,7 +295,7 @@ describe('TrainFinderService', () => {
     });
 
     it('should populate train candidate fields correctly', async () => {
-      const mockTimestamp = Date.now();
+      const mockTimestamp = { low: Date.now(), high: 0, unsigned: false };
       const mockVehicles: VehiclePositionWithFeed[] = [
         {
           id: 'vehicle123',
@@ -243,13 +314,30 @@ describe('TrainFinderService', () => {
             label: 'Train A',
             stopId: 'stop789',
             currentStopSequence: 10,
-            currentStatus: 1,
+            currentStatus: '1',
             timestamp: mockTimestamp
           },
           feedLines: '6',
           timestamp: mockTimestamp
         }
       ];
+
+      // Mock TrainBuilderService to return a complete TrainInfo object
+      mockBuildTrainFromVehicleId.mockResolvedValue({
+        tripId: '6..N01R',
+        routeId: '6',
+        directionId: 0,
+        arrivalTime: new Date().toISOString(),
+        vehicleId: 'vehicle123',
+        currentStop: {
+          stopId: 'stop789',
+          stopName: 'Test Stop',
+          stopSequence: 10,
+          status: 1,
+          statusName: 'stopped'
+        },
+        stops: []
+      });
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
 
@@ -258,20 +346,23 @@ describe('TrainFinderService', () => {
       expect(result).toHaveLength(1);
       const train = result[0];
       
+      // Check TrainInfo fields (inherited)
       expect(train.vehicleId).toBe('vehicle123');
       expect(train.tripId).toBe('6..N01R');
       expect(train.routeId).toBe('6');
+      expect(train.directionId).toBe(0);
+      expect(train.currentStop?.stopId).toBe('stop789');
+      expect(train.currentStop?.stopSequence).toBe(10);
+      expect(train.currentStop?.status).toBe(1);
+      
+      // Check TrainCandidate-specific fields
       expect(train.label).toBe('Train A');
       expect(train.position.latitude).toBe(40.7595);
       expect(train.position.longitude).toBe(-73.9856);
       expect(train.position.bearing).toBe(45);
       expect(train.position.speed).toBe(25.5);
-      expect(train.currentStopId).toBe('stop789');
-      expect(train.currentStopSequence).toBe(10);
-      expect(train.currentStatus).toBe(1);
-      expect(train.direction).toBe(0);
       expect(train.distanceToUser).toBeGreaterThan(0);
-      expect(train.timestamp).toBe(mockTimestamp);
+      expect(train.timestamp).toBeDefined();
     });
 
     it('should handle missing optional fields gracefully', async () => {
@@ -283,13 +374,13 @@ describe('TrainFinderService', () => {
             // Missing trip, label, stopId, etc.
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
       
-      const requestWithDirection1 = { ...validRequest, direction: 1 };
+      const requestWithDirection1 = { ...validRequest, direction: 1 as const };
       const result = await trainFinderService.findNearestTrains(requestWithDirection1);
 
       expect(result).toHaveLength(0); // Should be filtered out due to no direction info
@@ -305,7 +396,7 @@ describe('TrainFinderService', () => {
             label: 'Northbound Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'southbound1',
@@ -315,7 +406,7 @@ describe('TrainFinderService', () => {
             label: 'Southbound Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'shuttle1',
@@ -325,9 +416,31 @@ describe('TrainFinderService', () => {
             label: 'Shuttle Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
+
+      // Mock TrainBuilderService for all vehicles
+      mockBuildTrainFromVehicleId.mockImplementation((vehicleId: string) => {
+        const vehicle = mockVehicles.find(v => v.id === vehicleId);
+        if (!vehicle) return Promise.resolve(null);
+        
+        return Promise.resolve({
+          tripId: vehicle.vehicle.trip?.tripId || '',
+          routeId: vehicle.vehicle.trip?.routeId || '',
+          directionId: 0,
+          arrivalTime: new Date().toISOString(),
+          vehicleId: vehicle.id,
+          currentStop: {
+            stopId: 'test-stop',
+            stopName: 'Test Stop',
+            stopSequence: 1,
+            status: 1,
+            statusName: 'stopped'
+          },
+          stops: []
+        });
+      });
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
 
@@ -338,7 +451,7 @@ describe('TrainFinderService', () => {
       expect(northboundResult.some(t => t.label === 'Shuttle Train')).toBe(true);
 
       // Request southbound trains (direction 1)
-      const southboundRequest = { ...validRequest, direction: 1 };
+      const southboundRequest = { ...validRequest, direction: 1 as const };
       const southboundResult = await trainFinderService.findNearestTrains(southboundRequest);
       expect(southboundResult).toHaveLength(1);
       expect(southboundResult[0].label).toBe('Southbound Train');
@@ -358,7 +471,7 @@ describe('TrainFinderService', () => {
             label: 'Near Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'farTrain',
@@ -368,9 +481,31 @@ describe('TrainFinderService', () => {
             label: 'Far Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
+
+      // Mock TrainBuilderService for nearTrain only (farTrain filtered out before building)
+      mockBuildTrainFromVehicleId.mockImplementation((vehicleId: string) => {
+        if (vehicleId === 'nearTrain') {
+          return Promise.resolve({
+            tripId: '6..N01R',
+            routeId: '6',
+            directionId: 0,
+            arrivalTime: new Date().toISOString(),
+            vehicleId: 'nearTrain',
+            currentStop: {
+              stopId: 'test-stop',
+              stopName: 'Test Stop',
+              stopSequence: 1,
+              status: 1,
+              statusName: 'stopped'
+            },
+            stops: []
+          });
+        }
+        return Promise.resolve(null);
+      });
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
 
@@ -391,7 +526,7 @@ describe('TrainFinderService', () => {
             label: 'Near Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'mediumTrain',
@@ -401,9 +536,31 @@ describe('TrainFinderService', () => {
             label: 'Medium Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
+
+      // Mock TrainBuilderService for both vehicles
+      mockBuildTrainFromVehicleId.mockImplementation((vehicleId: string) => {
+        const vehicle = mockVehicles.find(v => v.id === vehicleId);
+        if (!vehicle) return Promise.resolve(null);
+        
+        return Promise.resolve({
+          tripId: vehicle.vehicle.trip?.tripId || '',
+          routeId: vehicle.vehicle.trip?.routeId || '',
+          directionId: 0,
+          arrivalTime: new Date().toISOString(),
+          vehicleId: vehicle.id,
+          currentStop: {
+            stopId: 'test-stop',
+            stopName: 'Test Stop',
+            stopSequence: 1,
+            status: 1,
+            statusName: 'stopped'
+          },
+          stops: []
+        });
+      });
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
 

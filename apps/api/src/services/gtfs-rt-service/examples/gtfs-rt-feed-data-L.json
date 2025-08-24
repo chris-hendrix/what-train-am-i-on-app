@@ -1,0 +1,6654 @@
+{
+  "header": {
+    "gtfsRealtimeVersion": "1.0",
+    "incrementality": "FULL_DATASET",
+    "timestamp": "1755439672"
+  },
+  "entity": [
+    {
+      "id": "1",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "057400_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 117,
+              "time": "1755439707",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 117,
+              "time": "1755439737",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 117,
+              "time": "1755439827",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 117,
+              "time": "1755439857",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 117,
+              "time": "1755439887",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "2",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "057400_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 21,
+        "currentStatus": "IN_TRANSIT_TO",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L27S"
+      }
+    },
+    {
+      "id": "3",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "057500_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": -2,
+              "time": "1755439648",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -2,
+              "time": "1755439678",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 6,
+              "time": "1755439746",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 6,
+              "time": "1755439776",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 6,
+              "time": "1755439836",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 6,
+              "time": "1755439866",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 6,
+              "time": "1755439986",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "4",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "057500_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 20,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L05N"
+      }
+    },
+    {
+      "id": "5",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "058000_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 15,
+              "time": "1755439665",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 15,
+              "time": "1755439695",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 40,
+              "time": "1755439750",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 40,
+              "time": "1755439780",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 76,
+              "time": "1755439876",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 76,
+              "time": "1755439906",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 76,
+              "time": "1755439936",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 76,
+              "time": "1755439966",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 76,
+              "time": "1755440026",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 76,
+              "time": "1755440056",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 76,
+              "time": "1755440146",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 76,
+              "time": "1755440176",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 76,
+              "time": "1755440206",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "6",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "058000_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 17,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L22S"
+      }
+    },
+    {
+      "id": "7",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "058100_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": -40,
+              "time": "1755439670",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -40,
+              "time": "1755439700",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": -45,
+              "time": "1755439905",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -45,
+              "time": "1755439935",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": -45,
+              "time": "1755439965",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -45,
+              "time": "1755439995",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": -45,
+              "time": "1755440055",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -45,
+              "time": "1755440085",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": -45,
+              "time": "1755440145",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -45,
+              "time": "1755440175",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": -45,
+              "time": "1755440295",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "8",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "058100_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 18,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L08N"
+      }
+    },
+    {
+      "id": "9",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "058600_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": -154,
+              "time": "1755439706",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -154,
+              "time": "1755439736",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": -157,
+              "time": "1755439793",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -157,
+              "time": "1755439823",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": -118,
+              "time": "1755439892",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -118,
+              "time": "1755439922",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": -58,
+              "time": "1755440012",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -58,
+              "time": "1755440042",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": -22,
+              "time": "1755440138",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -22,
+              "time": "1755440168",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": -22,
+              "time": "1755440198",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -22,
+              "time": "1755440228",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": -22,
+              "time": "1755440288",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -22,
+              "time": "1755440318",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": -22,
+              "time": "1755440408",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -22,
+              "time": "1755440438",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": -22,
+              "time": "1755440468",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "10",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "058600_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 15,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L20S"
+      }
+    },
+    {
+      "id": "11",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "058700_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 143,
+              "time": "1755439673",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 143,
+              "time": "1755439703",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 140,
+              "time": "1755439790",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755439820",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 140,
+              "time": "1755439910",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755439940",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 140,
+              "time": "1755439970",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440000",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440060",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440090",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440120",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440150",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440210",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440240",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440450",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440480",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440510",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440540",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440600",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440630",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440690",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 140,
+              "time": "1755440720",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 140,
+              "time": "1755440840",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "12",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "058700_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 12,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L15N"
+      }
+    },
+    {
+      "id": "13",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "059200_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 9,
+              "time": "1755439689",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 9,
+              "time": "1755439719",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 8,
+              "time": "1755439808",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 8,
+              "time": "1755439838",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 8,
+              "time": "1755439898",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 8,
+              "time": "1755439928",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 8,
+              "time": "1755439988",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 8,
+              "time": "1755440018",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 8,
+              "time": "1755440078",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 8,
+              "time": "1755440108",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 8,
+              "time": "1755440228",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 8,
+              "time": "1755440258",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 8,
+              "time": "1755440318",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 8,
+              "time": "1755440348",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 47,
+              "time": "1755440417",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 47,
+              "time": "1755440447",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 107,
+              "time": "1755440537",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 107,
+              "time": "1755440567",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 143,
+              "time": "1755440663",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 143,
+              "time": "1755440693",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 143,
+              "time": "1755440723",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 143,
+              "time": "1755440753",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 143,
+              "time": "1755440813",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 143,
+              "time": "1755440843",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 143,
+              "time": "1755440933",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 143,
+              "time": "1755440963",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 143,
+              "time": "1755440993",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "14",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "059200_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 10,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L14S"
+      }
+    },
+    {
+      "id": "15",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "059300_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 69,
+              "time": "1755439689",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755439719",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 69,
+              "time": "1755439779",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755439809",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 69,
+              "time": "1755439869",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755439899",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 69,
+              "time": "1755439959",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755439989",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440079",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440109",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440199",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440229",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440259",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440289",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440349",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440379",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440409",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440439",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440499",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440529",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440739",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440769",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440799",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440829",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440889",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755440919",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 69,
+              "time": "1755440979",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 69,
+              "time": "1755441009",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 69,
+              "time": "1755441129",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "16",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "059300_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 9,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L19N"
+      }
+    },
+    {
+      "id": "17",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "059800_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": -81,
+              "time": "1755439689",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -81,
+              "time": "1755439719",
+              "uncertainty": 0
+            },
+            "stopId": "L11S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": -104,
+              "time": "1755439756",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755439786",
+              "uncertainty": 0
+            },
+            "stopId": "L12S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": -104,
+              "time": "1755439816",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755439846",
+              "uncertainty": 0
+            },
+            "stopId": "L13S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": -104,
+              "time": "1755439936",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755439966",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": -104,
+              "time": "1755440056",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755440086",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": -104,
+              "time": "1755440146",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755440176",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": -104,
+              "time": "1755440236",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755440266",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": -104,
+              "time": "1755440326",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755440356",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": -104,
+              "time": "1755440476",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755440506",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": -104,
+              "time": "1755440566",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -104,
+              "time": "1755440596",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": -75,
+              "time": "1755440655",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -75,
+              "time": "1755440685",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": -15,
+              "time": "1755440775",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -15,
+              "time": "1755440805",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 21,
+              "time": "1755440901",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 21,
+              "time": "1755440931",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 21,
+              "time": "1755440961",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 21,
+              "time": "1755440991",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 21,
+              "time": "1755441051",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 21,
+              "time": "1755441081",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 21,
+              "time": "1755441171",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 21,
+              "time": "1755441201",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 21,
+              "time": "1755441231",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "18",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "059800_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 7,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L11S"
+      }
+    },
+    {
+      "id": "19",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "059900_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 73,
+              "time": "1755439663",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 73,
+              "time": "1755439693",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 134,
+              "time": "1755439814",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 134,
+              "time": "1755439844",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 173,
+              "time": "1755439913",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755439943",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440003",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440033",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440153",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440183",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440243",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440273",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440333",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440363",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440423",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440453",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440543",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440573",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440663",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440693",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440723",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440753",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440813",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440843",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440873",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440903",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 173,
+              "time": "1755440963",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755440993",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 173,
+              "time": "1755441203",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755441233",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 173,
+              "time": "1755441263",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755441293",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 173,
+              "time": "1755441353",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755441383",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 173,
+              "time": "1755441443",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 173,
+              "time": "1755441473",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 173,
+              "time": "1755441593",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "20",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "059900_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 5,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L24N"
+      }
+    },
+    {
+      "id": "21",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "060400_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": -24,
+              "time": "1755439686",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755439716",
+              "uncertainty": 0
+            },
+            "stopId": "L06S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": -24,
+              "time": "1755439926",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755439956",
+              "uncertainty": 0
+            },
+            "stopId": "L08S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440046",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440076",
+              "uncertainty": 0
+            },
+            "stopId": "L10S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440106",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440136",
+              "uncertainty": 0
+            },
+            "stopId": "L11S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440196",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440226",
+              "uncertainty": 0
+            },
+            "stopId": "L12S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440256",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440286",
+              "uncertainty": 0
+            },
+            "stopId": "L13S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440376",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440406",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440496",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440526",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440586",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440616",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440676",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440706",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440766",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440796",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": -24,
+              "time": "1755440916",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755440946",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": -24,
+              "time": "1755441006",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": -24,
+              "time": "1755441036",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 4,
+              "time": "1755441094",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 4,
+              "time": "1755441124",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 64,
+              "time": "1755441244",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 64,
+              "time": "1755441274",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 100,
+              "time": "1755441370",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 100,
+              "time": "1755441400",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 100,
+              "time": "1755441430",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 100,
+              "time": "1755441460",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 100,
+              "time": "1755441520",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 100,
+              "time": "1755441550",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 100,
+              "time": "1755441640",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 100,
+              "time": "1755441670",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 100,
+              "time": "1755441700",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "22",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "060400_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 4,
+        "currentStatus": "IN_TRANSIT_TO",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L06S"
+      }
+    },
+    {
+      "id": "23",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "060500_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755439500",
+              "uncertainty": 0
+            },
+            "stopId": "L29N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 105,
+              "time": "1755439665",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 105,
+              "time": "1755439695",
+              "uncertainty": 0
+            },
+            "stopId": "L28N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 105,
+              "time": "1755439785",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 105,
+              "time": "1755439815",
+              "uncertainty": 0
+            },
+            "stopId": "L27N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 105,
+              "time": "1755439875",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 105,
+              "time": "1755439905",
+              "uncertainty": 0
+            },
+            "stopId": "L26N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 105,
+              "time": "1755439965",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 105,
+              "time": "1755439995",
+              "uncertainty": 0
+            },
+            "stopId": "L25N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 105,
+              "time": "1755440055",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 105,
+              "time": "1755440085",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 105,
+              "time": "1755440145",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 105,
+              "time": "1755440175",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 242,
+              "time": "1755440342",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755440372",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 242,
+              "time": "1755440432",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755440462",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 242,
+              "time": "1755440582",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755440612",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 242,
+              "time": "1755440672",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755440702",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 242,
+              "time": "1755440762",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755440792",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 242,
+              "time": "1755440852",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755440882",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 242,
+              "time": "1755440972",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441002",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441092",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441122",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441152",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441182",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441242",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441272",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441302",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441332",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441392",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441422",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441632",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441662",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441692",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441722",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441782",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441812",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 242,
+              "time": "1755441872",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 242,
+              "time": "1755441902",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 242,
+              "time": "1755442022",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "24",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "060500_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 0,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L29N"
+      }
+    },
+    {
+      "id": "25",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "061000_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755439800",
+              "uncertainty": 0
+            },
+            "stopId": "L29N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755439860",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755439890",
+              "uncertainty": 0
+            },
+            "stopId": "L28N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755439980",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440010",
+              "uncertainty": 0
+            },
+            "stopId": "L27N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440070",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440100",
+              "uncertainty": 0
+            },
+            "stopId": "L26N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440160",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440190",
+              "uncertainty": 0
+            },
+            "stopId": "L25N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440250",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440280",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440340",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440370",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440400",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440430",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440490",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440520",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440640",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440670",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440730",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440760",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440820",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440850",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440910",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440940",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441030",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441060",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441150",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441180",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441210",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441240",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441300",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441360",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441450",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441480",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441720",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441840",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441870",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441960",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442080",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "26",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "061000_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755439800",
+              "uncertainty": 0
+            },
+            "stopId": "L01S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755439860",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755439890",
+              "uncertainty": 0
+            },
+            "stopId": "L02S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755439950",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755439980",
+              "uncertainty": 0
+            },
+            "stopId": "L03S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440010",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440040",
+              "uncertainty": 0
+            },
+            "stopId": "L05S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440070",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440100",
+              "uncertainty": 0
+            },
+            "stopId": "L06S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440310",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440340",
+              "uncertainty": 0
+            },
+            "stopId": "L08S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440430",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440460",
+              "uncertainty": 0
+            },
+            "stopId": "L10S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440490",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440520",
+              "uncertainty": 0
+            },
+            "stopId": "L11S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440580",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440610",
+              "uncertainty": 0
+            },
+            "stopId": "L12S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440640",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440670",
+              "uncertainty": 0
+            },
+            "stopId": "L13S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440760",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440790",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440880",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440910",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440970",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441000",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441060",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441090",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441150",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441180",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441300",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441420",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441450",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441480",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441570",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441630",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441660",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441720",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441810",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441900",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441960",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "27",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "061000_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 0,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L01S"
+      }
+    },
+    {
+      "id": "28",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "061600_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755440160",
+              "uncertainty": 0
+            },
+            "stopId": "L01S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440220",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440250",
+              "uncertainty": 0
+            },
+            "stopId": "L02S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440310",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440340",
+              "uncertainty": 0
+            },
+            "stopId": "L03S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440370",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440400",
+              "uncertainty": 0
+            },
+            "stopId": "L05S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440430",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440460",
+              "uncertainty": 0
+            },
+            "stopId": "L06S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440670",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440700",
+              "uncertainty": 0
+            },
+            "stopId": "L08S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440790",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440820",
+              "uncertainty": 0
+            },
+            "stopId": "L10S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440850",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440880",
+              "uncertainty": 0
+            },
+            "stopId": "L11S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440940",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440970",
+              "uncertainty": 0
+            },
+            "stopId": "L12S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441000",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441030",
+              "uncertainty": 0
+            },
+            "stopId": "L13S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441120",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441150",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441240",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441270",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441360",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441420",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441450",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441510",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441660",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441810",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441840",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441900",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441990",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442020",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442080",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442140",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442170",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442260",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442290",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442320",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "29",
+      "isDeleted": false,
+      "vehicle": {
+        "trip": {
+          "tripId": "061600_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "currentStopSequence": 0,
+        "currentStatus": "STOPPED_AT",
+        "timestamp": "1755439665",
+        "congestionLevel": "UNKNOWN_CONGESTION_LEVEL",
+        "stopId": "L01S"
+      }
+    },
+    {
+      "id": "30",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "061650_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440160",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440190",
+              "uncertainty": 0
+            },
+            "stopId": "L28N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440280",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440310",
+              "uncertainty": 0
+            },
+            "stopId": "L27N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440370",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440400",
+              "uncertainty": 0
+            },
+            "stopId": "L26N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440460",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440490",
+              "uncertainty": 0
+            },
+            "stopId": "L25N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440550",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440580",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440640",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440670",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440700",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440730",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440790",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440820",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440940",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440970",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441030",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441060",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441120",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441150",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441210",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441240",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441360",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441450",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441480",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441510",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441600",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441630",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441660",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441990",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442020",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442080",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442140",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442170",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442230",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442260",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442380",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "31",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "062000_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755440400",
+              "uncertainty": 0
+            },
+            "stopId": "L29N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440460",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440490",
+              "uncertainty": 0
+            },
+            "stopId": "L28N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440580",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440610",
+              "uncertainty": 0
+            },
+            "stopId": "L27N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440670",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440700",
+              "uncertainty": 0
+            },
+            "stopId": "L26N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440760",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440790",
+              "uncertainty": 0
+            },
+            "stopId": "L25N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440850",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440880",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440940",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440970",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441000",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441030",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441090",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441120",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441240",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441270",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441360",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441420",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441450",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441510",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441630",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441660",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441810",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441840",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441900",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441960",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441990",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442080",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442290",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442320",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442350",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442380",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442440",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442470",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442530",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442560",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442680",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "32",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "062200_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755440520",
+              "uncertainty": 0
+            },
+            "stopId": "L01S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440580",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440610",
+              "uncertainty": 0
+            },
+            "stopId": "L02S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440670",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440700",
+              "uncertainty": 0
+            },
+            "stopId": "L03S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440730",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440760",
+              "uncertainty": 0
+            },
+            "stopId": "L05S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440790",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440820",
+              "uncertainty": 0
+            },
+            "stopId": "L06S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441030",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441060",
+              "uncertainty": 0
+            },
+            "stopId": "L08S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441150",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441180",
+              "uncertainty": 0
+            },
+            "stopId": "L10S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441210",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441240",
+              "uncertainty": 0
+            },
+            "stopId": "L11S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441300",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "stopId": "L12S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441360",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "stopId": "L13S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441480",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441510",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441600",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441630",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441720",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441810",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441870",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441900",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442020",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442110",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442140",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442170",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442200",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442260",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442290",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442350",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442380",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442410",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442440",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442500",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442530",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442620",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442650",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442680",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "33",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "062500_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755440700",
+              "uncertainty": 0
+            },
+            "stopId": "L29N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440760",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440790",
+              "uncertainty": 0
+            },
+            "stopId": "L28N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440880",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440910",
+              "uncertainty": 0
+            },
+            "stopId": "L27N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440970",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441000",
+              "uncertainty": 0
+            },
+            "stopId": "L26N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441060",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441090",
+              "uncertainty": 0
+            },
+            "stopId": "L25N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441150",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441180",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441240",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441270",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441300",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441420",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441570",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441630",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441660",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441720",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441810",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441840",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441960",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442080",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442110",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442140",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442200",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442230",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442260",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442290",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442350",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442380",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442590",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442620",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442650",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442680",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442740",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442770",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442845",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442860",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442995",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "34",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "062800_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755440880",
+              "uncertainty": 0
+            },
+            "stopId": "L01S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755440940",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755440970",
+              "uncertainty": 0
+            },
+            "stopId": "L02S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441030",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441060",
+              "uncertainty": 0
+            },
+            "stopId": "L03S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441090",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441120",
+              "uncertainty": 0
+            },
+            "stopId": "L05S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441150",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441180",
+              "uncertainty": 0
+            },
+            "stopId": "L06S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441420",
+              "uncertainty": 0
+            },
+            "stopId": "L08S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441510",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "stopId": "L10S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441570",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441600",
+              "uncertainty": 0
+            },
+            "stopId": "L11S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441660",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "stopId": "L12S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441720",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "stopId": "L13S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441840",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441870",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441960",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441990",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442080",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442140",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442170",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442230",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442260",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442380",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442410",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442470",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442500",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442530",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442560",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442620",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442650",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442710",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442740",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442785",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442800",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442875",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442890",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442995",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443010",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443055",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "35",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "063000_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755441000",
+              "uncertainty": 0
+            },
+            "stopId": "L29N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441060",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441090",
+              "uncertainty": 0
+            },
+            "stopId": "L28N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441180",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441210",
+              "uncertainty": 0
+            },
+            "stopId": "L27N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441270",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441300",
+              "uncertainty": 0
+            },
+            "stopId": "L26N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441360",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "stopId": "L25N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441450",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441480",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441570",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441600",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441630",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441720",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441840",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441870",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441960",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442020",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442110",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442140",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442230",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442260",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442350",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442380",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442410",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442440",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442500",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442530",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442560",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442590",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442650",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442680",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442905",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442920",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442965",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442980",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443055",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443070",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443145",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443160",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443295",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "36",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "063400_L..S",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755441240",
+              "uncertainty": 0
+            },
+            "stopId": "L01S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441300",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441330",
+              "uncertainty": 0
+            },
+            "stopId": "L02S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441420",
+              "uncertainty": 0
+            },
+            "stopId": "L03S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441450",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441480",
+              "uncertainty": 0
+            },
+            "stopId": "L05S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441510",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441540",
+              "uncertainty": 0
+            },
+            "stopId": "L06S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "stopId": "L08S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441870",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441900",
+              "uncertainty": 0
+            },
+            "stopId": "L10S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441960",
+              "uncertainty": 0
+            },
+            "stopId": "L11S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442020",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442050",
+              "uncertainty": 0
+            },
+            "stopId": "L12S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442080",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442110",
+              "uncertainty": 0
+            },
+            "stopId": "L13S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442200",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442230",
+              "uncertainty": 0
+            },
+            "stopId": "L14S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442320",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442350",
+              "uncertainty": 0
+            },
+            "stopId": "L15S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442410",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442440",
+              "uncertainty": 0
+            },
+            "stopId": "L16S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442500",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442530",
+              "uncertainty": 0
+            },
+            "stopId": "L17S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442590",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442620",
+              "uncertainty": 0
+            },
+            "stopId": "L19S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442740",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442770",
+              "uncertainty": 0
+            },
+            "stopId": "L20S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442845",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442860",
+              "uncertainty": 0
+            },
+            "stopId": "L21S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442905",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442920",
+              "uncertainty": 0
+            },
+            "stopId": "L22S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442995",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443010",
+              "uncertainty": 0
+            },
+            "stopId": "L24S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443085",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443100",
+              "uncertainty": 0
+            },
+            "stopId": "L25S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443145",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443160",
+              "uncertainty": 0
+            },
+            "stopId": "L26S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443235",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443250",
+              "uncertainty": 0
+            },
+            "stopId": "L27S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443355",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443370",
+              "uncertainty": 0
+            },
+            "stopId": "L28S",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443415",
+              "uncertainty": 0
+            },
+            "stopId": "L29S",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    },
+    {
+      "id": "37",
+      "isDeleted": false,
+      "tripUpdate": {
+        "trip": {
+          "tripId": "063500_L..N",
+          "startDate": "20250817",
+          "scheduleRelationship": "SCHEDULED",
+          "routeId": "L",
+          "directionId": 0
+        },
+        "stopTimeUpdate": [
+          {
+            "stopSequence": 0,
+            "departure": {
+              "delay": 0,
+              "time": "1755441300",
+              "uncertainty": 0
+            },
+            "stopId": "L29N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 1,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441360",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441390",
+              "uncertainty": 0
+            },
+            "stopId": "L28N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 2,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441480",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441510",
+              "uncertainty": 0
+            },
+            "stopId": "L27N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 3,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441570",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441600",
+              "uncertainty": 0
+            },
+            "stopId": "L26N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 4,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441660",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441690",
+              "uncertainty": 0
+            },
+            "stopId": "L25N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 5,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441750",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441780",
+              "uncertainty": 0
+            },
+            "stopId": "L24N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 6,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441840",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441870",
+              "uncertainty": 0
+            },
+            "stopId": "L22N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 7,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441900",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755441930",
+              "uncertainty": 0
+            },
+            "stopId": "L21N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 8,
+            "arrival": {
+              "delay": 0,
+              "time": "1755441990",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442020",
+              "uncertainty": 0
+            },
+            "stopId": "L20N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 9,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442140",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442170",
+              "uncertainty": 0
+            },
+            "stopId": "L19N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 10,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442230",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442260",
+              "uncertainty": 0
+            },
+            "stopId": "L17N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 11,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442320",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442350",
+              "uncertainty": 0
+            },
+            "stopId": "L16N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 12,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442410",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442440",
+              "uncertainty": 0
+            },
+            "stopId": "L15N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 13,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442530",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442560",
+              "uncertainty": 0
+            },
+            "stopId": "L14N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 14,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442650",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442680",
+              "uncertainty": 0
+            },
+            "stopId": "L13N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 15,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442710",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442740",
+              "uncertainty": 0
+            },
+            "stopId": "L12N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 16,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442815",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442830",
+              "uncertainty": 0
+            },
+            "stopId": "L11N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 17,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442875",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442890",
+              "uncertainty": 0
+            },
+            "stopId": "L10N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 18,
+            "arrival": {
+              "delay": 0,
+              "time": "1755442965",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755442980",
+              "uncertainty": 0
+            },
+            "stopId": "L08N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 19,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443205",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443220",
+              "uncertainty": 0
+            },
+            "stopId": "L06N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 20,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443265",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443280",
+              "uncertainty": 0
+            },
+            "stopId": "L05N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 21,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443355",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443370",
+              "uncertainty": 0
+            },
+            "stopId": "L03N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 22,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443445",
+              "uncertainty": 0
+            },
+            "departure": {
+              "delay": 0,
+              "time": "1755443460",
+              "uncertainty": 0
+            },
+            "stopId": "L02N",
+            "scheduleRelationship": "SCHEDULED"
+          },
+          {
+            "stopSequence": 23,
+            "arrival": {
+              "delay": 0,
+              "time": "1755443595",
+              "uncertainty": 0
+            },
+            "stopId": "L01N",
+            "scheduleRelationship": "SCHEDULED"
+          }
+        ],
+        "timestamp": "1755439672"
+      }
+    }
+  ]
+}
