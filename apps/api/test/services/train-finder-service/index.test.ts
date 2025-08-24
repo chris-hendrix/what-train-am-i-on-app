@@ -50,7 +50,7 @@ describe('TrainFinderService', () => {
     userLatitude: 40.7589, // Times Square area
     userLongitude: -73.9851,
     lineCode: '6',
-    direction: 0
+    direction: 0 as const
   };
 
   beforeEach(() => {
@@ -93,7 +93,7 @@ describe('TrainFinderService', () => {
     });
 
     it('should throw error for invalid direction value', async () => {
-      const invalidRequest = { ...validRequest, direction: 2 };
+      const invalidRequest = { ...validRequest, direction: 2 as any };
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
         .rejects.toThrow('direction must be 0 or 1 if provided');
@@ -139,7 +139,7 @@ describe('TrainFinderService', () => {
             position: { latitude: 40.7589, longitude: -73.9851 }
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -159,7 +159,7 @@ describe('TrainFinderService', () => {
             position: { latitude: 41.0, longitude: -74.0 } // Very far away
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -180,7 +180,7 @@ describe('TrainFinderService', () => {
             label: 'Train 1'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'train2', 
@@ -190,7 +190,7 @@ describe('TrainFinderService', () => {
             label: 'Train 2'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'train3',
@@ -200,7 +200,7 @@ describe('TrainFinderService', () => {
             label: 'Train 3'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -250,7 +250,7 @@ describe('TrainFinderService', () => {
             // No position data
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'train2',
@@ -260,7 +260,7 @@ describe('TrainFinderService', () => {
             label: 'Train 2'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -295,7 +295,7 @@ describe('TrainFinderService', () => {
     });
 
     it('should populate train candidate fields correctly', async () => {
-      const mockTimestamp = Date.now();
+      const mockTimestamp = { low: Date.now(), high: 0, unsigned: false };
       const mockVehicles: VehiclePositionWithFeed[] = [
         {
           id: 'vehicle123',
@@ -314,7 +314,7 @@ describe('TrainFinderService', () => {
             label: 'Train A',
             stopId: 'stop789',
             currentStopSequence: 10,
-            currentStatus: 1,
+            currentStatus: '1',
             timestamp: mockTimestamp
           },
           feedLines: '6',
@@ -374,13 +374,13 @@ describe('TrainFinderService', () => {
             // Missing trip, label, stopId, etc.
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
       mockGetVehiclePositions.mockResolvedValue(mockVehicles);
       
-      const requestWithDirection1 = { ...validRequest, direction: 1 };
+      const requestWithDirection1 = { ...validRequest, direction: 1 as const };
       const result = await trainFinderService.findNearestTrains(requestWithDirection1);
 
       expect(result).toHaveLength(0); // Should be filtered out due to no direction info
@@ -396,7 +396,7 @@ describe('TrainFinderService', () => {
             label: 'Northbound Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'southbound1',
@@ -406,7 +406,7 @@ describe('TrainFinderService', () => {
             label: 'Southbound Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'shuttle1',
@@ -416,7 +416,7 @@ describe('TrainFinderService', () => {
             label: 'Shuttle Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -451,7 +451,7 @@ describe('TrainFinderService', () => {
       expect(northboundResult.some(t => t.label === 'Shuttle Train')).toBe(true);
 
       // Request southbound trains (direction 1)
-      const southboundRequest = { ...validRequest, direction: 1 };
+      const southboundRequest = { ...validRequest, direction: 1 as const };
       const southboundResult = await trainFinderService.findNearestTrains(southboundRequest);
       expect(southboundResult).toHaveLength(1);
       expect(southboundResult[0].label).toBe('Southbound Train');
@@ -471,7 +471,7 @@ describe('TrainFinderService', () => {
             label: 'Near Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'farTrain',
@@ -481,7 +481,7 @@ describe('TrainFinderService', () => {
             label: 'Far Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 
@@ -526,7 +526,7 @@ describe('TrainFinderService', () => {
             label: 'Near Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         },
         {
           id: 'mediumTrain',
@@ -536,7 +536,7 @@ describe('TrainFinderService', () => {
             label: 'Medium Train'
           },
           feedLines: '6',
-          timestamp: Date.now()
+          timestamp: { low: Date.now(), high: 0, unsigned: false }
         }
       ];
 

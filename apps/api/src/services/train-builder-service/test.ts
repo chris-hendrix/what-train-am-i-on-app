@@ -38,10 +38,14 @@ if (vehicles && vehicles.length > 0) {
       currentStopSequence: train.currentStop?.stopSequence,
       status: train.currentStop?.status,
       statusName: train.currentStop?.statusName,
-      stopsCount: train.stops.length,
-      pastStops: train.stops.filter(s => s.status === 'past').length,
-      currentStops: train.stops.filter(s => s.status === 'current').length,
-      futureStops: train.stops.filter(s => s.status === 'future').length
+      realtimeStopsCount: train.realtimeStops.length,
+      staticStopsCount: train.staticStops.length,
+      realtimePastStops: train.realtimeStops.filter(s => s.status === 'past').length,
+      realtimeCurrentStops: train.realtimeStops.filter(s => s.status === 'current').length,
+      realtimeFutureStops: train.realtimeStops.filter(s => s.status === 'future').length,
+      staticPastStops: train.staticStops.filter(s => s.status === 'past').length,
+      staticCurrentStops: train.staticStops.filter(s => s.status === 'current').length,
+      staticFutureStops: train.staticStops.filter(s => s.status === 'future').length
     });
   } else {
     console.log('❌ Failed to build train');

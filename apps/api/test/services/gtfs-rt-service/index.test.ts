@@ -73,6 +73,36 @@ describe('GTFSRTService', () => {
 
 
 
+  describe('Trip ID Direction Parsing', () => {
+    it('should identify uptown/northbound trains (.N patterns)', () => {
+      expect(gtfsRTService.getDirectionFromTripId('123456_N..N34R')).toBe(0);
+      expect(gtfsRTService.getDirectionFromTripId('123456.N')).toBe(0);
+      expect(gtfsRTService.getDirectionFromTripId('L0S1-L-2345-S01_123456_L..N08R')).toBe(0);
+    });
+
+    it('should identify downtown/southbound trains (.S patterns)', () => {
+      expect(gtfsRTService.getDirectionFromTripId('123456_N..S34R')).toBe(1);
+      expect(gtfsRTService.getDirectionFromTripId('123456.S')).toBe(1);
+      expect(gtfsRTService.getDirectionFromTripId('L0S1-L-2345-S01_123456_L..S08R')).toBe(1);
+    });
+
+    it('should return -1 for invalid trip IDs', () => {
+      expect(gtfsRTService.getDirectionFromTripId('')).toBe(-1);
+      expect(gtfsRTService.getDirectionFromTripId(undefined)).toBe(-1);
+      expect(gtfsRTService.getDirectionFromTripId('invalid_trip_id')).toBe(-1);
+    });
+
+    it('should handle complex MTA trip ID formats', () => {
+      // Real MTA formats with service prefixes
+      expect(gtfsRTService.getDirectionFromTripId('L0S2-N-2057-S05_080500_N..N34R')).toBe(0);
+      expect(gtfsRTService.getDirectionFromTripId('L0S1-L-2345-S01_123456_L..S08R')).toBe(1);
+      
+      // Simple formats
+      expect(gtfsRTService.getDirectionFromTripId('080500_N..N34R')).toBe(0);
+      expect(gtfsRTService.getDirectionFromTripId('080500_N..S34R')).toBe(1);
+    });
+  });
+
   describe('Service Initialization', () => {
     it('should initialize successfully', () => {
       expect(gtfsRTService).toBeDefined();
