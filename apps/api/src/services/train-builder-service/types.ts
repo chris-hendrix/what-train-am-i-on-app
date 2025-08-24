@@ -4,7 +4,6 @@
  * Type definitions for train building and identification
  */
 
-import type { ProtobufLong } from '../gtfs-rt-service/types/index.js';
 
 /**
  * Direction of travel on the subway line

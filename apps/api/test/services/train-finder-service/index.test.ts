@@ -93,7 +93,7 @@ describe('TrainFinderService', () => {
     });
 
     it('should throw error for invalid direction value', async () => {
-      const invalidRequest = { ...validRequest, direction: 2 as any };
+      const invalidRequest = { ...validRequest, direction: 2 as 0 | 1 };
       
       await expect(trainFinderService.findNearestTrains(invalidRequest))
         .rejects.toThrow('direction must be 0 or 1 if provided');

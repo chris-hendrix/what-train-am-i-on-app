@@ -55,7 +55,7 @@ describe('TrainIdentifierService', () => {
     it('should reject invalid direction', async () => {
       const request: TrainIdentificationRequest = {
         lineCode: 'N',
-        direction: 2 as any, // Invalid direction
+        direction: 2 as 0 | 1, // Invalid direction
         stopId: 'R17N',
         limit: 2
       };
